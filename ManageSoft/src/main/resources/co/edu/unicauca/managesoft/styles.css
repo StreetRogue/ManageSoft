@@ -1,0 +1,179 @@
+/*
+ * Hoja de estilos para la aplicación JavaFX
+ * 
+ * Define estilos personalizados para los componentes de la interfaz de usuario.
+ * 
+ * Created on : Mar 1, 2025, 11:33:37 PM
+ * Author     : juane
+ */
+
+/* ---------- Botones ---------- */
+.boton-hover {
+    -fx-background-color: #3B82F6; /* Color normal del botón */
+    -fx-text-fill: white; /* Texto en color blanco */
+    -fx-border-radius: 6px; /* Bordes redondeados */
+    -fx-background-radius: 6px;
+}
+
+.boton-hover:hover {
+    -fx-background-color: #2563EB; /* Color más oscuro cuando el cursor está encima */
+}
+
+/* Botón de iniciar sesión con efecto de elevación */
+#btnIniciarSesion {
+    -fx-background-color: #3B82F6; /* Color normal */
+    -fx-text-fill: white;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Bold";
+    -fx-cursor: hand;
+    -fx-transition: 0.3s;
+}
+
+#btnIniciarSesion:hover {
+    -fx-background-color: #2563EB; /* Color más oscuro en hover */
+    -fx-translate-y: -2px; /* Efecto de elevación */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 15, 0.3, 0, 5); /* Sombra */
+}
+
+/* ---------- Campos de texto ---------- */
+
+/* Estilo para el campo de usuario */
+#txtUsuario {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.9); /* Color del texto con opacidad */
+}
+
+/* Estilo para el campo de contraseña */
+#txtPassword {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.7); /* Color ligeramente más tenue */
+}
+
+/* Estilo para el campo de texto visible de la contraseña */
+#txtVisiblePassword {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.7);
+    -fx-background-color: transparent; /* Fondo transparente */
+    -fx-border-color: transparent; /* Sin bordes */
+}
+
+/* Estilo para el campo de usuario */
+#txtObjetivo {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.9); /* Color del texto con opacidad */
+}
+
+
+/* ---------- Botones del dashboard ---------- */
+.boton-dashboard {
+    -fx-background-color: #16191C; /* Color oscuro del botón */
+    -fx-text-fill: white;
+    -fx-border-radius: 40px;
+    -fx-background-radius: 40px;
+    -fx-padding: 10px 70px;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Bold";
+    -fx-cursor: hand; /* Cambia el cursor a una mano */
+    -fx-transition: 0.3s;
+    -fx-alignment: center-left; /* Alinea el texto a la izquierda */
+    -fx-padding-left: 70px; /* Espaciado en el lado izquierdo */
+}
+
+/* Estilo hover para el botón del dashboard */
+.boton-dashboard:hover {
+    -fx-background-color: #1F2327; /* Color ligeramente más claro al pasar el mouse */
+    -fx-translate-y: -2px; /* Efecto de elevación */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 15, 0.3, 0, 5); /* Sombra */
+}
+
+/* ---------- Gráficos y estadísticas ---------- */
+.chart {
+    -fx-background-color: #1E2126; /* Fondo del gráfico */
+    -fx-padding: 10px;
+    -fx-background-radius: 10px;
+}
+
+/* Colores personalizados para las barras del gráfico */
+.default-color0.chart-bar {
+    -fx-bar-fill: #3B82F6; /* Azul para proyectos aceptados */
+}
+.default-color1.chart-bar {
+    -fx-bar-fill: #EAB308; /* Amarillo para proyectos rechazados */
+}
+
+/* Estilos de las líneas de la gráfica */
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: rgba(255, 255, 255, 0.5); /* Líneas en color blanco con opacidad */
+}
+
+/* Estilo de los textos en los ejes */
+.axis {
+    -fx-tick-label-fill: rgba(255, 255, 255, 0.7); /* Color de las etiquetas de los ejes */
+    -fx-font-size: 14px;
+}
+
+/* Estilo de la leyenda del gráfico */
+.chart-legend {
+    -fx-background-color: transparent;
+}
+.chart-legend-item-symbol {
+    -fx-background-radius: 10px;
+}
+
+/* Estilo de los textos en la leyenda */
+.chart-legend-item {
+    -fx-text-fill: rgba(255, 255, 255, 0.8);
+    -fx-font-size: 14px;
+}
+
+/* ---------- Campos de texto de la descripción de vacante ---------- */
+#txtNombreVacante {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+}
+
+/* Estilo del área de texto para la descripción de la vacante */
+#txtDescripcionVacante {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-background-color: transparent;
+}
+
+#txtDescripcionVacante .content {
+    -fx-background-color: #1E2126; /* Fondo oscuro para el área de texto */
+}
+
+#txtDescripcionVacante .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+#txtDescripcionVacante .scroll-pane .viewport {
+    -fx-background-color: #1E2126; /* Fondo de la caja de texto */
+}
+
+/* ---------- Barra de desplazamiento en el área de descripción ---------- */
+#txtDescripcionVacante .scroll-bar {
+    -fx-background-color: #1E2126; /* Color de fondo de la barra de desplazamiento */
+}
+
+/* Estilo para la parte móvil de la barra de desplazamiento */
+#txtDescripcionVacante .scroll-bar .thumb {
+    -fx-background-color: #2A2D32; /* Color del slider (ligeramente más claro) */
+    -fx-background-radius: 5px;
+}
+
+/* Estilo para los botones de desplazamiento */
+#txtDescripcionVacante .scroll-bar .increment-button,
+#txtDescripcionVacante .scroll-bar .decrement-button {
+    -fx-background-color: #1E2126; /* Color del fondo */
+    -fx-background-radius: 5px;
+}

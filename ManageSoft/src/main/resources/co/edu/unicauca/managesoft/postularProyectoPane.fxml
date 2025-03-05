@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.unicauca.managesoft.PostularProyectoPaneController">
+   <children>
+      <AnchorPane prefHeight="1080.0" prefWidth="1202.0" style="-fx-background-color: #16191C;">
+         <children>
+            <Text fill="WHITE" layoutX="83.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postular Proyecto" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="966.8798828125">
+               <font>
+                  <Font name="Segoe UI Bold" size="30.0" />
+               </font>
+            </Text>
+            <Line endX="952.2999877929688" layoutX="160.0" layoutY="132.0" startX="-100.0" stroke="WHITE" AnchorPane.leftAnchor="59.5" />
+            <AnchorPane layoutX="59.0" layoutY="156.0" prefHeight="399.0" prefWidth="671.0" style="-fx-background-radius: 10; -fx-background-color: #1E2126;">
+               <children>
+                  <Text fill="#ffffffe5" layoutX="31.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <AnchorPane layoutX="31.0" layoutY="55.0" prefHeight="324.0" prefWidth="619.0" style="-fx-background-radius: 10; -fx-background-color: #16191C;">
+                     <children>
+                        <Text fill="#ffffffe5" layoutX="29.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre">
+                           <font>
+                              <Font name="Segoe UI Light" size="16.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="txtNombreVacante" alignment="TOP_LEFT" layoutX="29.0" layoutY="43.0" prefHeight="31.0" prefWidth="568.0" style="-fx-background-color: #1E2126; -fx-background-radius: 6;" stylesheets="@styles.css">
+                           <font>
+                              <Font name="Segoe UI" size="16.0" />
+                           </font>
+                        </TextField>
+                        <Text fill="#ffffffe5" layoutX="29.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción Vacante">
+                           <font>
+                              <Font name="Segoe UI Light" size="16.0" />
+                           </font>
+                        </Text>
+                        <TextArea fx:id="txtDescripcionVacante" layoutX="29.0" layoutY="108.0" prefHeight="200.0" prefWidth="568.0" style="-fx-background-color: #1E2126;" stylesheets="@styles.css" wrapText="true">
+                           <font>
+                              <Font name="Segoe UI Light" size="16.0" />
+                           </font>
+                        </TextArea>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="59.0" layoutY="596.0" prefHeight="107.0" prefWidth="671.0" style="-fx-background-color: #1E2126; -fx-background-radius: 10;">
+               <children>
+                  <Text fill="#ffffffe5" layoutX="28.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Objetivo">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="txtObjetivo" layoutX="28.0" layoutY="41.0" prefHeight="46.0" prefWidth="619.0" promptText="Máximo 50 caracteres" style="-fx-background-color: #292D34;" stylesheets="@styles.css">
+                     <font>
+                        <Font name="Segoe UI Light" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </TextField>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
