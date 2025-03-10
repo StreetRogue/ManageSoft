@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Line?>
+
+<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1705.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.unicauca.managesoft.DashboardCoordinadorController">
+   <children>
+      <BorderPane prefHeight="1080.0" prefWidth="1715.0">
+         <left>
+            <AnchorPane prefHeight="200.0" prefWidth="385.0" style="-fx-background-color: #1E2126;" BorderPane.alignment="BOTTOM_LEFT">
+               <children>
+                  <Button id="boton-dashboard" fx:id="btnDashboard" layoutX="24.0" layoutY="294.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="338.0" stylesheets="@styles.css" text="Dashboard">
+                     <styleClass>
+                        <String fx:value="boton-dashboard" />
+                        <String fx:value="boton-hover" />
+                     </styleClass>
+                     <padding>
+                        <Insets bottom="15.0" left="70.0" />
+                     </padding>
+                  </Button>
+                  <ImageView fitHeight="250.0" fitWidth="250.0" layoutX="68.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/logoPrueba250.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="27.0" fitWidth="20.0" layoutX="48.0" layoutY="306.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/vectorDashboard.png" />
+                     </image>
+                  </ImageView>
+                  <Button id="boton-dashboard" fx:id="btnListaProyecto" layoutX="23.0" layoutY="374.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="338.0" stylesheets="@styles.css" text="Lista Proyectos">
+                     <styleClass>
+                        <String fx:value="boton-dashboard" />
+                        <String fx:value="boton-hover" />
+                     </styleClass>
+                     <padding>
+                        <Insets bottom="15.0" left="70.0" />
+                     </padding>
+                  </Button>
+                  <ImageView fitHeight="27.0" fitWidth="20.0" layoutX="47.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/listaVector.png" />
+                     </image>
+                  </ImageView>
+                  <Button id="boton-dashboard" fx:id="btnDashboard2" layoutX="23.0" layoutY="454.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="338.0" stylesheets="@styles.css" text="Lorem">
+                     <styleClass>
+                        <String fx:value="boton-dashboard" />
+                        <String fx:value="boton-hover" />
+                     </styleClass>
+                     <padding>
+                        <Insets bottom="15.0" left="70.0" />
+                     </padding>
+                  </Button>
+                  <ImageView fitHeight="27.0" fitWidth="20.0" layoutX="47.0" layoutY="470.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/listaVector.png" />
+                     </image>
+                  </ImageView>
+                  <Button id="boton-dashboard" fx:id="btnA" layoutX="23.0" layoutY="534.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="338.0" stylesheets="@styles.css" text="Lorem">
+                     <styleClass>
+                        <String fx:value="boton-dashboard" />
+                        <String fx:value="boton-hover" />
+                     </styleClass>
+                     <padding>
+                        <Insets bottom="15.0" left="70.0" />
+                     </padding>
+                  </Button>
+                  <ImageView fitHeight="27.0" fitWidth="20.0" layoutX="47.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/listaVector.png" />
+                     </image>
+                  </ImageView>
+                  <Line endX="230.20001220703125" layoutX="125.0" layoutY="625.0" startX="-100.0" stroke="WHITE" />
+                  <Button id="boton-dashboard" fx:id="btnCerrarSesion" layoutX="24.0" layoutY="655.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="338.0" stylesheets="@styles.css" text="Cerrar Sesion">
+                     <styleClass>
+                        <String fx:value="boton-dashboard" />
+                        <String fx:value="boton-hover" />
+                     </styleClass>
+                     <padding>
+                        <Insets bottom="15.0" left="70.0" />
+                     </padding>
+                  </Button>
+                  <ImageView fitHeight="27.0" fitWidth="20.0" layoutX="47.0" layoutY="672.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/vectorCerrarSesion.png" />
+                     </image>
+                  </ImageView>
+               </children></AnchorPane>
+         </left>
+         <center>
+            <AnchorPane fx:id="contentPane" prefHeight="1080.0" prefWidth="1202.0" style="-fx-background-color: #16191C;" BorderPane.alignment="CENTER_RIGHT" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
