@@ -56,7 +56,7 @@
                         <String fx:value="boton-hover" />
                      </styleClass>
                   </Button>
-                  <Button id="boton-dashboard" fx:id="btnMisProyectos" alignment="BOTTOM_LEFT" layoutX="23.0" layoutY="464.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="338.0" stylesheets="@styles.css" text="Mis Proyectos" textFill="WHITE">
+                  <Button id="boton-dashboard" fx:id="btnMisProyectos" alignment="BOTTOM_LEFT" layoutX="23.0" layoutY="464.0" mnemonicParsing="false" onAction="#cargarProyectosEmpresa" prefHeight="51.0" prefWidth="338.0" stylesheets="@styles.css" text="Mis Proyectos" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>

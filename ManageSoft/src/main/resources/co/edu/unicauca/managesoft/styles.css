@@ -171,7 +171,7 @@
 }
 
 #txtDescripcionVacante .content {
-    -fx-background-color: #1E2126; /* Fondo oscuro para el área de texto */
+    -fx-background-color:  #292D34; /* Fondo oscuro para el área de texto */
 }
 
 #txtDescripcionVacante .scroll-pane {
@@ -179,7 +179,7 @@
 }
 
 #txtDescripcionVacante .scroll-pane .viewport {
-    -fx-background-color: #1E2126; /* Fondo de la caja de texto */
+    -fx-background-color:  #292D34; /* Fondo de la caja de texto */
 }
 
 #txtPresupuestoVacante {
@@ -188,7 +188,6 @@
     -fx-text-fill: rgba(255, 255, 255, 0.9);
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 3);
 }
-
 
 /* ---------- Barra de desplazamiento en el área de descripción ---------- */
 #txtDescripcionVacante .scroll-bar {
@@ -205,6 +204,38 @@
 #txtDescripcionVacante .scroll-bar .increment-button,
 #txtDescripcionVacante .scroll-bar .decrement-button {
     -fx-background-color: #1E2126; /* Color del fondo */
+    -fx-background-radius: 5px;
+}
+
+/* Estilo del área de texto para el resumen de la vacante */
+#txtResumenVacante {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 3);
+}
+
+#txtResumenVacante .content {
+    -fx-background-color: #292D34; /* Fondo oscuro para el área de texto */
+}
+
+#txtResumenVacante .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+#txtResumenVacante .scroll-pane .viewport {
+    -fx-background-color:  #292D34; /* Fondo de la caja de texto */
+}
+
+/* ---------- Barra de desplazamiento en el área de descripción ---------- */
+#txtResumenVacante .scroll-bar {
+    -fx-background-color: #1E2126; /* Color de fondo de la barra de desplazamiento */
+}
+
+/* Estilo para la parte móvil de la barra de desplazamiento */
+#txtResumenVacante .scroll-bar .thumb {
+    -fx-background-color: #2A2D32; /* Color del slider (ligeramente más claro) */
     -fx-background-radius: 5px;
 }
 
