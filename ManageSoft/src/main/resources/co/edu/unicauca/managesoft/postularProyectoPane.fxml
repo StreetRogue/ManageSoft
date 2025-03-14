@@ -34,7 +34,7 @@
                               <Font name="Segoe UI Light" size="16.0" />
                            </font>
                         </Text>
-                        <TextField fx:id="txtNombreVacante" alignment="TOP_LEFT" layoutX="29.0" layoutY="43.0" prefHeight="31.0" prefWidth="568.0" style="-fx-background-color: #1E2126; -fx-background-radius: 6;" stylesheets="@styles.css">
+                        <TextField fx:id="txtNombreVacante" alignment="TOP_LEFT" layoutX="29.0" layoutY="43.0" prefHeight="31.0" prefWidth="568.0" style="-fx-background-color: #292D34; -fx-background-radius: 6;" stylesheets="@styles.css">
                            <font>
                               <Font name="Segoe UI" size="16.0" />
                            </font>
@@ -44,7 +44,7 @@
                               <Font name="Segoe UI Light" size="16.0" />
                            </font>
                         </Text>
-                        <TextArea fx:id="txtDescripcionVacante" layoutX="29.0" layoutY="108.0" prefHeight="200.0" prefWidth="568.0" style="-fx-background-color: #1E2126;" stylesheets="@styles.css" wrapText="true">
+                        <TextArea fx:id="txtDescripcionVacante" layoutX="29.0" layoutY="108.0" prefHeight="200.0" prefWidth="568.0" style="-fx-background-color: #292D34;" stylesheets="@styles.css" wrapText="true">
                            <font>
                               <Font name="Segoe UI Light" size="16.0" />
                            </font>
@@ -60,7 +60,7 @@
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="txtObjetivo" layoutX="28.0" layoutY="41.0" prefHeight="46.0" prefWidth="619.0" promptText="Máximo 50 caracteres" style="-fx-background-color: #292D34;" stylesheets="@styles.css">
+                  <TextField fx:id="txtObjetivo" layoutX="28.0" layoutY="41.0" prefHeight="46.0" prefWidth="619.0" promptText="Ej: Ofrecer a estudiantes de Ingeniería de Sistemas la oportunidad de aplicar sus conocimientos en el desarrollo de software en un entorno empresarial." style="-fx-background-color: #292D34;" stylesheets="@styles.css">
                      <font>
                         <Font name="Segoe UI Light" size="12.0" />
                      </font>
@@ -68,6 +68,11 @@
                         <Insets left="20.0" />
                      </padding>
                   </TextField>
+                  <Text fill="#ffffff80" layoutX="482.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maximo 50 caracteres">
+                     <font>
+                        <Font name="Segoe UI Light" size="16.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="757.0" layoutY="156.0" prefHeight="200.0" prefWidth="349.0" style="-fx-background-color: #1E2126; -fx-background-radius: 10;">
@@ -86,11 +91,25 @@
                   <DatePicker editable="false" layoutX="37.0" layoutY="135.0" prefHeight="37.0" prefWidth="288.0" stylesheets="@styles.css" />
                </children>
             </AnchorPane>
-            <Button fx:id="btnPostularProyecto" layoutX="757.0" layoutY="405.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="350.0" stylesheets="@styles.css" text="Postular" textFill="#f4f4f4">
+            <Button fx:id="btnPostularProyecto" layoutX="757.0" layoutY="663.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="350.0" stylesheets="@styles.css" text="Postular" textFill="#f4f4f4">
                <font>
                   <Font name="Segoe UI Bold" size="16.0" />
                </font>
             </Button>
+            <AnchorPane layoutX="757.0" layoutY="379.0" prefHeight="262.0" prefWidth="350.0" style="-fx-background-color: #1E2126; -fx-background-radius: 10;">
+               <children>
+                  <Text fill="#ffffffe5" layoutX="37.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resumen">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <TextArea fx:id="txtResumenVacante" layoutX="31.0" layoutY="48.0" prefHeight="200.0" prefWidth="288.0" style="-fx-background-color: #292D34;" stylesheets="@styles.css" wrapText="true">
+                     <font>
+                        <Font name="Segoe UI Light" size="16.0" />
+                     </font>
+                  </TextArea>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

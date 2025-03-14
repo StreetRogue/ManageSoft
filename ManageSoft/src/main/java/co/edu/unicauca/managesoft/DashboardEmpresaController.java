@@ -42,7 +42,7 @@ public class DashboardEmpresaController implements Initializable {
     @FXML
     private void cargarDashboardPane() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboardPane.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboardEmpresaPane.fxml"));
             Parent nuevaVista = loader.load();
 
             // Ajustar la vista al tamaño del contentPane
@@ -75,8 +75,28 @@ public class DashboardEmpresaController implements Initializable {
         }
     }
     
-    
 
+    
+    @FXML
+    private void cargarProyectosEmpresa() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("listaProyectoEmpresaPane.fxml"));
+            Parent nuevaVista = loader.load();
+
+            // Ajustar la vista al tamaño del contentPane
+            contentPane.getChildren().setAll(nuevaVista);
+            AnchorPane.setTopAnchor(nuevaVista, 0.0);
+            AnchorPane.setBottomAnchor(nuevaVista, 0.0);
+            AnchorPane.setLeftAnchor(nuevaVista, 0.0);
+            AnchorPane.setRightAnchor(nuevaVista, 0.0);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
     @FXML
     private void cerrarSesion(ActionEvent event) {
         try {
