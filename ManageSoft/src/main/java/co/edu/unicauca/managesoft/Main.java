@@ -1,5 +1,9 @@
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.Factory;
+import co.edu.unicauca.managesoft.access.IEmpresaRepositorio;
+import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
+import co.edu.unicauca.managesoft.services.LoginServices;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,6 +40,11 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("ARRAYS");
+        IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("ARRAYS");
+        
+        LoginServices login = new LoginServices(repositorioUsuarios);
+        
         launch();
     }
 
