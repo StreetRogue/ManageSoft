@@ -4,8 +4,15 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.Factory;
+import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
+import co.edu.unicauca.managesoft.entities.Usuario;
+import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
+import co.edu.unicauca.managesoft.services.LoginServices;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,9 +34,15 @@ import javafx.stage.Stage;
  */
 public class UserLoginController implements Initializable {
 
+    IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("ARRAYS");
+    LoginServices login = new LoginServices(repositorioUsuarios);
+
     /**
      * Initializes the controller class.
      */
+    @FXML
+    private TextField txtUsuario; // Campo de contraseña
+
     @FXML
     private PasswordField txtPassword; // Campo de contraseña
 
@@ -60,26 +73,41 @@ public class UserLoginController implements Initializable {
 
     @FXML
     private void iniciarSesion(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DashboardEmpresa.fxml"));
-        Parent root = loader.load();
+        String usuario = txtUsuario.getText();
+        String contrasena = txtPassword.getText();
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreen(true);
-        stage.setFullScreenExitHint(""); // Oculta el mensaje de salida (Escape)
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH); // Deshabilita Escape para salir
+        Usuario usuarioInicio = login.iniciarSesion(usuario, contrasena);
 
-        // 🔹 Vuelve a pantalla completa si el usuario intenta salir
-        stage.fullScreenProperty().addListener((obs, oldValue, newValue) -> {
-            if (!newValue) {
-                stage.setFullScreen(true); // Forzar pantalla completa de nuevo
-            }
-        });
+        if (usuarioInicio != null) {
+            Map<enumTipoUsuario, String> paginas = new HashMap<>();
+            paginas.put(enumTipoUsuario.EMPRESA, "DashboardEmpresa.fxml");
+            paginas.put(enumTipoUsuario.COORDINADOR, "DashboardCoordinador.fxml");
+            // paginas.put(enumTipoUsuario.ESTUDIANTE, "DashboardEmpresa.fxml");
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(paginas.get(usuarioInicio.getTipoUsuario())));
+            Parent root = loader.load();
 
-        stage.show();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setFullScreenExitHint("");
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint(""); // Oculta el mensaje de salida (Escape)
+            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH); // Deshabilita Escape para salir
+
+            // 🔹 Vuelve a pantalla completa si el usuario intenta salir
+            stage.fullScreenProperty().addListener((obs, oldValue, newValue) -> {
+                if (!newValue) {
+                    stage.setFullScreen(true); // Forzar pantalla completa de nuevo
+                }
+            });
+
+            stage.show();
+        } else {
+            System.out.println("Usuario no registrado");
+        }
+
     }
 
 }

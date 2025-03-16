@@ -44,7 +44,6 @@ public class Main extends Application {
         IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("ARRAYS");
         
         LoginServices login = new LoginServices(repositorioUsuarios);
-        
         launch();
     }
 

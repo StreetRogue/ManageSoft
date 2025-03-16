@@ -26,7 +26,7 @@ public class UsuarioRepositorioArray implements IUsuarioRepositorio {
     }
     
     @Override
-    public boolean guardar(Usuario nuevoUsuario) {
+    public boolean registrarUsuario(Usuario nuevoUsuario) {
         if (!existeUsuario(nuevoUsuario.getNombreUsuario())){
             usuariosArray.add(nuevoUsuario);
             return true;
@@ -34,17 +34,16 @@ public class UsuarioRepositorioArray implements IUsuarioRepositorio {
         return false;
     }
     
+    // Al iniciar sesion se obtiene una instancia del usuario que ingreso
     @Override
-    public boolean autenticarInicioSesion(String nombreUsuario, String contrasenaUsuario) {
+    public Usuario iniciarSesion(String nombreUsuario, String contrasenaUsuario) {
         for (Usuario usuario: usuariosArray){
             if (usuario.getNombreUsuario().equals(nombreUsuario) && usuario.getContrasenaUsuario().equals(contrasenaUsuario)){
-                return true;
+                return usuario;
             }
         }
-        return false;
+        return null;
     }
-    
-    // Al iniciar sesion se obtiene una instancia del usuario que ingreso
 
     /*@Override
     public List<Empresa> listarEmpresas() {
