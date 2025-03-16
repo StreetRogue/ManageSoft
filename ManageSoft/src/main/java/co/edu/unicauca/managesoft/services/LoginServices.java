@@ -5,6 +5,8 @@
 package co.edu.unicauca.managesoft.services;
 
 import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
+import co.edu.unicauca.managesoft.entities.Usuario;
+import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
 
 /**
  *
@@ -17,7 +19,13 @@ public class LoginServices {
         this.repositorio = repositorio;
     }
     
-    public boolean iniciarSesion(String nombreUsuario, String contrasenaUsuario) {
-        return repositorio.autenticarInicioSesion(nombreUsuario, contrasenaUsuario);
+    public Usuario iniciarSesion(String nombreUsuario, String contrasenaUsuario) {
+        Usuario usuarioInicioSesion = repositorio.iniciarSesion(nombreUsuario, contrasenaUsuario);
+        return usuarioInicioSesion;
+    }
+    
+    public boolean registrarUsuario(String nombreUsuario, String contrasenaUsuario, enumTipoUsuario tipoUsuario) {
+        Usuario nuevoUsuario = new Usuario(nombreUsuario, contrasenaUsuario, tipoUsuario);
+        return repositorio.registrarUsuario(nuevoUsuario);
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * @author jutak
  */
 public interface IUsuarioRepositorio {
-    boolean guardar(Usuario nuevoUsuario);
-    boolean autenticarInicioSesion(String nombreUsuario, String contrasenaUsuario);
+    boolean registrarUsuario(Usuario nuevoUsuario);
+    Usuario iniciarSesion(String nombreUsuario, String contrasenaUsuario);
     // List<Usuario> listarUsuarios();
 }
