@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -14,13 +15,13 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane id="AnchorPane" prefHeight="785.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.unicauca.managesoft.UserLoginController">
+<AnchorPane id="AnchorPane" prefHeight="785.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.unicauca.managesoft.UserRegisterController">
    <children>
       <BorderPane prefHeight="785.0" prefWidth="1440.0">
          <left>
             <AnchorPane prefHeight="785.0" prefWidth="870.0" style="-fx-background-color: #16191C;" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="785.0" fitWidth="870.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="785.0" fitWidth="870.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
                      <image>
                         <Image url="@resources/background785.jpg" />
                      </image>
@@ -36,17 +37,12 @@
                         <Image url="@resources/logoPrueba.png" />
                      </image>
                   </ImageView>
-                  <Text fill="WHITE" layoutX="35.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido" AnchorPane.bottomAnchor="576.9171875" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="345.33867187499993" AnchorPane.topAnchor="161.15234375">
+                  <Text fill="WHITE" layoutX="35.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrarse" AnchorPane.bottomAnchor="576.9171875" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="345.33867187499993" AnchorPane.topAnchor="161.15234375">
                      <font>
                         <Font name="Segoe UI Bold" size="36.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="35.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="479.20624999999995">
-                     <font>
-                        <Font name="Segoe UI Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <TextField fx:id="txtUsuario" layoutX="35.0" layoutY="280.0" prefHeight="50.0" prefWidth="500.0" promptText="Ingrese su usuario" style="-fx-background-radius: 6; -fx-background-color: #1E2126;" stylesheets="@styles.css" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="36.799999999999955">
+                  <TextField fx:id="txtRegUsuario" layoutX="35.0" layoutY="280.0" prefHeight="50.0" prefWidth="500.0" promptText="Digite su usuario" style="-fx-background-radius: 6; -fx-background-color: #1E2126;" stylesheets="@styles.css" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="36.799999999999955">
                      <font>
                         <Font name="Segoe UI Light" size="16.0" />
                      </font>
@@ -54,7 +50,7 @@
                         <Insets left="20.0" />
                      </padding>
                   </TextField>
-                  <PasswordField fx:id="txtPassword" layoutX="35.0" layoutY="390.0" prefHeight="50.0" prefWidth="500.0" promptText="Ingrese su contraseña" style="-fx-background-radius: 6; -fx-background-color: #1E2126;" stylesheets="@styles.css" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="36.799999999999955">
+                  <PasswordField fx:id="txtRegPassword" layoutX="35.0" layoutY="390.0" prefHeight="50.0" prefWidth="500.0" promptText="Digite su contraseña" style="-fx-background-radius: 6; -fx-background-color: #1E2126;" stylesheets="@styles.css" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="36.799999999999955">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -67,11 +63,6 @@
                         <Font name="Segoe UI Light" size="16.0" />
                      </font>
                   </TextField>
-                  <Text fill="WHITE" layoutX="35.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" AnchorPane.leftAnchor="35.2" AnchorPane.rightAnchor="479.20624999999995">
-                     <font>
-                        <Font name="Segoe UI Bold" size="16.0" />
-                     </font>
-                  </Text>
                   <Text fx:id="lblMissPassword" fill="#ffffff80" layoutX="323.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Ha olvidado su contraseña?">
                      <font>
                         <Font name="Segoe UI Light" size="16.0" />
@@ -85,20 +76,20 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <Button fx:id="btnIniciarSesion" layoutX="38.0" layoutY="475.0" mnemonicParsing="false" onAction="#iniciarSesion" prefHeight="50.0" prefWidth="530.0" stylesheets="@styles.css" text="Iniciar Sesión" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="34.0">
+                  <Button fx:id="btnRegistrarse" layoutX="38.0" layoutY="584.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="528.0" stylesheets="@styles.css" text="Registrarse" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="34.799999999999955">
                      <font>
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Line endX="427.4999084472656" layoutX="135.0" layoutY="565.0" startX="-100.0" stroke="WHITE" AnchorPane.leftAnchor="34.5" />
-                  <TextFlow fx:id="lblRegistrarUser" layoutX="135.0" layoutY="642.0" onMouseClicked="#showRegistrarForm" prefHeight="43.0" prefWidth="334.0">
+                  <Line endX="427.4999084472656" layoutX="135.0" layoutY="671.0" startX="-100.0" stroke="WHITE" AnchorPane.leftAnchor="34.5" />
+                  <TextFlow fx:id="lblLoginUser" layoutX="175.0" layoutY="700.0" onMouseClicked="#showLoginForm" prefHeight="43.0" prefWidth="253.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Todavía no tienes una cuenta? ">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Ya tienes una cuenta? ">
                            <font>
                               <Font name="Segoe UI Light" size="16.0" />
                            </font>
                         </Text>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Crea una ahora" wrappingWidth="319.47802734375">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicia Sesión" wrappingWidth="251.74365234375">
                            <font>
                               <Font name="Segoe UI Bold" size="16.0" />
                            </font>
@@ -108,6 +99,25 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </TextFlow>
+                  <Text fill="WHITE" layoutX="38.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nuevo Usuario">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fill="WHITE" layoutX="35.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nueva Contraseña" AnchorPane.leftAnchor="34.40000000000006" AnchorPane.rightAnchor="426.89531250000005">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <ComboBox fx:id="cboRolUser" layoutX="35.0" layoutY="500.0" onAction="#handleRolSelection" prefHeight="40.0" prefWidth="527.0" stylesheets="@styles.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></ComboBox>
+                  <Text fx:id="lblRegistrarUser" fill="WHITE" layoutX="35.0" layoutY="485.0" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Qué eres?">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
          </right>
