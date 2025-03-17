@@ -25,6 +25,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+
 import javafx.stage.Stage;
 
 /**
@@ -51,9 +55,13 @@ public class UserLoginController implements Initializable {
     @FXML
     private TextField txtVisiblePassword;
 
+    @FXML
+    private TextFlow lblRegistrarUser;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         txtVisiblePassword.setVisible(false);
+
     }
 
     @FXML
@@ -61,6 +69,19 @@ public class UserLoginController implements Initializable {
         txtVisiblePassword.setText(txtPassword.getText()); // Copiar el texto
         txtVisiblePassword.setVisible(true);  // Mostrar el campo de texto
         txtPassword.setVisible(false);  // Ocultar el PasswordField
+    }
+
+    @FXML
+    private void showRegistrarForm(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("userRegisterVista.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.centerOnScreen();
+        stage.show();
     }
 
     @FXML
@@ -82,7 +103,7 @@ public class UserLoginController implements Initializable {
             paginas.put(enumTipoUsuario.EMPRESA, "DashboardEmpresa.fxml");
             paginas.put(enumTipoUsuario.COORDINADOR, "DashboardCoordinador.fxml");
             // paginas.put(enumTipoUsuario.ESTUDIANTE, "DashboardEmpresa.fxml");
-            
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(paginas.get(usuarioInicio.getTipoUsuario())));
             Parent root = loader.load();
 

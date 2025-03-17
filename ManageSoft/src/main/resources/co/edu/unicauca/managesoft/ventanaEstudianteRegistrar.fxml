@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="785.0" prefWidth="620.0" style="-fx-background-color: #16191C;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="co.edu.unicauca.managesoft.VentanaEstudianteRegistrarController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="400.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/logoPrueba250.png" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="47.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Datos Estudiantes">
+         <font>
+            <Font name="Segoe UI Bold" size="36.0" />
+         </font>
+      </Text>
+      <Line endX="208.80001831054688" layoutX="148.0" layoutY="198.0" startX="-100.0" stroke="WHITE" />
+      <Text fill="WHITE" layoutX="48.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre">
+         <font>
+            <Font name="Segoe UI Bold" size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtNombreEstudiante" layoutX="48.0" layoutY="265.0" prefHeight="50.0" prefWidth="500.0" promptText="Ingrese su nombre completo" style="-fx-background-radius: 6; -fx-background-color: #1E2126;" stylesheets="@styles.css">
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+         <font>
+            <Font name="Segoe UI Light" size="16.0" />
+         </font>
+      </TextField>
+      <Text fill="WHITE" layoutX="48.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido">
+         <font>
+            <Font name="Segoe UI Bold" size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtApellidoEstudiante" layoutX="48.0" layoutY="365.0" prefHeight="50.0" prefWidth="500.0" promptText="Ingrese su apellido completo" style="-fx-background-radius: 6; -fx-background-color: #1E2126;" stylesheets="@styles.css">
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+         <font>
+            <Font name="Segoe UI Light" size="16.0" />
+         </font>
+      </TextField>
+      <Text fill="WHITE" layoutX="48.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Código de Estudiante">
+         <font>
+            <Font name="Segoe UI Bold" size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtCodigoSIMCA" layoutX="48.0" layoutY="465.0" prefHeight="50.0" prefWidth="500.0" promptText="Ingrese su código de estudiante de SIMCA" style="-fx-background-radius: 6; -fx-background-color: #1E2126;" stylesheets="@styles.css">
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+         <font>
+            <Font name="Segoe UI Light" size="16.0" />
+         </font>
+      </TextField>
+      <Text fill="WHITE" layoutX="48.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Correo Electronico">
+         <font>
+            <Font name="Segoe UI Bold" size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtEmailEstudiante" layoutX="48.0" layoutY="565.0" prefHeight="50.0" prefWidth="500.0" promptText="Ingrese su correo Institucional" style="-fx-background-radius: 6; -fx-background-color: #1E2126;" stylesheets="@styles.css">
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+         <font>
+            <Font name="Segoe UI Light" size="16.0" />
+         </font>
+      </TextField>
+      <Button fx:id="btnCargarDatos" layoutX="48.0" layoutY="676.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="500.0" stylesheets="@styles.css" text="Cargar Datos" textFill="WHITE">
+         <font>
+            <Font name="Segoe UI Bold" size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
