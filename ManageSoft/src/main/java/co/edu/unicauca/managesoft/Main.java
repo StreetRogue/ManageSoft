@@ -40,10 +40,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("ARRAYS");
-        IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("ARRAYS");
-        
-        LoginServices login = new LoginServices(repositorioUsuarios);
         launch();
     }
 

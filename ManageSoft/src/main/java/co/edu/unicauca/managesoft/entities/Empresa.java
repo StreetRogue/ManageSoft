@@ -4,6 +4,7 @@
  */
 package co.edu.unicauca.managesoft.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +32,7 @@ public class Empresa extends Usuario {
         this.nombresContactoEmpresa = nombresContactoEmpresa;
         this.apellidoContactoEmpresa = apellidoContactoEmpresa;
         this.cargoContactoEmpresa = cargoContactoEmpresa;
+        this.listaProyectos = new ArrayList<>();
     }
     
     public String getNitEmpresa() {

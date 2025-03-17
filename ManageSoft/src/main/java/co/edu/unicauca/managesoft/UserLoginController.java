@@ -33,7 +33,6 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class UserLoginController implements Initializable {
-
     IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("ARRAYS");
     LoginServices login = new LoginServices(repositorioUsuarios);
 
