@@ -37,6 +37,36 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 15, 0.3, 0, 5); /* Sombra */
 }
 
+/* ---------- Botones ---------- */
+.boton-hover {
+    -fx-background-color: #3B82F6; /* Color normal del botón */
+    -fx-text-fill: white; /* Texto en color blanco */
+    -fx-border-radius: 6px; /* Bordes redondeados */
+    -fx-background-radius: 6px;
+}
+
+.boton-hover:hover {
+    -fx-background-color: #2563EB; /* Color más oscuro cuando el cursor está encima */
+}
+
+/* Botón de Registrarse con efecto de elevación */
+#btnRegistrarse {
+    -fx-background-color: #3B82F6; /* Color normal */
+    -fx-text-fill: white;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Bold";
+    -fx-cursor: hand;
+    -fx-transition: 0.3s;
+}
+
+#btnRegistrarse:hover {
+    -fx-background-color: #2563EB; /* Color más oscuro en hover */
+    -fx-translate-y: -2px; /* Efecto de elevación */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 15, 0.3, 0, 5); /* Sombra */
+}
+
 /* Botón de postular con efecto de elevación */
 #btnPostularProyecto {
     -fx-background-color: #3B82F6; /* Color normal */
@@ -56,6 +86,23 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 15, 0.3, 0, 5); /* Sombra */
 }
 
+#btnCargarDatos {
+    -fx-background-color: #3B82F6; /* Color normal */
+    -fx-text-fill: white;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Bold";
+    -fx-cursor: hand;
+    -fx-transition: 0.3s;
+}
+
+#btnCargarDatos:hover {
+    -fx-background-color: #2563EB; /* Color más oscuro en hover */
+    -fx-translate-y: -2px; /* Efecto de elevación */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 15, 0.3, 0, 5); /* Sombra */
+}
+
 /* ---------- Campos de texto ---------- */
 
 /* Estilo para el campo de usuario */
@@ -67,6 +114,21 @@
 
 /* Estilo para el campo de contraseña */
 #txtPassword {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.7); /* Color ligeramente más tenue */
+}
+
+/* Estilo para el campo de usuario */
+#txtRegUsuario {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.9); /* Color del texto con opacidad */
+}
+
+
+/* Estilo para el campo de contraseña */
+#txtRegPassword {
     -fx-font-family: "Segoe UI Light";
     -fx-font-size: 16px;
     -fx-text-fill: rgba(255, 255, 255, 0.7); /* Color ligeramente más tenue */
@@ -387,3 +449,35 @@
 .table-cell .icon {
     -fx-alignment: center-right;
 }
+
+
+
+/*Combo Box rolUser*/
+
+#cboRolUser {
+    -fx-background-color:  #1E2126;  /* Color de fondo oscuro */
+    -fx-border-color: transparent;  /* Sin bordes visibles */
+    -fx-border-radius: 5px;         /* Bordes redondeados */
+    -fx-padding: 5px;
+    -fx-text-fill: #B0B0B0;         /* Color del texto */
+    -fx-font-size: 14px;
+}
+
+/* Flecha del ComboBox */
+#cboRolUser .arrow {
+    -fx-background-color: #B0B0B0; /* Color de la flecha */
+}
+
+/* Lista desplegable */
+#cboRolUser .list-cell {
+    -fx-background-color:  #1E2126; 
+    -fx-text-fill: #B0B0B0;
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI Regular";
+}
+
+/* Hover en la lista */
+#cboRolUser .list-cell:hover {
+    -fx-background-color: #333333;
+}
+
