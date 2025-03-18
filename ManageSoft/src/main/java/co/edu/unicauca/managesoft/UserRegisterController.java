@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -55,6 +56,23 @@ public class UserRegisterController implements Initializable {
     @FXML
     private TextFlow lblLoginUser;
 
+    // Variables para almacenar los datos del estudiante
+    private String nombreEstudiante;
+    private String apellidoEstudiante;
+    private String codigoSIMCA;
+    private String emailEstudiante;
+    private boolean datosCargados = false;
+    // Variables para almacenar los datos del estudiante
+    private String nitEmpresa;
+    private String nombreEmpresa;
+    private String emailEmpresa;
+    private String sectorEmpresa;
+    private String telRepresentante;
+    private String cargoRepresentante;
+    private String nombreRepresentante;
+    private String apellidoRepresentante;
+    private boolean datosEmpresaCargados = false;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Llenar el ComboBox con los valores del enum
@@ -79,6 +97,38 @@ public class UserRegisterController implements Initializable {
         stage.show();
     }
 
+    public void recibirDatosEstudiante(String nombre, String apellido, String codigo, String email) {
+        this.nombreEstudiante = nombre;
+        this.apellidoEstudiante = apellido;
+        this.codigoSIMCA = codigo;
+        this.emailEstudiante = email;
+        this.datosCargados = true;
+
+    }
+
+    public void recibirDatosEmpresa(String nit, String nombre, String email, String sector,
+            String telefono, String cargo, String nombreRep, String apellidoRep) {
+        this.nitEmpresa = nit;
+        this.nombreEmpresa = nombre;
+        this.emailEmpresa = email;
+        this.sectorEmpresa = sector;
+        this.telRepresentante = telefono;
+        this.cargoRepresentante = cargo;
+        this.nombreRepresentante = nombreRep;
+        this.apellidoRepresentante = apellidoRep;
+        this.datosEmpresaCargados = true;
+
+        System.out.println("Datos de la empresa recibidos:");
+        System.out.println("NIT: " + nit);
+        System.out.println("Nombre: " + nombre);
+        System.out.println("Email: " + email);
+        System.out.println("Sector: " + sector);
+        System.out.println("Teléfono Representante: " + telefono);
+        System.out.println("Cargo Representante: " + cargo);
+        System.out.println("Nombre Representante: " + nombreRep);
+        System.out.println("Apellido Representante: " + apellidoRep);
+    }
+
     @FXML
     private void handleRolSelection() throws IOException {
 
@@ -100,8 +150,11 @@ public class UserRegisterController implements Initializable {
 
             if (selectedRol.equals(enumTipoUsuario.EMPRESA)) {
                 controller = new VentanaEmpresaRegistrarController();
+                ((VentanaEmpresaRegistrarController) controller).setUserRegisterController(this);
+
             } else if (selectedRol.equals(enumTipoUsuario.ESTUDIANTE)) {
                 controller = new VentanaEstudianteRegistrarController();
+                ((VentanaEstudianteRegistrarController) controller).setUserRegisterController(this);
             } else {
                 throw new IllegalArgumentException("Rol no soportado: " + selectedRol);
             }
@@ -142,9 +195,26 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void registrarUsuario(ActionEvent event) throws IOException {
+        if (!datosCargados) {
+            mostrarAlerta("Error", "Debe cargar los datos del estudiante antes de registrarse.");
+            return;
+        }
+
         String nombreUsuario = txtRegUsuario.getText();
         String contrasenaUsuario = txtRegPassword.getText();
+        
 
+        System.out.println("Usuario registrado con éxito:");
+        System.out.println("Nombre de usuario: " + nombreUsuario);
+        System.out.println("Contraseña: " + contrasenaUsuario);
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
 }
