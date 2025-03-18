@@ -25,6 +25,8 @@ public class Factory {
         repositoriosEmpresa.put("POSTGRES", new EmpresaRepositorioPG());
         
         repositoriosUsuario.put("ARRAYS", new UsuarioRepositorioArray());
+        repositoriosUsuario.put("POSTGRES", new UsuarioRepositorioPG());
+        
     }
 
     /**

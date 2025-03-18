@@ -5,4 +5,7 @@ module co.edu.unicauca.managesoft {
 
     opens co.edu.unicauca.managesoft to javafx.fxml;
     exports co.edu.unicauca.managesoft;
+    
+    requires java.sql;
+
 }
