@@ -75,7 +75,7 @@
             <Font name="Segoe UI Light" size="16.0" />
          </font>
       </TextField>
-      <Button fx:id="btnCargarDatos" layoutX="390.0" layoutY="681.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="500.0" stylesheets="@styles.css" text="Cargar Datos" textFill="WHITE">
+      <Button fx:id="btnCargarDatos" layoutX="390.0" layoutY="681.0" mnemonicParsing="false" onAction="#capturarDatos" prefHeight="50.0" prefWidth="500.0" stylesheets="@styles.css" text="Cargar Datos" textFill="WHITE">
          <font>
             <Font name="Segoe UI Bold" size="16.0" />
          </font>
@@ -124,7 +124,7 @@
             <Font name="Segoe UI Bold" size="16.0" />
          </font>
       </Text>
-      <TextField fx:id="txtApellidoRepresentate" layoutX="688.0" layoutY="565.0" prefHeight="50.0" prefWidth="500.0" promptText="Ingrese su apellido completo de contacto" style="-fx-background-radius: 6; -fx-background-color: #1E2126;" stylesheets="@styles.css">
+      <TextField fx:id="txtApellidoRepresentante" layoutX="688.0" layoutY="565.0" prefHeight="50.0" prefWidth="500.0" promptText="Ingrese su apellido completo de contacto" style="-fx-background-radius: 6; -fx-background-color: #1E2126;" stylesheets="@styles.css">
          <padding>
             <Insets left="20.0" />
          </padding>

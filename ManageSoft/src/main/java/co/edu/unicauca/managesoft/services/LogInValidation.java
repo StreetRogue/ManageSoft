@@ -12,6 +12,7 @@ import co.edu.unicauca.managesoft.infra.MyException;
  * @author jutak
  */
 public class LogInValidation {
+
     private Usuario usuario;
 
     public LogInValidation(Usuario nuevoUsuario) {
@@ -19,7 +20,8 @@ public class LogInValidation {
     }
 
     public void camposNoVacios() throws MyException {
-        if (usuario.getNombreUsuario().isBlank() || usuario.getContrasenaUsuario().isBlank()) throw new MyException("Todos los campos deben rellenarse");
-        
+        if (usuario.getNombreUsuario().isBlank() || usuario.getContrasenaUsuario().isBlank() || usuario.getTipoUsuario().equals(null)) {
+            throw new MyException("Todos los campos deben rellenarse");
+        }
     }
 }

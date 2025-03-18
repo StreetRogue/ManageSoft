@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.unicauca.managesoft.DashboardEstudiantePaneController">
    <children>
       <AnchorPane prefHeight="1080.0" prefWidth="1202.0" style="-fx-background-color: #16191C;">
          <children>
@@ -32,27 +32,17 @@
                         <Image url="@resources/vectorUser.png" />
                      </image>
                   </ImageView>
-                  <Text fill="#ffffffe5" layoutX="108.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Empresa" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="194.63437499999986">
+                  <Text fill="#ffffffe5" layoutX="146.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estudiante">
                      <font>
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="lblCompanyName" fill="#ffffffe5" layoutX="197.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}" AnchorPane.leftAnchor="197.0" AnchorPane.rightAnchor="115.98593749999986">
-                     <font>
-                        <Font name="Segoe UI Bold" size="16.0" />
-                     </font>
-                  </Text>
-                  <Text fill="#ffffffe5" layoutX="76.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Representante:">
+                  <Text fx:id="lblCoordinadorName" fill="#ffffffe5" layoutX="99.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}">
                      <font>
                         <Font name="Segoe UI Light" size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="lblRepreName" fill="#ffffffe5" layoutX="181.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}">
-                     <font>
-                        <Font name="Segoe UI Light" size="16.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="lblLastNameRepre" fill="#ffffffe5" layoutX="231.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{lastname}">
+                  <Text fx:id="lblCoordinadorApellido" fill="#ffffffe5" layoutX="196.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{lastname}">
                      <font>
                         <Font name="Segoe UI Light" size="16.0" />
                      </font>
@@ -74,7 +64,7 @@
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
                   </Text>
-                  <Text fill="#ffffffe5" layoutX="20.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vacantes Publicadas">
+                  <Text fill="#ffffffe5" layoutX="20.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proyectos Disponibles">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
@@ -94,7 +84,7 @@
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
                   </Text>
-                  <Text fill="#ffffffe5" layoutX="20.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplicaciones por Vacante">
+                  <Text fill="#ffffffe5" layoutX="20.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proyectos Completados">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
@@ -137,7 +127,7 @@
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
                   </Text>
-                  <Text fill="#ffffffe5" layoutX="20.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vacantes Rechazadas">
+                  <Text fill="#ffffffe5" layoutX="20.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postulaciones Rechazadas">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
@@ -156,7 +146,7 @@
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
                   </Text>
-                  <Text fill="#ffffffe5" layoutX="20.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiempo de aceptacion">
+                  <Text fill="#ffffffe5" layoutX="20.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad de Postulaciones">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
@@ -168,7 +158,7 @@
                   </Text>
                   <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="135.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@resources/timeVector.png" />
+                        <Image url="@resources/iconTimeCompany.png" />
                      </image>
                   </ImageView>
                </children>
@@ -180,16 +170,11 @@
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
                   </Text>
-                  <Text fill="#ffffffe5" layoutX="20.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proyectos Finalizados">
+                  <Text fill="#ffffffe5" layoutX="20.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estado Proyecto Actual">
                      <font>
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Text>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="129.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@resources/saveVector.png" />
-                     </image>
-                  </ImageView>
                </children>
             </AnchorPane>
          </children>
