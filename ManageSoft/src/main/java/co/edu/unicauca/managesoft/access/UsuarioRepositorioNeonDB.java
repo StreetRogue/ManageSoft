@@ -10,15 +10,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
+    private static final String url = "jdbc:postgresql://ep-twilight-rice-a5meykz5-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require";
+    private static final String user = "neondb_owner";
+    private static final String password = "npg_J9zkqVtWupl1";
+    
+    public static IEmpresaRepositorio repositorioEmpresa;
+    // public static ICoordinadorRepositorio repositorioCoordinador;
+    // public static IEstudianteRepositorio repositorioEstudiante;
 
-    String url = "jdbc:postgresql://ep-twilight-rice-a5meykz5-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require";
-    String user = "neondb_owner";
-    String password = "npg_J9zkqVtWupl1";  // Tu contraseña de Neon
-
-// Método para obtener la conexión con usuario y contraseña
+    // Método para obtener la conexión con usuario y contraseña
     private Connection conectar() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
+
+    @Override
+    public void setRepositorioEmpresa(IEmpresaRepositorio repositorioEmpresa) {
+        this.repositorioEmpresa = repositorioEmpresa;
+    }
+    
 
     @Override
     public boolean registrarUsuario(Usuario nuevoUsuario) {
@@ -58,11 +67,22 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
                 enumTipoUsuario rol = enumTipoUsuario.valueOf(rs.getString("nombre_rol"));
 
                 // Crear el objeto Usuario con los datos obtenidos de la base de datos
-                return new Usuario(
+                Usuario usuario =  new Usuario(
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena"),
                         rol // Asignar el valor del rol obtenido dinámicamente
                 );
+                
+                switch (usuario.getTipoUsuario()) {
+                    //case ESTUDIANTE:
+                        //return repositorioEmpresa;
+                    // case COORDINADOR:
+                        // return buscarEnArray(coordinadoresArray, nombreUsuario);
+                    case EMPRESA:
+                        return repositorioEmpresa.buscarEmpresa(usuario.getNombreUsuario(), usuario.getContrasenaUsuario());
+                    default:
+                        return null; // Tipo de usuario desconocido
+                }
             }
 
         } catch (SQLException e) {

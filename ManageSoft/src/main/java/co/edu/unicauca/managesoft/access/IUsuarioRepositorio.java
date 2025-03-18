@@ -12,6 +12,7 @@ import java.util.List;
  * @author jutak
  */
 public interface IUsuarioRepositorio {
+    void setRepositorioEmpresa(IEmpresaRepositorio repositorioEmpresa);
     boolean registrarUsuario(Usuario nuevoUsuario);
     Usuario iniciarSesion(String nombreUsuario, String contrasenaUsuario);
     // List<Usuario> listarUsuarios();

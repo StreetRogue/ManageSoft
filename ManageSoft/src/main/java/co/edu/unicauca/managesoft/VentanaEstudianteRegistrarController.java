@@ -20,7 +20,7 @@ public class VentanaEstudianteRegistrarController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        System.out.println("Pene 2");
     }    
     
 }

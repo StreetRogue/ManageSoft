@@ -5,7 +5,7 @@
 package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.entities.Usuario;
-import co.edu.unicauca.managesoft.services.LoginServices;
+import co.edu.unicauca.managesoft.services.LogInServices;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  */
 public class DashboardCoordinadorController implements Initializable {
     private Usuario usuario;
-    private LoginServices loginServices;
+    private LogInServices loginServices;
 
     /**
      * Initializes the controller class.
@@ -47,7 +47,7 @@ public class DashboardCoordinadorController implements Initializable {
         this.usuario = usuario;
     }
     
-    public void setLoginServices(LoginServices loginServices) {
+    public void setLoginServices(LogInServices loginServices) {
         this.loginServices = loginServices;
     }
 

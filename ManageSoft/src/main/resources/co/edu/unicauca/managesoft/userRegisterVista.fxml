@@ -76,7 +76,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <Button fx:id="btnRegistrarse" layoutX="38.0" layoutY="584.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="528.0" stylesheets="@styles.css" text="Registrarse" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="34.799999999999955">
+                  <Button fx:id="btnRegistrarse" layoutX="38.0" layoutY="584.0" mnemonicParsing="false" onAction="#registrarUsuario" prefHeight="50.0" prefWidth="528.0" stylesheets="@styles.css" text="Registrarse" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="34.799999999999955">
                      <font>
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>

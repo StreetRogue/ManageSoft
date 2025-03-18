@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="785.0" prefWidth="620.0" style="-fx-background-color: #16191C;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="co.edu.unicauca.managesoft.VentanaEstudianteRegistrarController">
+<AnchorPane id="AnchorPane" prefHeight="785.0" prefWidth="620.0" style="-fx-background-color: #16191C;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
    <children>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="400.0" pickOnBounds="true" preserveRatio="true">
          <image>

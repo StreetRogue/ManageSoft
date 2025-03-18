@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,7 +38,7 @@ public class UserRegisterController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    private TextField txtRegUsuario; // Campo de contraseña
+    private TextField txtRegUsuario; // Campo de usuario
 
     @FXML
     private PasswordField txtRegPassword; // Campo de contraseña
@@ -80,7 +81,7 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void handleRolSelection() throws IOException {
-        
+
         enumTipoUsuario selectedRol = cboRolUser.getSelectionModel().getSelectedItem();
         if (selectedRol == null) {
             return; // No hacer nada si no hay selección
@@ -95,18 +96,33 @@ public class UserRegisterController implements Initializable {
         String vista = paginas.get(selectedRol);
 
         if (vista != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(vista));
-            Parent root = loader.load();
+            Object controller;
 
-            // Crear una nueva ventana sin cerrar la actual
-            Stage newStage = new Stage();
-            newStage.setScene(new Scene(root));
-            newStage.setTitle("Registro de " + selectedRol);
-            newStage.setResizable(false);
-            newStage.centerOnScreen();
-            newStage.show();
-            
-            System.out.println("Ventana de " + selectedRol + " mostrada correctamente.");
+            if (selectedRol.equals(enumTipoUsuario.EMPRESA)) {
+                controller = new VentanaEmpresaRegistrarController();
+            } else if (selectedRol.equals(enumTipoUsuario.ESTUDIANTE)) {
+                controller = new VentanaEstudianteRegistrarController();
+            } else {
+                throw new IllegalArgumentException("Rol no soportado: " + selectedRol);
+            }
+
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(vista));
+                loader.setController(controller);
+                Parent root = loader.load();
+
+                // Crear una nueva ventana sin cerrar la actual
+                Stage newStage = new Stage();
+                newStage.setScene(new Scene(root));
+                newStage.setTitle("Registro de " + selectedRol);
+                newStage.setResizable(false);
+                newStage.centerOnScreen();
+                newStage.show();
+
+                System.out.println("Ventana de " + selectedRol + " mostrada correctamente.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -122,6 +138,13 @@ public class UserRegisterController implements Initializable {
         txtRegPassword.setText(txtVisiblePassword.getText()); // Restaurar el texto en el PasswordField
         txtVisiblePassword.setVisible(false); // Ocultar el TextField
         txtRegPassword.setVisible(true); // Mostrar el PasswordField
+    }
+
+    @FXML
+    private void registrarUsuario(ActionEvent event) throws IOException {
+        String nombreUsuario = txtRegUsuario.getText();
+        String contrasenaUsuario = txtRegPassword.getText();
+
     }
 
 }

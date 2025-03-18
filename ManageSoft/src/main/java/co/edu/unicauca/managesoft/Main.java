@@ -3,7 +3,7 @@ package co.edu.unicauca.managesoft;
 import co.edu.unicauca.managesoft.access.Factory;
 import co.edu.unicauca.managesoft.access.IEmpresaRepositorio;
 import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
-import co.edu.unicauca.managesoft.services.LoginServices;
+import co.edu.unicauca.managesoft.services.LogInServices;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,8 +22,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("NEONDB");
         IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
-        LoginServices loginServices = new LoginServices(repositorioUsuarios);
+        
+        repositorioUsuarios.setRepositorioEmpresa(repositorioEmpresa);
+        
+        LogInServices loginServices = new LogInServices(repositorioUsuarios);
         
         // Crear una instancia del controlador personalizado
         UserLoginController userLoginController = new UserLoginController(loginServices);

@@ -4,9 +4,10 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
-import co.edu.unicauca.managesoft.services.LoginServices;
+import co.edu.unicauca.managesoft.services.LogInServices;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -34,9 +35,9 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class UserLoginController implements Initializable {
-    private LoginServices loginServices;
+    private LogInServices loginServices;
     
-    public UserLoginController(LoginServices loginServices) {
+    public UserLoginController(LogInServices loginServices) {
         this.loginServices = loginServices;
     }
 
@@ -64,7 +65,7 @@ public class UserLoginController implements Initializable {
 
     }
     
-    public void setLoginServices(LoginServices loginServices) {
+    public void setLoginServices(LogInServices loginServices) {
         this.loginServices = loginServices;
     }
 
@@ -116,7 +117,7 @@ public class UserLoginController implements Initializable {
 
             Object controller = loader.getController();
             if (controller instanceof DashboardEmpresaController) {
-                ((DashboardEmpresaController) controller).setUsuario(usuarioInicio);
+                ((DashboardEmpresaController) controller).setUsuario((Empresa) usuarioInicio);
                 ((DashboardEmpresaController) controller).setLoginServices(loginServices);
                 ((DashboardEmpresaController) controller).inicializarVista();
             } else if (controller instanceof DashboardCoordinadorController) {

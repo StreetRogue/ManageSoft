@@ -12,10 +12,10 @@ import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
  *
  * @author jutak
  */
-public class LoginServices {
+public class LogInServices {
     private IUsuarioRepositorio repositorio;
 
-    public LoginServices(IUsuarioRepositorio repositorio) {
+    public LogInServices(IUsuarioRepositorio repositorio) {
         this.repositorio = repositorio;
     }
     
@@ -26,6 +26,8 @@ public class LoginServices {
     
     public boolean registrarUsuario(String nombreUsuario, String contrasenaUsuario, enumTipoUsuario tipoUsuario) {
         Usuario nuevoUsuario = new Usuario(nombreUsuario, contrasenaUsuario, tipoUsuario);
+        LogInValidation nuevaValidacion = new LogInValidation(nuevoUsuario);
+        nuevaValidacion.camposNoVacios();
         return repositorio.registrarUsuario(nuevoUsuario);
     }
 }
