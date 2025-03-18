@@ -18,7 +18,7 @@ public class LogInServices {
     public LogInServices(IUsuarioRepositorio repositorio) {
         this.repositorio = repositorio;
     }
-    
+        
     public Usuario iniciarSesion(String nombreUsuario, String contrasenaUsuario) {
         Usuario usuarioInicioSesion = repositorio.iniciarSesion(nombreUsuario, contrasenaUsuario);
         return usuarioInicioSesion;

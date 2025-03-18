@@ -20,7 +20,7 @@ public class UsuarioRepositorioArray implements IUsuarioRepositorio {
 
     public static List<Usuario> usuariosArray;
     public static IEmpresaRepositorio repositorioEmpresa;
-    // public static ICoordinadorRepositorio repositorioCoordinador;
+    public static ICoordinadorRepositorio repositorioCoordinador;
     // public static IEstudianteRepositorio repositorioEstudiante;
 
     public UsuarioRepositorioArray() {
@@ -37,6 +37,13 @@ public class UsuarioRepositorioArray implements IUsuarioRepositorio {
     public void setRepositorioEmpresa(IEmpresaRepositorio repositorioEmpresa) {
         this.repositorioEmpresa = repositorioEmpresa;
     }
+
+    @Override
+    public void setRepositorioCoordinador(ICoordinadorRepositorio repositorioCoordinador) {
+       this.repositorioCoordinador = repositorioCoordinador;
+    }
+    
+    
     
 
     @Override

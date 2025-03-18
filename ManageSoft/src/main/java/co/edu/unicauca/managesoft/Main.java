@@ -1,6 +1,7 @@
 package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.Factory;
+import co.edu.unicauca.managesoft.access.ICoordinadorRepositorio;
 import co.edu.unicauca.managesoft.access.IEmpresaRepositorio;
 import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
 import co.edu.unicauca.managesoft.services.LogInServices;
@@ -23,9 +24,11 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("NEONDB");
+        ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
         IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
         
         repositorioUsuarios.setRepositorioEmpresa(repositorioEmpresa);
+        repositorioUsuarios.setRepositorioCoordinador(repositorioCoordinador);
         
         LogInServices loginServices = new LogInServices(repositorioUsuarios);
         
