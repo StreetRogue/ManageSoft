@@ -11,10 +11,10 @@ import java.sql.SQLException;
 
 public class UsuarioRepositorioPG implements IUsuarioRepositorio {
 
-    // private static final String URL = "jdbc:postgresql://localhost:5432/BaseSoftware2"; // Coneccion Lmao
-    private static final String URL = "jdbc:postgresql://26.218.42.255:5432/BaseSoftware2"; // Coneccion Everybody
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "postgres";
+    // private static final String URL = "jdbc:postgresql://localhost:5432/BaseSoftware2"; // Conexion Lmao
+    private static final String url = "jdbc:postgresql://26.218.42.255:5432/BaseSoftware2"; // Conexion Everybody
+    private static final String user = "postgres";
+    private static final String password = "postgres";
 
     public static IEmpresaRepositorio repositorioEmpresa;
     public static ICoordinadorRepositorio repositorioCoordinador;
@@ -22,7 +22,7 @@ public class UsuarioRepositorioPG implements IUsuarioRepositorio {
 
     // Método para obtener la conexión con usuario y contraseña
     private Connection conectar() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DriverManager.getConnection(url, user, password);
     }
 
     @Override

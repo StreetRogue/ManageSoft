@@ -78,7 +78,7 @@ public class UserLoginController implements Initializable {
 
     @FXML
     private void showRegistrarForm(MouseEvent event) throws IOException {
-        UserRegisterController userRegisterController = new UserRegisterController();
+        UserRegisterController userRegisterController = new UserRegisterController(loginServices);
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("userRegisterVista.fxml"));
         loader.setController(userRegisterController);

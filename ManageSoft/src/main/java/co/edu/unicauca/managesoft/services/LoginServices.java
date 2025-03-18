@@ -7,6 +7,7 @@ package co.edu.unicauca.managesoft.services;
 import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
+import co.edu.unicauca.managesoft.infra.MyException;
 
 /**
  *
@@ -24,8 +25,9 @@ public class LogInServices {
         return usuarioInicioSesion;
     }
     
-    public boolean registrarUsuario(String nombreUsuario, String contrasenaUsuario, enumTipoUsuario tipoUsuario) {
-        Usuario nuevoUsuario = new Usuario(nombreUsuario, contrasenaUsuario, tipoUsuario);
+    public boolean registrarUsuario(String nombreUsuario, String contrasenaUsuario, enumTipoUsuario tipoUsuario) throws MyException {
+        // Usuario nuevoUsuario = new Usuario(nombreUsuario, contrasenaUsuario, tipoUsuario);
+        Usuario nuevoUsuario = new Usuario("", "", null);
         LogInValidation nuevaValidacion = new LogInValidation(nuevoUsuario);
         nuevaValidacion.camposNoVacios();
         return repositorio.registrarUsuario(nuevoUsuario);
