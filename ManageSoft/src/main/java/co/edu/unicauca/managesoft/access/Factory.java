@@ -16,19 +16,30 @@ public class Factory {
     private static Factory instancia;
 
     private Map<String, IEmpresaRepositorio> repositoriosEmpresa;
-    private Map<String, IUsuarioRepositorio> repositoriosUsuario;
     private Map<String, ICoordinadorRepositorio> repositoriosCoordinador;
+    private Map<String, IEstudianteRepositorio> repositoriosEstudiante;
+    private Map<String, IUsuarioRepositorio> repositoriosUsuario;
+    
 
     private Factory() {
         repositoriosEmpresa = new HashMap<>();
         repositoriosCoordinador = new HashMap<>();
+        repositoriosEstudiante = new HashMap<>();
         repositoriosUsuario = new HashMap<>();
 
+        // Repositorios Empresa
         repositoriosEmpresa.put("ARRAYS", new EmpresaRepositorioArray());
         repositoriosEmpresa.put("POSTGRES", new EmpresaRepositorioPG());
         repositoriosEmpresa.put("NEONDB", new EmpresaRepositorioNeonDB());
+        
+        // Repositorios Coordinador
         repositoriosCoordinador.put("NEONDB", new CoordinadorRepositorioNeonDB());
+        
+        // Repositorios Estudiante
+        repositoriosEstudiante.put("ARRAYS", new EstudianteRepositorioArray());
 
+        
+        // Repositorios Usuarios
         repositoriosUsuario.put("ARRAYS", new UsuarioRepositorioArray());
         repositoriosUsuario.put("POSTGRES", new UsuarioRepositorioPG());
         repositoriosUsuario.put("NEONDB", new UsuarioRepositorioNeonDB());
@@ -76,6 +87,18 @@ public class Factory {
 
         if (repositoriosCoordinador.containsKey(repositorio)) {
             resultado = repositoriosCoordinador.get(repositorio);
+        }
+
+        return resultado;
+
+    }
+    
+    public IEstudianteRepositorio getRepositorioEstudiante(String repositorio) {
+
+        IEstudianteRepositorio resultado = null;
+
+        if (repositoriosEstudiante.containsKey(repositorio)) {
+            resultado = repositoriosEstudiante.get(repositorio);
         }
 
         return resultado;

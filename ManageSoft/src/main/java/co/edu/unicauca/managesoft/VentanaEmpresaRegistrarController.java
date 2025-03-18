@@ -4,6 +4,8 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.entities.Empresa;
+import co.edu.unicauca.managesoft.infra.MyException;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,6 +21,7 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class VentanaEmpresaRegistrarController implements Initializable {
+
     private UserRegisterController userRegisterController;
     private LogInServices loginServices;
 
@@ -41,7 +44,7 @@ public class VentanaEmpresaRegistrarController implements Initializable {
     private TextField txtNombreRepresentante;
     @FXML
     private TextField txtApellidoRepresentante;
-    
+
     // Constructor
     public VentanaEmpresaRegistrarController(LogInServices loginServices) {
         this.loginServices = loginServices;
@@ -63,25 +66,32 @@ public class VentanaEmpresaRegistrarController implements Initializable {
         String email = txtEmailEmpresa.getText().trim();
         String sector = txtSectorEmpresa.getText().trim();
         String telefono = txtTelRepresentante.getText().trim();
-        String cargo = txtCargoRepresentante.getText().trim();
         String nombreRep = txtNombreRepresentante.getText().trim();
         String apellidoRep = txtApellidoRepresentante.getText().trim();
+        String cargo = txtCargoRepresentante.getText().trim();
 
         // Enviar datos al UserRegisterController si está disponible
         if (userRegisterController != null) {
-            userRegisterController.recibirDatosEmpresa(nit, nombre, email, sector, telefono, cargo, nombreRep, apellidoRep);
-
+            try {
+                Empresa empresaRegistrada = new Empresa(nit, nombre, email, sector, telefono, nombreRep, apellidoRep, cargo);
+                boolean empresaGuardada = loginServices.guardarEmpresa(empresaRegistrada);
+                if (empresaGuardada) {
+                    userRegisterController.guardarEmpresa(empresaRegistrada);
+                    // Cerrar la ventana después de capturar los datos
+                    Stage stage = (Stage) txtNitEmpresa.getScene().getWindow();
+                    stage.close();
+                }
+            } catch (MyException e) {
+                mostrarAlerta("Atencion", e.getMessage(), Alert.AlertType.WARNING);
+            }
         } else {
             System.out.println("Error: userRegisterController es null.");
         }
 
-        // Cerrar la ventana después de capturar los datos
-        Stage stage = (Stage) txtNitEmpresa.getScene().getWindow();
-        stage.close();
     }
 
-    private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta) {
+        Alert alert = new Alert(tipoAlerta);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);

@@ -9,9 +9,58 @@ package co.edu.unicauca.managesoft.entities;
  * @author jutak
  */
 public class Estudiante extends Usuario {
-    
-    public Estudiante(String nombreUsuario, String contrasenaUsuario) {
-        super(nombreUsuario, contrasenaUsuario, enumTipoUsuario.ESTUDIANTE);
+    private String nombreEstudiante;
+    private String apellidoEstudiante;
+    private String codigoSimcaEstudiante;
+    private String emailEstudiante;
+
+    public Estudiante(String nombreEstudiante, String apellidoEstudiante, String codigoSimcaEstudiante, String emailEstudiante) {
+        this.nombreEstudiante = nombreEstudiante;
+        this.apellidoEstudiante = apellidoEstudiante;
+        this.codigoSimcaEstudiante = codigoSimcaEstudiante;
+        this.emailEstudiante = emailEstudiante;
     }
+
+    public Estudiante(String nombreEstudiante, String apellidoEstudiante, String codigoSimcaEstudiante, String emailEstudiante, String nombreUsuario, String contrasenaUsuario) {
+        super(nombreUsuario, contrasenaUsuario, enumTipoUsuario.ESTUDIANTE);
+        this.nombreEstudiante = nombreEstudiante;
+        this.apellidoEstudiante = apellidoEstudiante;
+        this.codigoSimcaEstudiante = codigoSimcaEstudiante;
+        this.emailEstudiante = emailEstudiante;
+    }
+
+    public String getNombreEstudiante() {
+        return nombreEstudiante;
+    }
+
+    public void setNombreEstudiante(String nombreEstudiante) {
+        this.nombreEstudiante = nombreEstudiante;
+    }
+
+    public String getApellidoEstudiante() {
+        return apellidoEstudiante;
+    }
+
+    public void setApellidoEstudiante(String apellidoEstudiante) {
+        this.apellidoEstudiante = apellidoEstudiante;
+    }
+
+    public String getCodigoSimcaEstudiante() {
+        return codigoSimcaEstudiante;
+    }
+
+    public void setCodigoSimcaEstudiante(String codigoSimcaEstudiante) {
+        this.codigoSimcaEstudiante = codigoSimcaEstudiante;
+    }
+
+    public String getEmailEstudiante() {
+        return emailEstudiante;
+    }
+
+    public void setEmailEstudiante(String emailEstudiante) {
+        this.emailEstudiante = emailEstudiante;
+    }
+    
+    
     
 }

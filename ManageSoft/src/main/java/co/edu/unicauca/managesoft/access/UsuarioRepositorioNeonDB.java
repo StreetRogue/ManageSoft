@@ -17,7 +17,7 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
 
     public static IEmpresaRepositorio repositorioEmpresa;
     public static ICoordinadorRepositorio repositorioCoordinador;
-    // public static IEstudianteRepositorio repositorioEstudiante;
+    public static IEstudianteRepositorio repositorioEstudiante;
 
     // Método para obtener la conexión con usuario y contraseña
     private Connection conectar() throws SQLException {
@@ -32,6 +32,11 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
     @Override
     public void setRepositorioCoordinador(ICoordinadorRepositorio repositorioCoordinador) {
         this.repositorioCoordinador = repositorioCoordinador;
+    }
+    
+    @Override
+    public void setRepositorioEstudiante(IEstudianteRepositorio repositorioEstudiante) {
+       this.repositorioEstudiante = repositorioEstudiante;
     }
 
     @Override

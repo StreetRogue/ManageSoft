@@ -134,7 +134,7 @@ public class EmpresaRepositorioPG implements IEmpresaRepositorio {
             stmtEmpresa.setString(3, nuevaEmpresa.getEmailEmpresa());
             stmtEmpresa.setString(4, nuevaEmpresa.getSectorEmpresa());
             stmtEmpresa.setString(5, nuevaEmpresa.getContactoEmpresa());
-            stmtEmpresa.setString(6, nuevaEmpresa.getNombresContactoEmpresa());
+            stmtEmpresa.setString(6, nuevaEmpresa.getNombreContactoEmpresa());
             stmtEmpresa.setString(7, nuevaEmpresa.getApellidoContactoEmpresa());
             stmtEmpresa.setString(8, nuevaEmpresa.getCargoContactoEmpresa());
             stmtEmpresa.setInt(9, usuarioId);

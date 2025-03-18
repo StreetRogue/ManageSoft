@@ -110,7 +110,7 @@ public class UserLoginController implements Initializable {
             Map<enumTipoUsuario, String> paginas = new HashMap<>();
             paginas.put(enumTipoUsuario.EMPRESA, "DashboardEmpresa.fxml");
             paginas.put(enumTipoUsuario.COORDINADOR, "DashboardCoordinador.fxml");
-            // paginas.put(enumTipoUsuario.ESTUDIANTE, "DashboardEmpresa.fxml");
+            paginas.put(enumTipoUsuario.ESTUDIANTE, "DashboardEstudiante.fxml");
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(paginas.get(usuarioInicio.getTipoUsuario())));
             Parent root = loader.load();
@@ -124,6 +124,10 @@ public class UserLoginController implements Initializable {
                 ((DashboardCoordinadorController) controller).setUsuario(usuarioInicio);
                 ((DashboardCoordinadorController) controller).setLoginServices(loginServices);
                 ((DashboardCoordinadorController) controller).inicializarVista();
+            } else if (controller instanceof DashboardEstudianteController) {
+                ((DashboardEstudianteController) controller).setUsuario(usuarioInicio);
+                ((DashboardEstudianteController) controller).setLoginServices(loginServices);
+                ((DashboardEstudianteController) controller).inicializarVista();
             }
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
