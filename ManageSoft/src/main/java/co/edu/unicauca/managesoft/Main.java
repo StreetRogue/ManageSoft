@@ -22,7 +22,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("POSTGRES");
+        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
         LoginServices loginServices = new LoginServices(repositorioUsuarios);
         
         // Crear una instancia del controlador personalizado

@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
  *
  * @author juane
  */
-public class DashboardPaneController implements Initializable {
+public class DashboardEmpresaPaneController implements Initializable {
 
     /**
      * Initializes the controller class.

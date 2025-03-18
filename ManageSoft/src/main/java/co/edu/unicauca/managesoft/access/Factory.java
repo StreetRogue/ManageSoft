@@ -26,6 +26,7 @@ public class Factory {
         
         repositoriosUsuario.put("ARRAYS", new UsuarioRepositorioArray());
         repositoriosUsuario.put("POSTGRES", new UsuarioRepositorioPG());
+        repositoriosUsuario.put("NEONDB", new UsuarioRepositorioNeonDB());
         
     }
 
