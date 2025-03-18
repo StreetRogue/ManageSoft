@@ -4,6 +4,8 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.entities.Usuario;
+import co.edu.unicauca.managesoft.services.LoginServices;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +25,9 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class DashboardEmpresaController implements Initializable {
-
+    private Usuario usuario;
+    private LoginServices loginServices;
+    
     /**
      * Initializes the controller class.
      */
@@ -32,8 +36,19 @@ public class DashboardEmpresaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
+    }
+    
+    public void inicializarVista() {
         cargarDashboardPane();
+    }
+    
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    public void setLoginServices(LoginServices loginServices) {
+        this.loginServices = loginServices;
     }
 
     /**
@@ -44,6 +59,12 @@ public class DashboardEmpresaController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboardEmpresaPane.fxml"));
             Parent nuevaVista = loader.load();
+            
+            if (usuario == null) {
+                System.out.println("El usuario no ha sido inicializado.");
+            } else {
+                System.out.println(usuario.getNombreUsuario());
+            }
 
             // Ajustar la vista al tamaño del contentPane
             contentPane.getChildren().setAll(nuevaVista);
@@ -100,7 +121,10 @@ public class DashboardEmpresaController implements Initializable {
     @FXML
     private void cerrarSesion(ActionEvent event) {
         try {
+            UserLoginController userLoginController = new UserLoginController(loginServices);
+            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
+            loader.setController(userLoginController);
             Parent root = loader.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -112,5 +136,4 @@ public class DashboardEmpresaController implements Initializable {
             e.printStackTrace();
         }
     }
-
 }

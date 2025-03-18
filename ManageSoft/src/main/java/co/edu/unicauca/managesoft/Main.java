@@ -15,32 +15,42 @@ import java.io.IOException;
 /**
  * JavaFX Main
  */
+
 public class Main extends Application {
 
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = loadFXML("UserLoginVista");
-        Scene scene = new Scene(root); 
+        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("POSTGRES");
+        LoginServices loginServices = new LoginServices(repositorioUsuarios);
+        
+        // Crear una instancia del controlador personalizado
+        UserLoginController userLoginController = new UserLoginController(loginServices);
+
+        // Cargar la vista con el controlador configurado
+        Parent root = loadFXML("UserLoginVista", userLoginController);
+        scene = new Scene(root); // Inicializar la escena
 
         stage.setScene(scene);
         stage.centerOnScreen();
-
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    static void setRoot(String fxml, Object controller) throws IOException {
+        Parent root = loadFXML(fxml, controller); // Llamar al método con un controlador
+        scene.setRoot(root); // Establecer el nuevo root
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    private static Parent loadFXML(String fxml, Object controller) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml + ".fxml"));
+        if (controller != null) {
+            fxmlLoader.setController(controller);
+        }
         return fxmlLoader.load();
     }
 
     public static void main(String[] args) {
         launch();
     }
-
 }

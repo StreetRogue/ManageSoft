@@ -11,9 +11,10 @@ import java.sql.SQLException;
 
 public class UsuarioRepositorioPG implements IUsuarioRepositorio {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/BaseSoftware2";
+    // private static final String URL = "jdbc:postgresql://localhost:5432/BaseSoftware2"; // Coneccion Lmao
+    private static final String URL = "jdbc:postgresql://26.218.42.255:5432/BaseSoftware2"; // Coneccion Everybody
     private static final String USER = "postgres";  
-    private static final String PASSWORD = "postgres";  
+    private static final String PASSWORD = "postgres";
 
 // Método para obtener la conexión con usuario y contraseña
     private Connection conectar() throws SQLException {
@@ -23,8 +24,8 @@ public class UsuarioRepositorioPG implements IUsuarioRepositorio {
     @Override
     public boolean registrarUsuario(Usuario nuevoUsuario) {
         // Consulta para insertar un usuario, asegurando que el id_rol sea obtenido de la tabla roles
-        String sql = "INSERT INTO usuarios (nombre_usuario, contrasena, id_rol) "
-                + "SELECT ?, ?, r.id FROM roles r WHERE r.nombre_rol = ?";
+        String sql = "INSERT INTO Usuario (nombre_usuario, contrasena, id_rol) "
+                + "SELECT ?, ?, r.id FROM Rol r WHERE r.nombre_rol = ?";
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, nuevoUsuario.getNombreUsuario());
@@ -44,8 +45,8 @@ public class UsuarioRepositorioPG implements IUsuarioRepositorio {
     public Usuario iniciarSesion(String nombreUsuario, String contrasenaUsuario) {
         // Actualizamos la consulta para hacer un JOIN y obtener el nombre del rol directamente
         String sql = "SELECT u.nombre_usuario, u.contrasena, r.nombre_rol "
-                + "FROM usuarios u "
-                + "JOIN roles r ON u.id_rol = r.id "
+                + "FROM Usuario u "
+                + "JOIN Rol r ON u.id_rol = r.id "
                 + "WHERE u.nombre_usuario = ? AND u.contrasena = ?";
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 

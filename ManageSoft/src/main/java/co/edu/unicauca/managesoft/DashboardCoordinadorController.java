@@ -4,6 +4,8 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.entities.Usuario;
+import co.edu.unicauca.managesoft.services.LoginServices;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,6 +25,8 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class DashboardCoordinadorController implements Initializable {
+    private Usuario usuario;
+    private LoginServices loginServices;
 
     /**
      * Initializes the controller class.
@@ -32,8 +36,19 @@ public class DashboardCoordinadorController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+    }
+    
+    public void inicializarVista() {
         cargarDashboardPane();
+    }
+    
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    public void setLoginServices(LoginServices loginServices) {
+        this.loginServices = loginServices;
     }
 
     @FXML
@@ -75,7 +90,10 @@ public class DashboardCoordinadorController implements Initializable {
     @FXML
     private void cerrarSesion(ActionEvent event) {
         try {
+            UserLoginController userLoginController = new UserLoginController(loginServices);
+            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
+            loader.setController(userLoginController);
             Parent root = loader.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

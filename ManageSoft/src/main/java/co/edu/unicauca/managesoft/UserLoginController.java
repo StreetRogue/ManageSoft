@@ -4,8 +4,6 @@
  */
 package co.edu.unicauca.managesoft;
 
-import co.edu.unicauca.managesoft.access.Factory;
-import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
 import co.edu.unicauca.managesoft.services.LoginServices;
@@ -26,7 +24,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import javafx.stage.Stage;
@@ -37,9 +34,11 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class UserLoginController implements Initializable {
-    //IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("ARRAYS");
-    IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("POSTGRES");
-    LoginServices login = new LoginServices(repositorioUsuarios);
+    private LoginServices loginServices;
+    
+    public UserLoginController(LoginServices loginServices) {
+        this.loginServices = loginServices;
+    }
 
     /**
      * Initializes the controller class.
@@ -64,6 +63,10 @@ public class UserLoginController implements Initializable {
         txtVisiblePassword.setVisible(false);
 
     }
+    
+    public void setLoginServices(LoginServices loginServices) {
+        this.loginServices = loginServices;
+    }
 
     @FXML
     private void showPassword() {
@@ -74,7 +77,10 @@ public class UserLoginController implements Initializable {
 
     @FXML
     private void showRegistrarForm(MouseEvent event) throws IOException {
+        UserRegisterController userRegisterController = new UserRegisterController();
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("userRegisterVista.fxml"));
+        loader.setController(userRegisterController);
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -97,7 +103,7 @@ public class UserLoginController implements Initializable {
         String usuario = txtUsuario.getText();
         String contrasena = txtPassword.getText();
 
-        Usuario usuarioInicio = login.iniciarSesion(usuario, contrasena);
+        Usuario usuarioInicio = loginServices.iniciarSesion(usuario, contrasena);
 
         if (usuarioInicio != null) {
             Map<enumTipoUsuario, String> paginas = new HashMap<>();
@@ -108,6 +114,17 @@ public class UserLoginController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(paginas.get(usuarioInicio.getTipoUsuario())));
             Parent root = loader.load();
 
+            Object controller = loader.getController();
+            if (controller instanceof DashboardEmpresaController) {
+                ((DashboardEmpresaController) controller).setUsuario(usuarioInicio);
+                ((DashboardEmpresaController) controller).setLoginServices(loginServices);
+                ((DashboardEmpresaController) controller).inicializarVista();
+            } else if (controller instanceof DashboardCoordinadorController) {
+                ((DashboardCoordinadorController) controller).setUsuario(usuarioInicio);
+                ((DashboardCoordinadorController) controller).setLoginServices(loginServices);
+                ((DashboardCoordinadorController) controller).inicializarVista();
+            }
+
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -117,7 +134,7 @@ public class UserLoginController implements Initializable {
             stage.setFullScreenExitHint(""); // Oculta el mensaje de salida (Escape)
             stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH); // Deshabilita Escape para salir
 
-            // 🔹 Vuelve a pantalla completa si el usuario intenta salir
+            // Vuelve a pantalla completa si el usuario intenta salir
             stage.fullScreenProperty().addListener((obs, oldValue, newValue) -> {
                 if (!newValue) {
                     stage.setFullScreen(true); // Forzar pantalla completa de nuevo
