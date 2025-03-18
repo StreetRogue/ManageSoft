@@ -13,5 +13,7 @@ import java.util.List;
  */
 public interface IEmpresaRepositorio {
     boolean guardar(Empresa nuevaEmpresa);
+    Empresa buscarEmpresa(String nombreUsario);
+    Empresa buscarEmpresa(String nombreUsario, String contrasenaUsuario);
     List<Empresa> listarEmpresas();
 }

@@ -23,6 +23,7 @@ public class Factory {
         
         repositoriosEmpresa.put("ARRAYS", new EmpresaRepositorioArray());
         repositoriosEmpresa.put("POSTGRES", new EmpresaRepositorioPG());
+        repositoriosEmpresa.put("NEONDB", new EmpresaRepositorioNeonDB());
         
         repositoriosUsuario.put("ARRAYS", new UsuarioRepositorioArray());
         repositoriosUsuario.put("POSTGRES", new UsuarioRepositorioPG());

@@ -10,16 +10,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UsuarioRepositorioPG implements IUsuarioRepositorio {
-
     // private static final String URL = "jdbc:postgresql://localhost:5432/BaseSoftware2"; // Coneccion Lmao
     private static final String URL = "jdbc:postgresql://26.218.42.255:5432/BaseSoftware2"; // Coneccion Everybody
     private static final String USER = "postgres";  
     private static final String PASSWORD = "postgres";
+    
+    public static IEmpresaRepositorio repositorioEmpresa;
+    // public static ICoordinadorRepositorio repositorioCoordinador;
+    // public static IEstudianteRepositorio repositorioEstudiante;
 
-// Método para obtener la conexión con usuario y contraseña
+    // Método para obtener la conexión con usuario y contraseña
     private Connection conectar() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
+
+    @Override
+    public void setRepositorioEmpresa(IEmpresaRepositorio repositorioEmpresa) {
+        this.repositorioEmpresa = repositorioEmpresa;
+    }
+   
 
     @Override
     public boolean registrarUsuario(Usuario nuevoUsuario) {

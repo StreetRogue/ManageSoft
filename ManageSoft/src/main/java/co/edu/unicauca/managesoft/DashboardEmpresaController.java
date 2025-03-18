@@ -4,8 +4,9 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Usuario;
-import co.edu.unicauca.managesoft.services.LoginServices;
+import co.edu.unicauca.managesoft.services.LogInServices;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,8 +26,8 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class DashboardEmpresaController implements Initializable {
-    private Usuario usuario;
-    private LoginServices loginServices;
+    private Empresa empresa;
+    private LogInServices loginServices;
     
     /**
      * Initializes the controller class.
@@ -43,11 +44,11 @@ public class DashboardEmpresaController implements Initializable {
         cargarDashboardPane();
     }
     
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuario(Empresa empresa) {
+        this.empresa = empresa;
     }
     
-    public void setLoginServices(LoginServices loginServices) {
+    public void setLoginServices(LogInServices loginServices) {
         this.loginServices = loginServices;
     }
 
@@ -60,10 +61,10 @@ public class DashboardEmpresaController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboardEmpresaPane.fxml"));
             Parent nuevaVista = loader.load();
             
-            if (usuario == null) {
+            if (empresa == null) {
                 System.out.println("El usuario no ha sido inicializado.");
             } else {
-                System.out.println(usuario.getNombreUsuario());
+                System.out.println(empresa.getNitEmpresa());
             }
 
             // Ajustar la vista al tamaño del contentPane

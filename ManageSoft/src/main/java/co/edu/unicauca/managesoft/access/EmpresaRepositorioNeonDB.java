@@ -11,11 +11,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmpresaRepositorioPG implements IEmpresaRepositorio {
+public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
 
-    private static final String url = "jdbc:postgresql://localhost:5432/BaseSoftware2";
-    private static final String user = "postgres";
-    private static final String password = "postgres";
+    private static final String url = "jdbc:postgresql://ep-twilight-rice-a5meykz5-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require";
+    private static final String user = "neondb_owner";
+    private static final String password = "npg_J9zkqVtWupl1";
 
 // Método para obtener la conexión con usuario y contraseña
     private Connection conectar() throws SQLException {

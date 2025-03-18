@@ -22,6 +22,7 @@ public class EmpresaRepositorioArray implements IEmpresaRepositorio {
         empresasArray.add(new Empresa("445", "BuildIt", "contacto@buildit.com", "Construcción", "5556667777", "Carlos", "Lopez", "Supervisor", "buildit", "buildit123"));
         empresasArray.add(new Empresa("889", "HealthCare Inc.", "support@healthcare.com", "Salud", "4448889999", "Ana", "Martínez", "Médica Jefe", "healthcare", "health2023"));
         empresasArray.add(new Empresa("665", "AgroFuture", "info@agrofuture.com", "Agricultura", "1112223333", "Luis", "Rodríguez", "Agrónomo", "agrofuture", "future123"));
+        empresasArray.add(new Empresa("321", "empresa Versaculo", "empresa1@gmail.com", "Educacion", "3164171685", "Juan Diego", "Perez Martinez", "Jefe", "empresa1", "pass789"));
     }
 
     @Override
@@ -31,6 +32,28 @@ public class EmpresaRepositorioArray implements IEmpresaRepositorio {
             return true;
         }
         return false;
+    }
+    
+    @Override
+    public Empresa buscarEmpresa(String nombreUsuario) {
+        for (Empresa empresa : empresasArray) {
+            if (empresa.getNombreUsuario().equals(nombreUsuario)) {
+                return empresa;
+            }
+        }
+        
+        return null;
+    }
+    
+    @Override
+    public Empresa buscarEmpresa(String nombreUsuario, String contrasenaUsuario) {
+        for (Empresa empresa : empresasArray) {
+            if (empresa.getNombreUsuario().equals(nombreUsuario) && empresa.getContrasenaUsuario().equals(contrasenaUsuario)) {
+                return empresa;
+            }
+        }
+        
+        return null;
     }
 
     @Override
