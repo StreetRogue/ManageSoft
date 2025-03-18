@@ -14,6 +14,7 @@ import java.util.List;
 public interface IUsuarioRepositorio {
     void setRepositorioEmpresa(IEmpresaRepositorio repositorioEmpresa);
     void setRepositorioCoordinador(ICoordinadorRepositorio repositorioCoordinador);
+    void setRepositorioEstudiante(IEstudianteRepositorio repositorioEstudiante);
     boolean registrarUsuario(Usuario nuevoUsuario);
     Usuario iniciarSesion(String nombreUsuario, String contrasenaUsuario);
     // List<Usuario> listarUsuarios();

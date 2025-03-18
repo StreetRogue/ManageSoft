@@ -12,6 +12,8 @@ public class Usuario {
     private String nombreUsuario;
     private String contrasenaUsuario;
     private enumTipoUsuario tipoUsuario;
+    
+    public Usuario() {}
 
     public Usuario(String nombreUsuario, String contrasenaUsuario, enumTipoUsuario tipoUsuario) {
         this.nombreUsuario = nombreUsuario;

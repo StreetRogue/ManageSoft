@@ -4,6 +4,9 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.entities.Empresa;
+import co.edu.unicauca.managesoft.entities.Estudiante;
+import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
 import co.edu.unicauca.managesoft.infra.MyException;
 import co.edu.unicauca.managesoft.services.LogInServices;
@@ -37,6 +40,8 @@ import javafx.stage.Stage;
  */
 public class UserRegisterController implements Initializable {
     private LogInServices loginServices;
+    private Usuario usuarioRegistrado;
+    private boolean datosCargados = false;
 
     /**
      * Initializes the controller class.
@@ -64,21 +69,13 @@ public class UserRegisterController implements Initializable {
     private String apellidoEstudiante;
     private String codigoSIMCA;
     private String emailEstudiante;
-    private boolean datosCargados = false;
+    
     // Variables para almacenar los datos del estudiante
-    private String nitEmpresa;
-    private String nombreEmpresa;
-    private String emailEmpresa;
-    private String sectorEmpresa;
-    private String telRepresentante;
-    private String cargoRepresentante;
-    private String nombreRepresentante;
-    private String apellidoRepresentante;
-    private boolean datosEmpresaCargados = false;
     
     // Constructor
     public UserRegisterController(LogInServices loginServices) {
         this.loginServices = loginServices;
+        this.usuarioRegistrado = null;
     }
 
     @Override
@@ -91,6 +88,27 @@ public class UserRegisterController implements Initializable {
                         .collect(Collectors.toList())
         );
     }
+    
+    @FXML
+    private void showLoginForm() {
+        try {
+            UserLoginController userLoginController = new UserLoginController(loginServices);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
+            loader.setController(userLoginController);
+            Parent root = loader.load();
+
+            Stage stage = (Stage) txtRegUsuario.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            mostrarAlerta("Error", "No se pudo cargar la página de inicio de sesión.", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     private void showLoginForm(MouseEvent event) throws IOException {
@@ -107,41 +125,33 @@ public class UserRegisterController implements Initializable {
         stage.show();
     }
 
-    public void recibirDatosEstudiante(String nombre, String apellido, String codigo, String email) {
-        this.nombreEstudiante = nombre;
-        this.apellidoEstudiante = apellido;
-        this.codigoSIMCA = codigo;
-        this.emailEstudiante = email;
-        this.datosCargados = true;
+    public void guardarEstudiante(Estudiante estudiante) {
+        usuarioRegistrado = estudiante;
+        
+        System.out.println("Datos del estudiante recibidos:");
+        System.out.println("Nombre: " + ((Estudiante)usuarioRegistrado).getNombreEstudiante());
+        System.out.println("Apellido: " + ((Estudiante)usuarioRegistrado).getApellidoEstudiante());
+        System.out.println("Codigo de Simca: " + ((Estudiante)usuarioRegistrado).getCodigoSimcaEstudiante());
+        System.out.println("email: " + ((Estudiante)usuarioRegistrado).getEmailEstudiante());
 
     }
 
-    public void recibirDatosEmpresa(String nit, String nombre, String email, String sector,
-            String telefono, String cargo, String nombreRep, String apellidoRep) {
-        this.nitEmpresa = nit;
-        this.nombreEmpresa = nombre;
-        this.emailEmpresa = email;
-        this.sectorEmpresa = sector;
-        this.telRepresentante = telefono;
-        this.cargoRepresentante = cargo;
-        this.nombreRepresentante = nombreRep;
-        this.apellidoRepresentante = apellidoRep;
-        this.datosEmpresaCargados = true;
-
+    public void guardarEmpresa(Empresa empresa) {
+        usuarioRegistrado = empresa;
+        
         System.out.println("Datos de la empresa recibidos:");
-        System.out.println("NIT: " + nit);
-        System.out.println("Nombre: " + nombre);
-        System.out.println("Email: " + email);
-        System.out.println("Sector: " + sector);
-        System.out.println("Teléfono Representante: " + telefono);
-        System.out.println("Cargo Representante: " + cargo);
-        System.out.println("Nombre Representante: " + nombreRep);
-        System.out.println("Apellido Representante: " + apellidoRep);
+        System.out.println("NIT: " + ((Empresa)usuarioRegistrado).getNitEmpresa());
+        System.out.println("Nombre: " + ((Empresa)usuarioRegistrado).getNombreEmpresa());
+        System.out.println("Email: " + ((Empresa)usuarioRegistrado).getEmailEmpresa());
+        System.out.println("Sector: " + ((Empresa)usuarioRegistrado).getSectorEmpresa());
+        System.out.println("Teléfono Representante: " + ((Empresa)usuarioRegistrado).getContactoEmpresa());
+        System.out.println("Nombre Representante: " + ((Empresa)usuarioRegistrado).getNombreContactoEmpresa());
+        System.out.println("Apellido Representante: " + ((Empresa)usuarioRegistrado).getApellidoContactoEmpresa());
+        System.out.println("Cargo Representante: " + ((Empresa)usuarioRegistrado).getCargoContactoEmpresa());
     }
 
     @FXML
     private void handleRolSelection() throws IOException {
-
         enumTipoUsuario selectedRol = cboRolUser.getSelectionModel().getSelectedItem();
         if (selectedRol == null) {
             return; // No hacer nada si no hay selección
@@ -205,30 +215,37 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void registrarUsuario(ActionEvent event) throws IOException {
-        
-        
-        
-
         String nombreUsuario = txtRegUsuario.getText();
         String contrasenaUsuario = txtRegPassword.getText();
         enumTipoUsuario tipoUsuario = cboRolUser.getSelectionModel().getSelectedItem();
         
-        try {
-            loginServices.registrarUsuario(nombreUsuario, contrasenaUsuario, tipoUsuario);
-        } catch (MyException e) {
-            System.out.println(e.getMessage());
+        if (usuarioRegistrado == null) {
+            mostrarAlerta("Atención", "Debe rellenar todos los campos", Alert.AlertType.WARNING);
+            return;
         }
         
-        
-
-        System.out.println("Usuario registrado con éxito:");
-        System.out.println("Nombre de usuario: " + nombreUsuario);
-        System.out.println("Contraseña: " + contrasenaUsuario);
-        System.out.println("tipo: " + tipoUsuario);
+        try {
+            usuarioRegistrado.setNombreUsuario(nombreUsuario);
+            usuarioRegistrado.setContrasenaUsuario(contrasenaUsuario);
+            usuarioRegistrado.setTipoUsuario(tipoUsuario);
+            boolean usuarioGuardado = loginServices.registrarUsuario(usuarioRegistrado);
+            if (usuarioGuardado) {
+                System.out.println("Usuario registrado con éxito:");
+                System.out.println("Nombre de usuario: " + nombreUsuario);
+                System.out.println("Contraseña: " + contrasenaUsuario);
+                System.out.println("tipo: " + tipoUsuario);
+                mostrarAlerta("Exito", "Usuario registrado correctamente", Alert.AlertType.CONFIRMATION);
+                showLoginForm();
+            }
+            
+            
+        } catch (MyException e) {
+            mostrarAlerta("Atencion", e.getMessage(), Alert.AlertType.WARNING);
+        }
     }
-
-    private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+    
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta) {
+        Alert alert = new Alert(tipoAlerta);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);

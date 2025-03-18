@@ -21,7 +21,7 @@ public class UsuarioRepositorioArray implements IUsuarioRepositorio {
     public static List<Usuario> usuariosArray;
     public static IEmpresaRepositorio repositorioEmpresa;
     public static ICoordinadorRepositorio repositorioCoordinador;
-    // public static IEstudianteRepositorio repositorioEstudiante;
+    public static IEstudianteRepositorio repositorioEstudiante;
 
     public UsuarioRepositorioArray() {
         usuariosArray = new ArrayList();
@@ -43,14 +43,23 @@ public class UsuarioRepositorioArray implements IUsuarioRepositorio {
        this.repositorioCoordinador = repositorioCoordinador;
     }
     
-    
-    
+    @Override
+    public void setRepositorioEstudiante(IEstudianteRepositorio repositorioEstudiante) {
+       this.repositorioEstudiante = repositorioEstudiante;
+    }
 
     @Override
     public boolean registrarUsuario(Usuario nuevoUsuario) {
         if (!existeUsuario(nuevoUsuario.getNombreUsuario())) {
-            usuariosArray.add(nuevoUsuario);
-            return true;
+            // Se agrega un nuevo usuario con la informacion del usuario ingresado
+            usuariosArray.add(new Usuario(nuevoUsuario.getNombreUsuario(), nuevoUsuario.getContrasenaUsuario(), nuevoUsuario.getTipoUsuario()));
+            
+            // Se verifica que tipo de usuario es (Empresa o Estudiante) y se guarda en su respectivo repositorio
+            if ((nuevoUsuario instanceof Empresa)) {
+                return repositorioEmpresa.guardar((Empresa) nuevoUsuario);
+            } else if ((nuevoUsuario instanceof Estudiante)) {
+                return repositorioEstudiante.guardar((Estudiante) nuevoUsuario);
+            }
         }
         return false;
     }
@@ -62,12 +71,15 @@ public class UsuarioRepositorioArray implements IUsuarioRepositorio {
             if (usuario.getNombreUsuario().equals(nombreUsuario) && usuario.getContrasenaUsuario().equals(contrasenaUsuario)) {
                 // Determinar el tipo de usuario y buscarlo en su respectivo array
                 switch (usuario.getTipoUsuario()) {
-                    //case ESTUDIANTE:
-                        //return repositorioEmpresa;
-                    // case COORDINADOR:
-                        // return buscarEnArray(coordinadoresArray, nombreUsuario);
                     case EMPRESA:
                         return repositorioEmpresa.buscarEmpresa(nombreUsuario, contrasenaUsuario);
+                    
+                    // case COORDINADOR:
+                        // return buscarEnArray(coordinadoresArray, nombreUsuario);
+                        
+                    case ESTUDIANTE:
+                        return repositorioEstudiante.buscarEstudiante(nombreUsuario, contrasenaUsuario);
+                    
                     default:
                         return null; // Tipo de usuario desconocido
                 }

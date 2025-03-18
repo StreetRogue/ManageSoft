@@ -17,19 +17,31 @@ public class Empresa extends Usuario {
     private String emailEmpresa;
     private String sectorEmpresa;
     private String contactoEmpresa;
-    private String nombresContactoEmpresa;
+    private String nombreContactoEmpresa;
     private String apellidoContactoEmpresa;
     private String cargoContactoEmpresa;
     private List<Proyecto> listaProyectos;
+    
+    public Empresa(String nitEmpresa, String nombreEmpresa, String emailEmpresa, String sectorEmpresa, String contactoEmpresa, String nombreContactoEmpresa, String apellidoContactoEmpresa, String cargoContactoEmpresa) {
+        this.nitEmpresa = nitEmpresa;
+        this.nombreEmpresa = nombreEmpresa;
+        this.emailEmpresa = emailEmpresa;
+        this.sectorEmpresa = sectorEmpresa;
+        this.contactoEmpresa = contactoEmpresa;
+        this.nombreContactoEmpresa = nombreContactoEmpresa;
+        this.apellidoContactoEmpresa = apellidoContactoEmpresa;
+        this.cargoContactoEmpresa = cargoContactoEmpresa;
+        this.listaProyectos = new ArrayList<>();
+    }
 
-    public Empresa(String nitEmpresa, String nombreEmpresa, String emailEmpresa, String sectorEmpresa, String contactoEmpresa, String nombresContactoEmpresa, String apellidoContactoEmpresa, String cargoContactoEmpresa, String nombreUsuario, String contrasenaUsuario) {
+    public Empresa(String nitEmpresa, String nombreEmpresa, String emailEmpresa, String sectorEmpresa, String contactoEmpresa, String nombreContactoEmpresa, String apellidoContactoEmpresa, String cargoContactoEmpresa, String nombreUsuario, String contrasenaUsuario) {
         super(nombreUsuario, contrasenaUsuario, enumTipoUsuario.EMPRESA);
         this.nitEmpresa = nitEmpresa;
         this.nombreEmpresa = nombreEmpresa;
         this.emailEmpresa = emailEmpresa;
         this.sectorEmpresa = sectorEmpresa;
         this.contactoEmpresa = contactoEmpresa;
-        this.nombresContactoEmpresa = nombresContactoEmpresa;
+        this.nombreContactoEmpresa = nombreContactoEmpresa;
         this.apellidoContactoEmpresa = apellidoContactoEmpresa;
         this.cargoContactoEmpresa = cargoContactoEmpresa;
         this.listaProyectos = new ArrayList<>();
@@ -75,12 +87,12 @@ public class Empresa extends Usuario {
         this.contactoEmpresa = contactoEmpresa;
     }
 
-    public String getNombresContactoEmpresa() {
-        return nombresContactoEmpresa;
+    public String getNombreContactoEmpresa() {
+        return nombreContactoEmpresa;
     }
 
-    public void setNombresContactoEmpresa(String nombresContactoEmpresa) {
-        this.nombresContactoEmpresa = nombresContactoEmpresa;
+    public void setNombreContactoEmpresa(String nombreContactoEmpresa) {
+        this.nombreContactoEmpresa = nombreContactoEmpresa;
     }
 
     public String getApellidoContactoEmpresa() {

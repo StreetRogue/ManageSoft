@@ -25,6 +25,7 @@ public class PostularProyectoPaneController implements Initializable {
      */
     @FXML
     public TextField txtObjetivo;
+    
 
 
     private static final int MAX_CARACTERES = 50;
@@ -47,4 +48,6 @@ public class PostularProyectoPaneController implements Initializable {
         };
         textField.setTextFormatter(new TextFormatter<>(filter));
     }
+    
+    
 }

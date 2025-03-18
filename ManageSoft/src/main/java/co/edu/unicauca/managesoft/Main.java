@@ -3,6 +3,7 @@ package co.edu.unicauca.managesoft;
 import co.edu.unicauca.managesoft.access.Factory;
 import co.edu.unicauca.managesoft.access.ICoordinadorRepositorio;
 import co.edu.unicauca.managesoft.access.IEmpresaRepositorio;
+import co.edu.unicauca.managesoft.access.IEstudianteRepositorio;
 import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import javafx.application.Application;
@@ -23,12 +24,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("NEONDB");
+        IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("ARRAYS");
         ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
-        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
+        IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("ARRAYS");
+        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("ARRAYS");
         
         repositorioUsuarios.setRepositorioEmpresa(repositorioEmpresa);
         repositorioUsuarios.setRepositorioCoordinador(repositorioCoordinador);
+        repositorioUsuarios.setRepositorioEstudiante(repositorioEstudiante);
         
         LogInServices loginServices = new LogInServices(repositorioUsuarios);
         

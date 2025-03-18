@@ -4,6 +4,8 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.entities.Estudiante;
+import co.edu.unicauca.managesoft.infra.MyException;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,9 +21,10 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class VentanaEstudianteRegistrarController implements Initializable {
+
     private UserRegisterController userRegisterController;
     private LogInServices loginServices;
-    
+
     /**
      * Initializes the controller class.
      */
@@ -33,9 +36,7 @@ public class VentanaEstudianteRegistrarController implements Initializable {
     private TextField txtCodigoSIMCA;
     @FXML
     private TextField txtEmailEstudiante;
-    
-    
-    
+
     // Constructor
     public VentanaEstudianteRegistrarController(LogInServices loginServices) {
         this.loginServices = loginServices;
@@ -43,32 +44,42 @@ public class VentanaEstudianteRegistrarController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
     }
-    
+
     public void setUserRegisterController(UserRegisterController controller) {
         this.userRegisterController = controller;
     }
-    
-     @FXML
+
+    @FXML
     private void capturarDatos() {
         String nombre = txtNombreEstudiante.getText().trim();
         String apellido = txtApellidoEstudiante.getText().trim();
-        String codigoSIMCA = txtCodigoSIMCA.getText().trim();
+        String codigoSimca = txtCodigoSIMCA.getText().trim();
         String email = txtEmailEstudiante.getText().trim();
 
         // Enviar datos al UserRegisterController si está disponible
         if (userRegisterController != null) {
-            userRegisterController.recibirDatosEstudiante(nombre, apellido, codigoSIMCA, email);
+            try {
+                Estudiante estudianteRegistrado = new Estudiante(nombre, apellido, codigoSimca, email);
+                boolean estudianteGuardado = loginServices.guardarEstudiante(estudianteRegistrado);
+                if (estudianteGuardado) {
+                    userRegisterController.guardarEstudiante(estudianteRegistrado);
+                    // Cerrar la ventana
+                    Stage stage = (Stage) txtNombreEstudiante.getScene().getWindow();
+                    stage.close();
+                }
+            } catch (MyException e) {
+                mostrarAlerta("Atencion", e.getMessage(), Alert.AlertType.WARNING);
+            }
+        } else {
+            System.out.println("Error: userRegisterController es null.");
         }
 
-        // Cerrar la ventana
-        Stage stage = (Stage) txtNombreEstudiante.getScene().getWindow();
-        stage.close();
     }
 
-    private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta) {
+        Alert alert = new Alert(tipoAlerta);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
