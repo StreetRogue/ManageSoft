@@ -16,11 +16,11 @@ public class LogInValidation {
     private Usuario usuario;
 
     public LogInValidation(Usuario nuevoUsuario) {
-        this.usuario = usuario;
+        this.usuario = nuevoUsuario;
     }
 
-    public void camposNoVacios() throws MyException {
-        if (usuario.getNombreUsuario().isBlank() || usuario.getContrasenaUsuario().isBlank() || usuario.getTipoUsuario().equals(null)) {
+    public void camposNoVacios() throws MyException  {
+        if (usuario.getNombreUsuario().isBlank()|| usuario.getContrasenaUsuario().isBlank() || usuario.getTipoUsuario().equals(null)) {
             throw new MyException("Todos los campos deben rellenarse");
         }
     }

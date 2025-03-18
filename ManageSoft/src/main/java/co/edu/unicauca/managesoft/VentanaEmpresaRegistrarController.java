@@ -4,6 +4,7 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.services.LogInServices;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -18,6 +19,8 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class VentanaEmpresaRegistrarController implements Initializable {
+    private UserRegisterController userRegisterController;
+    private LogInServices loginServices;
 
     /**
      * Initializes the controller class.
@@ -38,8 +41,11 @@ public class VentanaEmpresaRegistrarController implements Initializable {
     private TextField txtNombreRepresentante;
     @FXML
     private TextField txtApellidoRepresentante;
-
-    private UserRegisterController userRegisterController;
+    
+    // Constructor
+    public VentanaEmpresaRegistrarController(LogInServices loginServices) {
+        this.loginServices = loginServices;
+    }
 
     public void setUserRegisterController(UserRegisterController controller) {
         this.userRegisterController = controller;
@@ -60,12 +66,6 @@ public class VentanaEmpresaRegistrarController implements Initializable {
         String cargo = txtCargoRepresentante.getText().trim();
         String nombreRep = txtNombreRepresentante.getText().trim();
         String apellidoRep = txtApellidoRepresentante.getText().trim();
-
-        if (nit.isEmpty() || nombre.isEmpty() || email.isEmpty() || sector.isEmpty()
-                || telefono.isEmpty() || cargo.isEmpty() || nombreRep.isEmpty() || apellidoRep.isEmpty()) {
-            mostrarAlerta("Error", "Todos los campos son obligatorios.");
-            return;
-        }
 
         // Enviar datos al UserRegisterController si está disponible
         if (userRegisterController != null) {

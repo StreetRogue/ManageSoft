@@ -13,7 +13,8 @@ import java.util.List;
 
 public class EmpresaRepositorioPG implements IEmpresaRepositorio {
 
-    private static final String url = "jdbc:postgresql://localhost:5432/BaseSoftware2";
+    // private static final String URL = "jdbc:postgresql://localhost:5432/BaseSoftware2"; // Conexion Lmao
+    private static final String url = "jdbc:postgresql://26.218.42.255:5432/BaseSoftware2"; // Conexion Everybody
     private static final String user = "postgres";
     private static final String password = "postgres";
 

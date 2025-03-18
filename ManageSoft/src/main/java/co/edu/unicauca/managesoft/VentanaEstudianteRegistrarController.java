@@ -4,6 +4,7 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.services.LogInServices;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -18,7 +19,9 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class VentanaEstudianteRegistrarController implements Initializable {
-
+    private UserRegisterController userRegisterController;
+    private LogInServices loginServices;
+    
     /**
      * Initializes the controller class.
      */
@@ -31,7 +34,12 @@ public class VentanaEstudianteRegistrarController implements Initializable {
     @FXML
     private TextField txtEmailEstudiante;
     
-    private UserRegisterController userRegisterController;
+    
+    
+    // Constructor
+    public VentanaEstudianteRegistrarController(LogInServices loginServices) {
+        this.loginServices = loginServices;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -48,11 +56,6 @@ public class VentanaEstudianteRegistrarController implements Initializable {
         String apellido = txtApellidoEstudiante.getText().trim();
         String codigoSIMCA = txtCodigoSIMCA.getText().trim();
         String email = txtEmailEstudiante.getText().trim();
-
-        if (nombre.isEmpty() || apellido.isEmpty() || codigoSIMCA.isEmpty() || email.isEmpty()) {
-            mostrarAlerta("Error", "Todos los campos son obligatorios.");
-            return;
-        }
 
         // Enviar datos al UserRegisterController si está disponible
         if (userRegisterController != null) {

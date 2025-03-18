@@ -5,6 +5,8 @@
 package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
+import co.edu.unicauca.managesoft.infra.MyException;
+import co.edu.unicauca.managesoft.services.LogInServices;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -34,6 +36,7 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class UserRegisterController implements Initializable {
+    private LogInServices loginServices;
 
     /**
      * Initializes the controller class.
@@ -72,6 +75,11 @@ public class UserRegisterController implements Initializable {
     private String nombreRepresentante;
     private String apellidoRepresentante;
     private boolean datosEmpresaCargados = false;
+    
+    // Constructor
+    public UserRegisterController(LogInServices loginServices) {
+        this.loginServices = loginServices;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,7 +94,9 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void showLoginForm(MouseEvent event) throws IOException {
+        UserLoginController userLoginController = new UserLoginController(loginServices);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
+        loader.setController(userLoginController);
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -149,11 +159,11 @@ public class UserRegisterController implements Initializable {
             Object controller;
 
             if (selectedRol.equals(enumTipoUsuario.EMPRESA)) {
-                controller = new VentanaEmpresaRegistrarController();
+                controller = new VentanaEmpresaRegistrarController(loginServices);
                 ((VentanaEmpresaRegistrarController) controller).setUserRegisterController(this);
 
             } else if (selectedRol.equals(enumTipoUsuario.ESTUDIANTE)) {
-                controller = new VentanaEstudianteRegistrarController();
+                controller = new VentanaEstudianteRegistrarController(loginServices);
                 ((VentanaEstudianteRegistrarController) controller).setUserRegisterController(this);
             } else {
                 throw new IllegalArgumentException("Rol no soportado: " + selectedRol);
@@ -195,18 +205,26 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void registrarUsuario(ActionEvent event) throws IOException {
-        if (!datosCargados) {
-            mostrarAlerta("Error", "Debe cargar los datos del estudiante antes de registrarse.");
-            return;
-        }
+        
+        
+        
 
         String nombreUsuario = txtRegUsuario.getText();
         String contrasenaUsuario = txtRegPassword.getText();
+        enumTipoUsuario tipoUsuario = cboRolUser.getSelectionModel().getSelectedItem();
+        
+        try {
+            loginServices.registrarUsuario(nombreUsuario, contrasenaUsuario, tipoUsuario);
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
+        }
+        
         
 
         System.out.println("Usuario registrado con éxito:");
         System.out.println("Nombre de usuario: " + nombreUsuario);
         System.out.println("Contraseña: " + contrasenaUsuario);
+        System.out.println("tipo: " + tipoUsuario);
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
