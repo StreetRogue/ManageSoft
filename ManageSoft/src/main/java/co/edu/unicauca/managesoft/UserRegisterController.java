@@ -80,7 +80,7 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void handleRolSelection() throws IOException {
-
+        
         enumTipoUsuario selectedRol = cboRolUser.getSelectionModel().getSelectedItem();
         if (selectedRol == null) {
             return; // No hacer nada si no hay selección
