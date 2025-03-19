@@ -19,38 +19,39 @@ public class Factory {
     private Map<String, ICoordinadorRepositorio> repositoriosCoordinador;
     private Map<String, IEstudianteRepositorio> repositoriosEstudiante;
     private Map<String, IUsuarioRepositorio> repositoriosUsuario;
-    
+    private Map<String, IProyectoRepositorio> repositoriosProyecto;
 
     private Factory() {
         repositoriosEmpresa = new HashMap<>();
         repositoriosCoordinador = new HashMap<>();
         repositoriosEstudiante = new HashMap<>();
         repositoriosUsuario = new HashMap<>();
+        repositoriosProyecto = new HashMap<>();
 
         // Repositorios Empresa
         repositoriosEmpresa.put("ARRAYS", new EmpresaRepositorioArray());
         repositoriosEmpresa.put("POSTGRES", new EmpresaRepositorioPG());
         repositoriosEmpresa.put("NEONDB", new EmpresaRepositorioNeonDB());
-        
+
         // Repositorios Coordinador
         repositoriosCoordinador.put("NEONDB", new CoordinadorRepositorioNeonDB());
-        
+
         // Repositorios Estudiante
         repositoriosEstudiante.put("ARRAYS", new EstudianteRepositorioArray());
         repositoriosEstudiante.put("NEONDB", new EstudianteRepositorioNeonDB());
 
-        
         // Repositorios Usuarios
         repositoriosUsuario.put("ARRAYS", new UsuarioRepositorioArray());
         repositoriosUsuario.put("POSTGRES", new UsuarioRepositorioPG());
         repositoriosUsuario.put("NEONDB", new UsuarioRepositorioNeonDB());
 
-
+        //Repositorios Proyectos
+        repositoriosProyecto.put("NEONDB", new ProyectoRepositorioNeonDB());
     }
 
     /**
      * Clase singleton
-     *  
+     *
      * @return
      */
     public static Factory getInstancia() {
@@ -80,7 +81,6 @@ public class Factory {
         return resultado;
 
     }
-    
 
     public ICoordinadorRepositorio getRepositorioCoordinador(String repositorio) {
 
@@ -93,7 +93,7 @@ public class Factory {
         return resultado;
 
     }
-    
+
     public IEstudianteRepositorio getRepositorioEstudiante(String repositorio) {
 
         IEstudianteRepositorio resultado = null;
@@ -112,6 +112,17 @@ public class Factory {
 
         if (repositoriosUsuario.containsKey(repositorio)) {
             resultado = repositoriosUsuario.get(repositorio);
+        }
+
+        return resultado;
+    }
+
+    public IProyectoRepositorio getRepositorioProyecto(String repositorio) {
+
+        IProyectoRepositorio resultado = null;
+
+        if (repositoriosProyecto.containsKey(repositorio)) {
+            resultado = repositoriosProyecto.get(repositorio);
         }
 
         return resultado;

@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author jutak
  */
-public abstract class Subject {
+    public abstract class Subject {
     private List<IObserver> listaObservadores;
 
     public Subject() {
@@ -24,9 +24,9 @@ public abstract class Subject {
         listaObservadores.add(nuevoObservador);
     }
     
-    public void notificarCambios(IObserver nuevoObservador) {
-        for (IObserver each : listaObservadores) {
-            each.actualizar();
+    public void notificarCambios() { // Se eliminó el parámetro innecesario
+        for (IObserver observer : listaObservadores) {
+            observer.actualizar();
         }
     }
     

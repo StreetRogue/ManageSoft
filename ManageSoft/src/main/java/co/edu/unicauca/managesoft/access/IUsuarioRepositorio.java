@@ -15,6 +15,7 @@ public interface IUsuarioRepositorio {
     void setRepositorioEmpresa(IEmpresaRepositorio repositorioEmpresa);
     void setRepositorioCoordinador(ICoordinadorRepositorio repositorioCoordinador);
     void setRepositorioEstudiante(IEstudianteRepositorio repositorioEstudiante);
+    void setRepositorioProyecto(IProyectoRepositorio repositorioProyecto);
     boolean registrarUsuario(Usuario nuevoUsuario);
     Usuario iniciarSesion(String nombreUsuario, String contrasenaUsuario);
     // List<Usuario> listarUsuarios();

@@ -19,6 +19,7 @@ public class UsuarioRepositorioPG implements IUsuarioRepositorio {
     public static IEmpresaRepositorio repositorioEmpresa;
     public static ICoordinadorRepositorio repositorioCoordinador;
     public static IEstudianteRepositorio repositorioEstudiante;
+    public static IProyectoRepositorio repositorioProyecto;
 
     // Método para obtener la conexión con usuario y contraseña
     private Connection conectar() throws SQLException {
@@ -39,6 +40,13 @@ public class UsuarioRepositorioPG implements IUsuarioRepositorio {
     public void setRepositorioEstudiante(IEstudianteRepositorio repositorioEstudiante) {
        this.repositorioEstudiante = repositorioEstudiante;
     }
+
+    @Override
+    public void setRepositorioProyecto(IProyectoRepositorio repositorioProyecto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
 
     @Override
     public boolean registrarUsuario(Usuario nuevoUsuario) {

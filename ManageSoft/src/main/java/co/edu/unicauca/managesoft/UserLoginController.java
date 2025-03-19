@@ -69,6 +69,7 @@ public class UserLoginController implements Initializable {
         this.loginServices = loginServices;
     }
 
+    
     @FXML
     private void showPassword() {
         txtVisiblePassword.setText(txtPassword.getText()); // Copiar el texto
