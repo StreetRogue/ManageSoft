@@ -1,5 +1,8 @@
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
+import co.edu.unicauca.managesoft.access.Repositorio;
+import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.EstadoRecibido;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.MyException;
@@ -19,15 +22,17 @@ import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 
 public class PostularProyectoPaneController implements Initializable {
+    private IProyectoRepositorio repositorio;
+    private Proyecto proyectoRegistrado;
+    private Empresa empresa;
+    
 
-    private ProyectoServices proyectoServices;
-    //private Proyecto proyectoRegistrado;
-
-    public PostularProyectoPaneController(ProyectoServices proyectoServices) {
-        this.proyectoServices = proyectoServices;
-        
+    public PostularProyectoPaneController(IProyectoRepositorio repositorio, Empresa empresa) {
+        this.repositorio = repositorio;
+        this.empresa = empresa;
     }
 
     @FXML
@@ -46,10 +51,6 @@ public class PostularProyectoPaneController implements Initializable {
     private Button btnPostularProyecto;
 
     private static final int MAX_CARACTERES = 50;
-
-    public void setProyectoServices(ProyectoServices proyectoServices) {
-        this.proyectoServices = proyectoServices;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -73,7 +74,7 @@ public class PostularProyectoPaneController implements Initializable {
     // Método para capturar los datos del formulario
     @FXML
     private void postularProyecto(ActionEvent event) throws IOException {
-        Proyecto proyectoRegistrado = new Proyecto();
+        
         // Obtener los valores de los campos
         String nombreVacante = txtNombreVacante.getText();
         String descripcionVacante = txtDescripcionVacante.getText();
@@ -83,33 +84,23 @@ public class PostularProyectoPaneController implements Initializable {
         String tiempoEstipulado = txtTiempoEstipulado.getText();
 
         try {
-            proyectoRegistrado.setNombreProyecto(nombreVacante);
-            proyectoRegistrado.setDescripcionProyecto(descripcionVacante);
-            proyectoRegistrado.setObjetivoProyecto(objetivo);
-            proyectoRegistrado.setPresupuestoProyecto(presupuesto);
-            proyectoRegistrado.setResumenProyecto(resumenVacante);
-            proyectoRegistrado.setMaximoMesesProyecto(tiempoEstipulado);
-            // Obtener fecha actual del computador y formatearla
-            Date fechaActual = new Date();
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            proyectoRegistrado.setFechaPublicacionProyecto(formato.format(fechaActual));
-            proyectoRegistrado.setEstadoProyecto(new EstadoRecibido());
-            proyectoRegistrado.setIdEmpresa(2);
+            empresa.setIdUsuario(1); // Debe borrarse
+            boolean guardar = empresa.agregarProyecto(repositorio, nombreVacante, resumenVacante, objetivo, descripcionVacante, presupuesto, presupuesto);
 
-            boolean proyectoGuardado = proyectoServices.guardarProyecto(proyectoRegistrado);
-
-            if (proyectoGuardado) {
-                // Aquí puedes procesar estos datos, por ejemplo, enviarlos a una base de datos
-                System.out.println("Nombre Vacante: " + nombreVacante);
-                System.out.println("Descripción Vacante: " + descripcionVacante);
-                System.out.println("Objetivo: " + objetivo);
-                System.out.println("Presupuesto: " + presupuesto);
-                System.out.println("Resumen Vacante: " + resumenVacante);
-                System.out.println("Tiempo Estipulado: " + proyectoRegistrado.getMaximoMesesProyecto());
+            if (guardar) {
+                mostrarAlerta("Exito", "El proyecto se postulo correctamente", Alert.AlertType.CONFIRMATION);
             }
 
         } catch (MyException e) {
-
+            mostrarAlerta("Atencion", e.getMessage(), Alert.AlertType.WARNING);
         }
+    }
+    
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta) {
+        Alert alert = new Alert(tipoAlerta);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }

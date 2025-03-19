@@ -4,6 +4,7 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class DashboardEstudianteController implements Initializable {
     
     @FXML
     private AnchorPane contentPane;
+    private Repositorio repositorio;
 
     /**
      * Initializes the controller class.
@@ -50,6 +52,10 @@ public class DashboardEstudianteController implements Initializable {
     
     public void setLoginServices(LogInServices loginServices) {
         this.loginServices = loginServices;
+    }
+    
+    public void setRepositorio(Repositorio repositorio) {
+        this.repositorio = repositorio;
     }
     
     @FXML
@@ -73,7 +79,7 @@ public class DashboardEstudianteController implements Initializable {
     @FXML
     private void cerrarSesion(ActionEvent event) {
         try {
-            UserLoginController userLoginController = new UserLoginController(loginServices);
+            UserLoginController userLoginController = new UserLoginController(repositorio, loginServices);
             
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
             loader.setController(userLoginController);

@@ -4,6 +4,8 @@
  */
 package co.edu.unicauca.managesoft.entities;
 
+import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
+import co.edu.unicauca.managesoft.services.ProyectoServices;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class Empresa extends Usuario {
     private String apellidoContactoEmpresa;
     private String cargoContactoEmpresa;
     private int idUsuario;
-    private List<Proyecto> listaProyectos;
+    private IProyectoRepositorio repositorioProyectos;
     
     public Empresa(String nitEmpresa, String nombreEmpresa, String emailEmpresa, String sectorEmpresa, String contactoEmpresa, String nombreContactoEmpresa, String apellidoContactoEmpresa, String cargoContactoEmpresa) {
         this.nitEmpresa = nitEmpresa;
@@ -32,7 +34,6 @@ public class Empresa extends Usuario {
         this.nombreContactoEmpresa = nombreContactoEmpresa;
         this.apellidoContactoEmpresa = apellidoContactoEmpresa;
         this.cargoContactoEmpresa = cargoContactoEmpresa;
-        this.listaProyectos = new ArrayList<>();
     }
 
     public Empresa(String nitEmpresa, String nombreEmpresa, String emailEmpresa, String sectorEmpresa, String contactoEmpresa, String nombreContactoEmpresa, String apellidoContactoEmpresa, String cargoContactoEmpresa, String nombreUsuario, String contrasenaUsuario) {
@@ -45,7 +46,6 @@ public class Empresa extends Usuario {
         this.nombreContactoEmpresa = nombreContactoEmpresa;
         this.apellidoContactoEmpresa = apellidoContactoEmpresa;
         this.cargoContactoEmpresa = cargoContactoEmpresa;
-        this.listaProyectos = new ArrayList<>();
     }
     
     public String getNitEmpresa() {
@@ -110,6 +110,30 @@ public class Empresa extends Usuario {
 
     public void setCargoContactoEmpresa(String cargoContactoEmpresa) {
         this.cargoContactoEmpresa = cargoContactoEmpresa;
+    }
+
+    public IProyectoRepositorio getRepositorioProyectos() {
+        return repositorioProyectos;
+    }
+
+    public void setRepositorioProyectos(IProyectoRepositorio repositorioProyectos) {
+        this.repositorioProyectos = repositorioProyectos;
+    }
+    
+    public boolean agregarProyecto(IProyectoRepositorio repositorioProyecto, String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto) {
+        ProyectoServices proyectoServices = new ProyectoServices(repositorioProyecto);
+        Proyecto proyecto;
+        
+        if (presupuestoProyecto != null) proyecto = new Proyecto(nombreProyecto, resumenProyecto, objetivoProyecto, descripcionProyecto, maximoMesesProyecto, presupuestoProyecto);
+        else proyecto = new Proyecto(nombreProyecto, resumenProyecto, objetivoProyecto, descripcionProyecto, maximoMesesProyecto);
+        
+        boolean guardar = proyectoServices.guardarProyecto(proyecto, this);
+        
+        return guardar;
+    }
+    
+    public List<Proyecto> listarProyectos() {
+        return repositorioProyectos.listarProyectos(this);
     }
 
     public int getIdUsuario() {

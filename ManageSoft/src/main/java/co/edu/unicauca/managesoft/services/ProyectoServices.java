@@ -5,6 +5,7 @@
 package co.edu.unicauca.managesoft.services;
 
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
+import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 
 /**
@@ -18,7 +19,7 @@ public class ProyectoServices {
         this.repositorio = repositorio;
     }
     
-    public boolean guardarProyecto(Proyecto nuevoProyecto){
-        return repositorio.guardarProyecto(nuevoProyecto);
+    public boolean guardarProyecto(Proyecto nuevoProyecto, Empresa empresa){
+        return repositorio.guardarProyecto(nuevoProyecto, empresa);
     }
 }

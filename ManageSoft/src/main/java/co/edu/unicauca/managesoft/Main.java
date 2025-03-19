@@ -6,6 +6,7 @@ import co.edu.unicauca.managesoft.access.IEmpresaRepositorio;
 import co.edu.unicauca.managesoft.access.IEstudianteRepositorio;
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
+import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -30,21 +31,26 @@ public class Main extends Application {
 //        IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("ARRAYS");
 //        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("ARRAYS");
         
+        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
         IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("NEONDB");
         ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
         IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("NEONDB");
-        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
+        
         IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("NEONDB");
+        
+        Repositorio repositorio = new Repositorio(repositorioUsuarios, repositorioEmpresa, repositorioCoordinador, repositorioEstudiante, repositorioProyectos);
         
         repositorioUsuarios.setRepositorioEmpresa(repositorioEmpresa);
         repositorioUsuarios.setRepositorioCoordinador(repositorioCoordinador);
         repositorioUsuarios.setRepositorioEstudiante(repositorioEstudiante);
         repositorioUsuarios.setRepositorioProyecto(repositorioProyectos);
         
+        repositorioEmpresa.setRepositorioProyecto(repositorioProyectos);
+        
         LogInServices loginServices = new LogInServices(repositorioUsuarios);
         
         // Crear una instancia del controlador personalizado
-        UserLoginController userLoginController = new UserLoginController(loginServices);
+        UserLoginController userLoginController = new UserLoginController(repositorio, loginServices);
 
         // Cargar la vista con el controlador configurado
         Parent root = loadFXML("UserLoginVista", userLoginController);

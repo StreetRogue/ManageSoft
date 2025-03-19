@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class EmpresaRepositorioArray implements IEmpresaRepositorio {
     public static List<Empresa> empresasArray;
+    private static IProyectoRepositorio repositorioProyecto;
 
     public EmpresaRepositorioArray() {
         empresasArray = new ArrayList<>();
@@ -60,6 +61,16 @@ public class EmpresaRepositorioArray implements IEmpresaRepositorio {
     public List<Empresa> listarEmpresas() {
         return empresasArray;
     }
+
+    @Override
+    public void setRepositorioProyecto(IProyectoRepositorio repositorioProyecto) {
+        this.repositorioProyecto = repositorioProyecto;
+        for (Empresa empresa : empresasArray) {
+            empresa.setRepositorioProyectos(repositorioProyecto);
+        }
+    }
+    
+    
     
     private boolean existeNit(String nit){
         for (Empresa empresa: empresasArray){

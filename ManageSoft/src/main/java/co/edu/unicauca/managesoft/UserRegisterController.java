@@ -4,6 +4,7 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Usuario;
@@ -69,11 +70,13 @@ public class UserRegisterController implements Initializable {
     private String apellidoEstudiante;
     private String codigoSIMCA;
     private String emailEstudiante;
+    private Repositorio repositorio;
     
     // Variables para almacenar los datos del estudiante
     
     // Constructor
-    public UserRegisterController(LogInServices loginServices) {
+    public UserRegisterController(Repositorio repositorio, LogInServices loginServices) {
+        this.repositorio = repositorio;
         this.loginServices = loginServices;
         this.usuarioRegistrado = null;
     }
@@ -92,7 +95,7 @@ public class UserRegisterController implements Initializable {
     @FXML
     private void showLoginForm() {
         try {
-            UserLoginController userLoginController = new UserLoginController(loginServices);
+            UserLoginController userLoginController = new UserLoginController(repositorio, loginServices);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
             loader.setController(userLoginController);
             Parent root = loader.load();
@@ -112,7 +115,7 @@ public class UserRegisterController implements Initializable {
 
     @FXML
     private void showLoginForm(MouseEvent event) throws IOException {
-        UserLoginController userLoginController = new UserLoginController(loginServices);
+        UserLoginController userLoginController = new UserLoginController(repositorio, loginServices);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
         loader.setController(userLoginController);
         Parent root = loader.load();

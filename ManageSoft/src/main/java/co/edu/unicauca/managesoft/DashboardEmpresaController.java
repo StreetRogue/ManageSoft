@@ -4,6 +4,7 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.services.LogInServices;
@@ -36,6 +37,7 @@ public class DashboardEmpresaController implements Initializable {
      */
     @FXML
     private AnchorPane contentPane; // Este es el Pane donde se cargarán las vistas
+    private Repositorio repositorio;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -43,6 +45,7 @@ public class DashboardEmpresaController implements Initializable {
     }
     
     public void inicializarVista() {
+        //this.proyectoServices = new ProyectoServices();
         cargarDashboardPane();
     }
     
@@ -52,14 +55,12 @@ public class DashboardEmpresaController implements Initializable {
     
     public void setLoginServices(LogInServices loginServices) {
         this.loginServices = loginServices;
-    }
+    }  
 
-    public void setProyectoServices(ProyectoServices proyectoServices) {
-        this.proyectoServices = proyectoServices;
+    public void setRepositorio(Repositorio repositorio) {
+        this.repositorio = repositorio;
     }
     
-    
-
     /**
      * Carga la vista dashboardPane.fxml dentro del contentPane.
      */
@@ -90,10 +91,10 @@ public class DashboardEmpresaController implements Initializable {
     
     @FXML
     private void cargarPostularProyecto() {
-        PostularProyectoPaneController proyecto = new PostularProyectoPaneController(proyectoServices);
+        PostularProyectoPaneController proyectoControlador = new PostularProyectoPaneController(repositorio.getRepositorioProyecto(), empresa);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("postularProyectoPane.fxml")); 
-            loader.setController(proyecto);
+            loader.setController(proyectoControlador);
             Parent nuevaVista = loader.load();
 
             // Ajustar la vista al tamaño del contentPane
@@ -133,7 +134,7 @@ public class DashboardEmpresaController implements Initializable {
     @FXML
     private void cerrarSesion(ActionEvent event) {
         try {
-            UserLoginController userLoginController = new UserLoginController(loginServices);
+            UserLoginController userLoginController = new UserLoginController(repositorio, loginServices);
             
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
             loader.setController(userLoginController);
