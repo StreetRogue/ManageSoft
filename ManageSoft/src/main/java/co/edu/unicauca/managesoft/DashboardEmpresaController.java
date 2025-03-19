@@ -7,6 +7,7 @@ package co.edu.unicauca.managesoft;
 import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.services.LogInServices;
+import co.edu.unicauca.managesoft.services.ProyectoServices;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,6 +29,7 @@ import javafx.stage.Stage;
 public class DashboardEmpresaController implements Initializable {
     private Empresa empresa;
     private LogInServices loginServices;
+    private ProyectoServices proyectoServices;
     
     /**
      * Initializes the controller class.
@@ -51,6 +53,12 @@ public class DashboardEmpresaController implements Initializable {
     public void setLoginServices(LogInServices loginServices) {
         this.loginServices = loginServices;
     }
+
+    public void setProyectoServices(ProyectoServices proyectoServices) {
+        this.proyectoServices = proyectoServices;
+    }
+    
+    
 
     /**
      * Carga la vista dashboardPane.fxml dentro del contentPane.
@@ -79,10 +87,13 @@ public class DashboardEmpresaController implements Initializable {
         }
     }
     
+    
     @FXML
     private void cargarPostularProyecto() {
+        PostularProyectoPaneController proyecto = new PostularProyectoPaneController(proyectoServices);
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("postularProyectoPane.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("postularProyectoPane.fxml")); 
+            loader.setController(proyecto);
             Parent nuevaVista = loader.load();
 
             // Ajustar la vista al tamaño del contentPane

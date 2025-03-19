@@ -49,6 +49,13 @@ public class UsuarioRepositorioArray implements IUsuarioRepositorio {
     }
 
     @Override
+    public void setRepositorioProyecto(IProyectoRepositorio repositorioProyecto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
+
+    @Override
     public boolean registrarUsuario(Usuario nuevoUsuario) {
         if (!existeUsuario(nuevoUsuario.getNombreUsuario())) {
             // Se agrega un nuevo usuario con la informacion del usuario ingresado

@@ -4,6 +4,7 @@ import co.edu.unicauca.managesoft.access.Factory;
 import co.edu.unicauca.managesoft.access.ICoordinadorRepositorio;
 import co.edu.unicauca.managesoft.access.IEmpresaRepositorio;
 import co.edu.unicauca.managesoft.access.IEstudianteRepositorio;
+import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import javafx.application.Application;
@@ -33,10 +34,12 @@ public class Main extends Application {
         ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
         IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("NEONDB");
         IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
+        IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("NEONDB");
         
         repositorioUsuarios.setRepositorioEmpresa(repositorioEmpresa);
         repositorioUsuarios.setRepositorioCoordinador(repositorioCoordinador);
         repositorioUsuarios.setRepositorioEstudiante(repositorioEstudiante);
+        repositorioUsuarios.setRepositorioProyecto(repositorioProyectos);
         
         LogInServices loginServices = new LogInServices(repositorioUsuarios);
         

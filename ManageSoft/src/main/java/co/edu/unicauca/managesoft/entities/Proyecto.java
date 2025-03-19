@@ -20,7 +20,12 @@ public class Proyecto {
     private String presupuestoProyecto;
     private String fechaPublicacionProyecto;
     private IEstadoProyecto estadoProyecto;
+    private int idEmpresa;
 
+    public Proyecto() {
+    }
+
+    
     // Constructor CON el presupuesto
     public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto) {
         this.nombreProyecto = nombreProyecto;
@@ -116,6 +121,14 @@ public class Proyecto {
 
     public void setEstadoProyecto(IEstadoProyecto estadoProyecto) {
         estadoProyecto.cambiarEstado(this, estadoProyecto);
+    }
+
+    public int getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(int idEmpresa) {
+        this.idEmpresa = idEmpresa;
     }
     
     
