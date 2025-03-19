@@ -16,6 +16,8 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
     private static final String url = "jdbc:postgresql://ep-twilight-rice-a5meykz5-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require";
     private static final String user = "neondb_owner";
     private static final String password = "npg_J9zkqVtWupl1";
+    
+    private static IProyectoRepositorio repositorioProyecto;
 
 // Método para obtener la conexión con usuario y contraseña
     private Connection conectar() throws SQLException {
@@ -129,7 +131,7 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
 
         try (Connection conn = conectar(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                listaEmpresas.add(new Empresa(
+                Empresa empresa = new Empresa(
                         rs.getString("nit"),
                         rs.getString("nombre"),
                         rs.getString("email"),
@@ -140,14 +142,21 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
                         rs.getString("cargo"),
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena")
-                ));
+                );
+                
+                empresa.setRepositorioProyectos(repositorioProyecto);
+                listaEmpresas.add(empresa);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return listaEmpresas;
     }
-    
+
+    @Override
+    public void setRepositorioProyecto(IProyectoRepositorio repositorioProyecto) {
+        this.repositorioProyecto = repositorioProyecto;
+    }
 
     private boolean existeNit(String nit) {
         String sql = "SELECT 1 FROM Empresa WHERE nit = ?";

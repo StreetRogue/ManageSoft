@@ -16,4 +16,6 @@ public interface IEmpresaRepositorio {
     Empresa buscarEmpresa(String nombreUsario);
     Empresa buscarEmpresa(String nombreUsario, String contrasenaUsuario);
     List<Empresa> listarEmpresas();
+    
+    void setRepositorioProyecto(IProyectoRepositorio repositorioProyecto);
 }

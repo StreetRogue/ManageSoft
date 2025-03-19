@@ -30,7 +30,6 @@ public class Factory {
 
         // Repositorios Empresa
         repositoriosEmpresa.put("ARRAYS", new EmpresaRepositorioArray());
-        repositoriosEmpresa.put("POSTGRES", new EmpresaRepositorioPG());
         repositoriosEmpresa.put("NEONDB", new EmpresaRepositorioNeonDB());
 
         // Repositorios Coordinador
@@ -42,7 +41,6 @@ public class Factory {
 
         // Repositorios Usuarios
         repositoriosUsuario.put("ARRAYS", new UsuarioRepositorioArray());
-        repositoriosUsuario.put("POSTGRES", new UsuarioRepositorioPG());
         repositoriosUsuario.put("NEONDB", new UsuarioRepositorioNeonDB());
 
         //Repositorios Proyectos

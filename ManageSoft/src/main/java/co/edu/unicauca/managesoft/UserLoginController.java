@@ -4,6 +4,7 @@
  */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
@@ -35,9 +36,11 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class UserLoginController implements Initializable {
+    private Repositorio repositorio;
     private LogInServices loginServices;
     
-    public UserLoginController(LogInServices loginServices) {
+    public UserLoginController(Repositorio repositorio, LogInServices loginServices) {
+        this.repositorio = repositorio;
         this.loginServices = loginServices;
     }
 
@@ -79,7 +82,7 @@ public class UserLoginController implements Initializable {
 
     @FXML
     private void showRegistrarForm(MouseEvent event) throws IOException {
-        UserRegisterController userRegisterController = new UserRegisterController(loginServices);
+        UserRegisterController userRegisterController = new UserRegisterController(repositorio, loginServices);
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("userRegisterVista.fxml"));
         loader.setController(userRegisterController);
@@ -120,14 +123,17 @@ public class UserLoginController implements Initializable {
             if (controller instanceof DashboardEmpresaController) {
                 ((DashboardEmpresaController) controller).setUsuario((Empresa) usuarioInicio);
                 ((DashboardEmpresaController) controller).setLoginServices(loginServices);
+                ((DashboardEmpresaController) controller).setRepositorio(repositorio);
                 ((DashboardEmpresaController) controller).inicializarVista();
             } else if (controller instanceof DashboardCoordinadorController) {
                 ((DashboardCoordinadorController) controller).setUsuario(usuarioInicio);
                 ((DashboardCoordinadorController) controller).setLoginServices(loginServices);
+                ((DashboardCoordinadorController) controller).setRepositorio(repositorio);
                 ((DashboardCoordinadorController) controller).inicializarVista();
             } else if (controller instanceof DashboardEstudianteController) {
                 ((DashboardEstudianteController) controller).setUsuario(usuarioInicio);
                 ((DashboardEstudianteController) controller).setLoginServices(loginServices);
+                ((DashboardEstudianteController) controller).setRepositorio(repositorio);
                 ((DashboardEstudianteController) controller).inicializarVista();
             }
 

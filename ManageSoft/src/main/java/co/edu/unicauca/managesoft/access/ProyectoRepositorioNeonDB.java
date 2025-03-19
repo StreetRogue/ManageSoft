@@ -4,12 +4,14 @@
  */
 package co.edu.unicauca.managesoft.access;
 
+import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
 
@@ -23,7 +25,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     }
 
     @Override
-    public boolean guardarProyecto(Proyecto nuevoProyecto) {
+    public boolean guardarProyecto(Proyecto nuevoProyecto, Empresa empresa) {
         String sql = "INSERT INTO Proyecto (nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto, estado, id_empresa) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -36,8 +38,8 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
             stmt.setString(4, nuevoProyecto.getDescripcionProyecto());
             stmt.setInt(5, Integer.parseInt(nuevoProyecto.getMaximoMesesProyecto()));
             stmt.setFloat(6, Float.parseFloat((nuevoProyecto.getPresupuestoProyecto())));
-            stmt.setString(7, nuevoProyecto.getEstadoProyecto().toString()); // Por ejemplo, 'RECIBIDO' si no se ha establecido otro
-            stmt.setInt(8, nuevoProyecto.getIdEmpresa()); // Aquí debes pasar el id de la empresa asociada
+            stmt.setString(7, nuevoProyecto.getEstadoProyecto().obtenerEstado()); // Por ejemplo, 'RECIBIDO' si no se ha establecido otro
+            stmt.setInt(8, empresa.getIdUsuario()); // Aquí debes pasar el id de la empresa asociada
 
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas > 0) {
@@ -52,6 +54,12 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
             return false;
         }
     }
+
+    @Override
+    public List<Proyecto> listarProyectos(Empresa empresa) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
 
 
 }
