@@ -4,6 +4,7 @@
  */
 package co.edu.unicauca.managesoft.entities;
 
+import co.edu.unicauca.managesoft.infra.Subject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,7 +12,8 @@ import java.util.Date;
  *
  * @author jutak
  */
-public class Proyecto {
+public class Proyecto extends Subject {
+
     private String nombreProyecto;
     private String resumenProyecto;
     private String objetivoProyecto;
@@ -25,7 +27,6 @@ public class Proyecto {
     public Proyecto() {
     }
 
-    
     // Constructor CON el presupuesto
     public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto) {
         this.nombreProyecto = nombreProyecto;
@@ -34,12 +35,12 @@ public class Proyecto {
         this.descripcionProyecto = descripcionProyecto;
         this.maximoMesesProyecto = maximoMesesProyecto;
         this.presupuestoProyecto = presupuestoProyecto;
-        
+
         // Obtener fecha actual del computador y formatearla
         Date fechaActual = new Date();
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         this.fechaPublicacionProyecto = formato.format(fechaActual);
-        
+
         this.estadoProyecto = new EstadoRecibido();
     }
 
@@ -50,12 +51,12 @@ public class Proyecto {
         this.objetivoProyecto = objetivoProyecto;
         this.descripcionProyecto = descripcionProyecto;
         this.maximoMesesProyecto = maximoMesesProyecto;
-        
+
         // Obtener fecha actual del computador y formatearla
         Date fechaActual = new Date();
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         this.fechaPublicacionProyecto = formato.format(fechaActual);
-        
+
         this.estadoProyecto = new EstadoRecibido();
     }
 
@@ -120,7 +121,16 @@ public class Proyecto {
     }
 
     public void setEstadoProyecto(IEstadoProyecto estadoProyecto) {
-        estadoProyecto.cambiarEstado(this, estadoProyecto);
+        if (this.estadoProyecto != estadoProyecto) { // ✅ Evita recursión infinita
+            this.estadoProyecto = estadoProyecto;  // Asigna el nuevo estado
+            setChanged();
+            notificarCambios();
+
+            // Solo llama a cambiarEstado si es necesario
+            if (estadoProyecto != null) {
+                estadoProyecto.cambiarEstado(this, estadoProyecto);
+            }
+        }
     }
 
     public int getIdEmpresa() {
@@ -130,6 +140,5 @@ public class Proyecto {
     public void setIdEmpresa(int idEmpresa) {
         this.idEmpresa = idEmpresa;
     }
-    
-    
+
 }

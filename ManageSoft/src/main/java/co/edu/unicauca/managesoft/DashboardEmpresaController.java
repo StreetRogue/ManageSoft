@@ -113,8 +113,10 @@ public class DashboardEmpresaController implements Initializable {
     
     @FXML
     private void cargarProyectosEmpresa() {
+        ListaProyectoPaneController listaProyectosControlador = new ListaProyectoPaneController(repositorio.getRepositorioProyecto(), empresa);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("listaProyectoEmpresaPane.fxml"));
+            loader.setController(listaProyectosControlador);
             Parent nuevaVista = loader.load();
 
             // Ajustar la vista al tamaño del contentPane

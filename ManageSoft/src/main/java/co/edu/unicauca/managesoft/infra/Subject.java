@@ -1,34 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package co.edu.unicauca.managesoft.infra;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author jutak
- */
-    public abstract class Subject {
+public abstract class Subject {
+
     private List<IObserver> listaObservadores;
+    private boolean changed = false;
 
     public Subject() {
+        listaObservadores = new ArrayList<>();
     }
-    
-    public void agregarObservador(IObserver nuevoObservador) {
-        if (listaObservadores == null) {
-            this.listaObservadores = new ArrayList<>();
+
+    // Marca que el objeto ha cambiado
+    protected void setChanged() {
+        changed = true;
+    }
+
+    // Notifica a todos los observadores si el objeto ha cambiado
+    public void notificarCambios() {
+        if (changed) {
+            for (IObserver observer : listaObservadores) {
+                observer.actualizar();
+            }
+            changed = false;  // Resetea el estado de cambio
         }
+    }
+
+    // Agrega un nuevo observador a la lista
+    public void agregarObservador(IObserver nuevoObservador) {
         listaObservadores.add(nuevoObservador);
     }
-    
-    public void notificarCambios() { // Se eliminó el parámetro innecesario
-        for (IObserver observer : listaObservadores) {
-            observer.actualizar();
-        }
-    }
-    
-    
 }
