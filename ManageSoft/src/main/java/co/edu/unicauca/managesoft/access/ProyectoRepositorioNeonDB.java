@@ -5,12 +5,17 @@
 package co.edu.unicauca.managesoft.access;
 
 import co.edu.unicauca.managesoft.entities.Empresa;
+import co.edu.unicauca.managesoft.entities.EstadoEnEjecucion;
+import co.edu.unicauca.managesoft.entities.EstadoRechazado;
+import co.edu.unicauca.managesoft.entities.EstadoRecibido;
+import co.edu.unicauca.managesoft.entities.IEstadoProyecto;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
@@ -57,9 +62,63 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
 
     @Override
     public List<Proyecto> listarProyectos(Empresa empresa) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
+        
+        empresa.setIdUsuario(1);
 
+        System.out.println("Buscando proyectos para la empresa con ID: " + empresa.getIdUsuario());
+
+        String sql = "SELECT nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto,  fecha, estado "
+            + "FROM Proyecto WHERE id_empresa = ?";
+
+        List<Proyecto> proyectos = new ArrayList<>();
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, empresa.getIdUsuario());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Proyecto proyecto = new Proyecto();
+                    proyecto.setNombreProyecto(rs.getString("nombre"));
+                    proyecto.setResumenProyecto(rs.getString("resumen"));
+                    proyecto.setObjetivoProyecto(rs.getString("objetivos"));
+                    proyecto.setDescripcionProyecto(rs.getString("descripcion"));
+                    proyecto.setMaximoMesesProyecto(String.valueOf(rs.getInt("tiempo_maximo_meses")));
+                    proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
+                    proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
+
+                    // Recuperar el estado del proyecto
+                    String estado = rs.getString("estado");
+                    IEstadoProyecto estadoProyecto = obtenerEstadoProyecto(estado);
+                    proyecto.setEstadoProyecto(estadoProyecto);
+
+                    proyectos.add(proyecto);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Aquí imprimimos los proyectos obtenidos, después de que se hayan añadido a la lista
+        System.out.println("Proyectos obtenidos de la BD:");
+        for (Proyecto p : proyectos) {
+            System.out.println("Nombre: " + p.getNombreProyecto() + ", Estado: " + p.getEstadoProyecto());
+        }
+
+        return proyectos;
+    }
+
+    // Método para mapear el estado en String a la clase concreta de estado
+    private IEstadoProyecto obtenerEstadoProyecto(String estado) {
+        switch (estado) {
+            case "RECIBIDO":
+                return new EstadoRecibido();
+            case "RECHAZADO":
+                return new EstadoRechazado();
+            case "EN EJECUCIÓN":
+                return new EstadoEnEjecucion();
+            default:
+                throw new IllegalArgumentException("Estado no reconocido: " + estado);
+        }
+    }
 
 }
