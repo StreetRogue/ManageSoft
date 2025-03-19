@@ -20,6 +20,7 @@ public class Empresa extends Usuario {
     private String nombreContactoEmpresa;
     private String apellidoContactoEmpresa;
     private String cargoContactoEmpresa;
+    private int idUsuario;
     private List<Proyecto> listaProyectos;
     
     public Empresa(String nitEmpresa, String nombreEmpresa, String emailEmpresa, String sectorEmpresa, String contactoEmpresa, String nombreContactoEmpresa, String apellidoContactoEmpresa, String cargoContactoEmpresa) {
@@ -109,6 +110,14 @@ public class Empresa extends Usuario {
 
     public void setCargoContactoEmpresa(String cargoContactoEmpresa) {
         this.cargoContactoEmpresa = cargoContactoEmpresa;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
     
     

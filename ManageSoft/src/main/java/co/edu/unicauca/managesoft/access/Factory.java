@@ -37,6 +37,7 @@ public class Factory {
         
         // Repositorios Estudiante
         repositoriosEstudiante.put("ARRAYS", new EstudianteRepositorioArray());
+        repositoriosEstudiante.put("NEONDB", new EstudianteRepositorioNeonDB());
 
         
         // Repositorios Usuarios
