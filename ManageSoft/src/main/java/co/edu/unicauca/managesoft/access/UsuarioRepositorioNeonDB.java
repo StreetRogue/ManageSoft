@@ -1,5 +1,7 @@
 package co.edu.unicauca.managesoft.access;
 
+import co.edu.unicauca.managesoft.entities.Empresa;
+import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
 
@@ -33,30 +35,57 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
     public void setRepositorioCoordinador(ICoordinadorRepositorio repositorioCoordinador) {
         this.repositorioCoordinador = repositorioCoordinador;
     }
-    
+
     @Override
     public void setRepositorioEstudiante(IEstudianteRepositorio repositorioEstudiante) {
-       this.repositorioEstudiante = repositorioEstudiante;
+        this.repositorioEstudiante = repositorioEstudiante;
     }
 
     @Override
     public boolean registrarUsuario(Usuario nuevoUsuario) {
-        // Consulta para insertar un usuario, asegurando que el id_rol sea obtenido de la tabla roles
-        String sql = "INSERT INTO Usuario (nombre_usuario, contrasena, id_rol) "
-                + "SELECT ?, ?, r.id FROM Rol r WHERE r.nombre_rol = ?";
-        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        if (existeUsuario(nuevoUsuario.getNombreUsuario())) {
+            return false;  // Si el usuario ya existe, no lo registramos
+        }
 
+        String sqlUsuario = "INSERT INTO Usuario (nombre_usuario, contrasena, id_rol) "
+                + "SELECT ?, ?, r.id FROM Rol r WHERE r.nombre_rol = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sqlUsuario, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            // Establecemos los parámetros para la consulta SQL
             stmt.setString(1, nuevoUsuario.getNombreUsuario());
             stmt.setString(2, nuevoUsuario.getContrasenaUsuario());
             stmt.setString(3, nuevoUsuario.getTipoUsuario().toString()); // Guardamos el nombre del enum como String
 
+            // Ejecutamos la consulta de inserción
             int filasAfectadas = stmt.executeUpdate();
-            return filasAfectadas > 0;
 
+            // Si la inserción fue exitosa, obtenemos el ID generado
+            if (filasAfectadas > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int idUsuario = generatedKeys.getInt(1); // Obtener el ID del usuario insertado
+
+                        // Asignamos el ID al objeto Usuario
+                        nuevoUsuario.setIdUsuario(idUsuario);
+
+                        // Registrar en el repositorio adecuado dependiendo del tipo de usuario
+                        if (nuevoUsuario instanceof Estudiante) {
+                            Estudiante estudiante = (Estudiante) nuevoUsuario;
+                            estudiante.setIdUsuario(idUsuario); // Asignar el ID al Estudiante
+                            return repositorioEstudiante.guardar(estudiante); // Guardar el Estudiante
+                        } else if (nuevoUsuario instanceof Empresa) {
+                            Empresa empresa = (Empresa) nuevoUsuario;
+                            empresa.setIdUsuario(idUsuario);
+                            return repositorioEmpresa.guardar(empresa);
+                        }
+                    }
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+        return false;  // En caso de error o si no se pudo insertar el usuario
     }
 
     @Override
@@ -84,8 +113,8 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
                 );
 
                 switch (usuario.getTipoUsuario()) {
-                    //case ESTUDIANTE:
-                    //return repositorioEmpresa;
+                    case ESTUDIANTE:
+                        return repositorioEstudiante.buscarEstudiante(usuario.getNombreUsuario(), usuario.getContrasenaUsuario());
                     case COORDINADOR:
                         return repositorioCoordinador.buscarCoordinador(usuario.getNombreUsuario(), usuario.getContrasenaUsuario());
                     case EMPRESA:
@@ -102,7 +131,7 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
     }
 
     private boolean existeUsuario(String nombreUsuario) {
-        String sql = "SELECT 1 FROM usuarios WHERE nombre_usuario = ?";
+        String sql = "SELECT 1 FROM Usuario WHERE nombre_usuario = ?";
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nombreUsuario);
             ResultSet rs = stmt.executeQuery();

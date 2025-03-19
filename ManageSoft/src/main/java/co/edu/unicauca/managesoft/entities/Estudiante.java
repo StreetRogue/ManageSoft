@@ -13,6 +13,7 @@ public class Estudiante extends Usuario {
     private String apellidoEstudiante;
     private String codigoSimcaEstudiante;
     private String emailEstudiante;
+    private int idUsuario;
 
     public Estudiante(String nombreEstudiante, String apellidoEstudiante, String codigoSimcaEstudiante, String emailEstudiante) {
         this.nombreEstudiante = nombreEstudiante;
@@ -59,6 +60,14 @@ public class Estudiante extends Usuario {
 
     public void setEmailEstudiante(String emailEstudiante) {
         this.emailEstudiante = emailEstudiante;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
     
     
