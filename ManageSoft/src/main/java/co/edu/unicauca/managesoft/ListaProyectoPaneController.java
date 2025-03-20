@@ -1,7 +1,6 @@
 package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
-import co.edu.unicauca.managesoft.access.ProyectoRepositorioNeonDB;
 import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.IObserver;
@@ -27,7 +26,7 @@ public class ListaProyectoPaneController implements IObserver {
     @FXML
     private TableView<Proyecto> tableViewProyectos;
     @FXML
-    private TableColumn<Proyecto, Integer> colNit;
+    private TableColumn<Proyecto, Integer> colId;
     @FXML
     private TableColumn<Proyecto, String> colNombre;
     @FXML
@@ -53,7 +52,7 @@ public class ListaProyectoPaneController implements IObserver {
         proyectosList = FXCollections.observableArrayList();
         cargarProyectos(empresa);
         tableViewProyectos.setItems(proyectosList);
-        //colNit.setCellValueFactory(new PropertyValueFactory<>("nombreProyecto"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("idProyecto"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreProyecto"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estadoProyecto"));
         colFechaCreacion.setCellValueFactory(new PropertyValueFactory<>("fechaPublicacionProyecto"));

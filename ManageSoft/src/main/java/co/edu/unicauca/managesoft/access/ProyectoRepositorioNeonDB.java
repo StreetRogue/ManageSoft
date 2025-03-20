@@ -62,11 +62,11 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
 
     @Override
     public List<Proyecto> listarProyectos(Empresa empresa) {
-        
         System.out.println("Buscando proyectos para la empresa con NIT: " + empresa.getNitEmpresa());
 
-        String sql = "SELECT nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto,  fecha, estado "
-            + "FROM Proyecto WHERE nit_empresa = ?";
+        // Modificamos la consulta para incluir el campo 'id'
+        String sql = "SELECT id, nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto, fecha, estado "
+                + "FROM Proyecto WHERE nit_empresa = ?";
 
         List<Proyecto> proyectos = new ArrayList<>();
 
@@ -76,6 +76,9 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Proyecto proyecto = new Proyecto();
+
+                    // Asignar el id del proyecto
+                    proyecto.setIdProyecto(rs.getInt("id"));
                     proyecto.setNombreProyecto(rs.getString("nombre"));
                     proyecto.setResumenProyecto(rs.getString("resumen"));
                     proyecto.setObjetivoProyecto(rs.getString("objetivos"));
@@ -97,6 +100,50 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
         }
 
         // Aquí imprimimos los proyectos obtenidos, después de que se hayan añadido a la lista
+        System.out.println("Proyectos obtenidos de la BD:");
+        for (Proyecto p : proyectos) {
+            System.out.println("ID: " + p.getIdProyecto() + ", Nombre: " + p.getNombreProyecto() + ", Estado: " + p.getEstadoProyecto());
+        }
+
+        return proyectos;
+    }
+
+    @Override
+    public List<Proyecto> listarProyectosGeneral() {
+        System.out.println("Buscando todos los proyectos en la base de datos...");
+
+        String sql = "SELECT p.id, p.nombre AS nombre_proyecto, p.estado, p.presupuesto, "
+                + "p.tiempo_maximo_meses, p.resumen, p.objetivos, p.descripcion, p.fecha, "
+                + "e.nombre AS nombre_empresa "
+                + "FROM Proyecto p "
+                + "JOIN Empresa e ON p.nit_empresa = e.nit";
+        List<Proyecto> proyectos = new ArrayList<>();
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Proyecto proyecto = new Proyecto();
+                proyecto.setIdProyecto(rs.getInt("id"));
+                proyecto.setNombreProyecto(rs.getString("nombre_proyecto"));
+                proyecto.setResumenProyecto(rs.getString("resumen"));
+                proyecto.setObjetivoProyecto(rs.getString("objetivos"));
+                proyecto.setDescripcionProyecto(rs.getString("descripcion"));
+                proyecto.setMaximoMesesProyecto(String.valueOf(rs.getInt("tiempo_maximo_meses")));
+                proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
+                proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
+                proyecto.setNombreEmpresa(rs.getString("nombre_empresa"));
+
+                // Recuperar el estado del proyecto
+                String estado = rs.getString("estado");
+                IEstadoProyecto estadoProyecto = obtenerEstadoProyecto(estado);
+                proyecto.setEstadoProyecto(estadoProyecto);
+
+                proyectos.add(proyecto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Verificar los proyectos obtenidos
         System.out.println("Proyectos obtenidos de la BD:");
         for (Proyecto p : proyectos) {
             System.out.println("Nombre: " + p.getNombreProyecto() + ", Estado: " + p.getEstadoProyecto());

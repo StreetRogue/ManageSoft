@@ -20,5 +20,6 @@ public interface IUsuarioRepositorio {
     void setRepositorioCoordinador(ICoordinadorRepositorio repositorioCoordinador);
     void setRepositorioEstudiante(IEstudianteRepositorio repositorioEstudiante);
     void setRepositorioProyecto(IProyectoRepositorio repositorioProyecto);
+    void setRepositorioCorreo(INotificacionRepositorio repositorioCorreo);
     
 }

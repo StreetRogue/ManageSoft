@@ -14,6 +14,7 @@ import java.util.Date;
  */
 public class Proyecto extends Subject {
 
+    private int idProyecto;
     private String nombreProyecto;
     private String resumenProyecto;
     private String objetivoProyecto;
@@ -22,6 +23,7 @@ public class Proyecto extends Subject {
     private String presupuestoProyecto;
     private String fechaPublicacionProyecto;
     private IEstadoProyecto estadoProyecto;
+    private String nombreEmpresa;
 
     public Proyecto() {
     }
@@ -130,6 +132,22 @@ public class Proyecto extends Subject {
                 estadoProyecto.cambiarEstado(this, estadoProyecto);
             }
         }
+    }
+
+    public int getIdProyecto() {
+        return idProyecto;
+    }
+
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
+    }
+
+    public String getNombreEmpresa() {
+        return nombreEmpresa;
+    }
+
+    public void setNombreEmpresa(String nombreEmpresa) {
+        this.nombreEmpresa = nombreEmpresa;
     }
 
 }

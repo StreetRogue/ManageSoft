@@ -21,6 +21,7 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
     public static ICoordinadorRepositorio repositorioCoordinador;
     public static IEstudianteRepositorio repositorioEstudiante;
     public static IProyectoRepositorio repositorioProyecto;
+    public static INotificacionRepositorio repositorioCorreo;
 
     // Método para obtener la conexión con usuario y contraseña
     private Connection conectar() throws SQLException {
@@ -47,7 +48,11 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
         this.repositorioProyecto = repositorioProyecto;
     }
 
-    
+    @Override
+    public void setRepositorioCorreo(INotificacionRepositorio repositorioCorreo) {
+        this.repositorioCorreo = repositorioCorreo;
+    }
+
     @Override
     public boolean registrarUsuario(Usuario nuevoUsuario) {
         if (existeUsuario(nuevoUsuario.getNombreUsuario())) {
@@ -74,7 +79,7 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
                         // Registrar en el repositorio adecuado dependiendo del tipo de usuario
                         if (nuevoUsuario instanceof Estudiante) {
                             return repositorioEstudiante.guardar((Estudiante) nuevoUsuario);
-                            
+
                         } else if (nuevoUsuario instanceof Empresa) {
                             return repositorioEmpresa.guardar((Empresa) nuevoUsuario);
                         }
@@ -141,4 +146,5 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
             return false;
         }
     }
+
 }

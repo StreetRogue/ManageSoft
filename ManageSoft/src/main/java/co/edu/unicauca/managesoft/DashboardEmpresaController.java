@@ -45,7 +45,6 @@ public class DashboardEmpresaController implements Initializable {
     }
     
     public void inicializarVista() {
-        //this.proyectoServices = new ProyectoServices();
         cargarDashboardPane();
     }
     

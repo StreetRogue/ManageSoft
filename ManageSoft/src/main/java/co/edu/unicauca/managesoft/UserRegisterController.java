@@ -33,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -41,6 +42,7 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class UserRegisterController implements Initializable {
+
     private LogInServices loginServices;
     private Usuario usuarioRegistrado;
     private boolean datosCargados = false;
@@ -72,9 +74,8 @@ public class UserRegisterController implements Initializable {
     private String codigoSIMCA;
     private String emailEstudiante;
     private Repositorio repositorio;
-    
+
     // Variables para almacenar los datos del estudiante
-    
     // Constructor
     public UserRegisterController(Repositorio repositorio, LogInServices loginServices) {
         this.repositorio = repositorio;
@@ -92,7 +93,7 @@ public class UserRegisterController implements Initializable {
                         .collect(Collectors.toList())
         );
     }
-    
+
     @FXML
     private void showLoginForm() {
         try {
@@ -113,7 +114,6 @@ public class UserRegisterController implements Initializable {
         }
     }
 
-
     @FXML
     private void showLoginForm(MouseEvent event) throws IOException {
         UserLoginController userLoginController = new UserLoginController(repositorio, loginServices);
@@ -131,27 +131,27 @@ public class UserRegisterController implements Initializable {
 
     public void guardarEstudiante(Estudiante estudiante) {
         usuarioRegistrado = estudiante;
-        
+
         System.out.println("Datos del estudiante recibidos:");
-        System.out.println("Nombre: " + ((Estudiante)usuarioRegistrado).getNombreEstudiante());
-        System.out.println("Apellido: " + ((Estudiante)usuarioRegistrado).getApellidoEstudiante());
-        System.out.println("Codigo de Simca: " + ((Estudiante)usuarioRegistrado).getCodigoSimcaEstudiante());
-        System.out.println("email: " + ((Estudiante)usuarioRegistrado).getEmailEstudiante());
+        System.out.println("Nombre: " + ((Estudiante) usuarioRegistrado).getNombreEstudiante());
+        System.out.println("Apellido: " + ((Estudiante) usuarioRegistrado).getApellidoEstudiante());
+        System.out.println("Codigo de Simca: " + ((Estudiante) usuarioRegistrado).getCodigoSimcaEstudiante());
+        System.out.println("email: " + ((Estudiante) usuarioRegistrado).getEmailEstudiante());
 
     }
 
     public void guardarEmpresa(Empresa empresa) {
         usuarioRegistrado = empresa;
-        
+
         System.out.println("Datos de la empresa recibidos:");
-        System.out.println("NIT: " + ((Empresa)usuarioRegistrado).getNitEmpresa());
-        System.out.println("Nombre: " + ((Empresa)usuarioRegistrado).getNombreEmpresa());
-        System.out.println("Email: " + ((Empresa)usuarioRegistrado).getEmailEmpresa());
-        System.out.println("Sector: " + ((Empresa)usuarioRegistrado).getSectorEmpresa());
-        System.out.println("Teléfono Representante: " + ((Empresa)usuarioRegistrado).getContactoEmpresa());
-        System.out.println("Nombre Representante: " + ((Empresa)usuarioRegistrado).getNombreContactoEmpresa());
-        System.out.println("Apellido Representante: " + ((Empresa)usuarioRegistrado).getApellidoContactoEmpresa());
-        System.out.println("Cargo Representante: " + ((Empresa)usuarioRegistrado).getCargoContactoEmpresa());
+        System.out.println("NIT: " + ((Empresa) usuarioRegistrado).getNitEmpresa());
+        System.out.println("Nombre: " + ((Empresa) usuarioRegistrado).getNombreEmpresa());
+        System.out.println("Email: " + ((Empresa) usuarioRegistrado).getEmailEmpresa());
+        System.out.println("Sector: " + ((Empresa) usuarioRegistrado).getSectorEmpresa());
+        System.out.println("Teléfono Representante: " + ((Empresa) usuarioRegistrado).getContactoEmpresa());
+        System.out.println("Nombre Representante: " + ((Empresa) usuarioRegistrado).getNombreContactoEmpresa());
+        System.out.println("Apellido Representante: " + ((Empresa) usuarioRegistrado).getApellidoContactoEmpresa());
+        System.out.println("Cargo Representante: " + ((Empresa) usuarioRegistrado).getCargoContactoEmpresa());
     }
 
     @FXML
@@ -222,12 +222,12 @@ public class UserRegisterController implements Initializable {
         String nombreUsuario = txtRegUsuario.getText();
         String contrasenaUsuario = txtRegPassword.getText();
         enumTipoUsuario tipoUsuario = cboRolUser.getSelectionModel().getSelectedItem();
-        
+
         if (usuarioRegistrado == null) {
             mostrarAlerta("Atención", "Debe rellenar todos los campos", Alert.AlertType.WARNING);
             return;
         }
-        
+
         try {
             usuarioRegistrado.setNombreUsuario(nombreUsuario);
             usuarioRegistrado.setContrasenaUsuario(contrasenaUsuario);
@@ -242,19 +242,19 @@ public class UserRegisterController implements Initializable {
                 mostrarAlerta("Exito", "Usuario registrado correctamente", Alert.AlertType.CONFIRMATION);
                 showLoginForm();
             }
-            
-            
+
         } catch (MyException e) {
             mostrarAlerta("Atencion", e.getMessage(), Alert.AlertType.WARNING);
         }
     }
-    
+
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta) {
         Alert alert = new Alert(tipoAlerta);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
-        alert.showAndWait();
+        alert.initModality(Modality.NONE);
+        alert.show();
     }
 
 }

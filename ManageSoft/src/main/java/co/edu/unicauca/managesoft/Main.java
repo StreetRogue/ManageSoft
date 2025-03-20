@@ -4,9 +4,11 @@ import co.edu.unicauca.managesoft.access.Factory;
 import co.edu.unicauca.managesoft.access.ICoordinadorRepositorio;
 import co.edu.unicauca.managesoft.access.IEmpresaRepositorio;
 import co.edu.unicauca.managesoft.access.IEstudianteRepositorio;
+import co.edu.unicauca.managesoft.access.INotificacionRepositorio;
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
 import co.edu.unicauca.managesoft.access.Repositorio;
+import static co.edu.unicauca.managesoft.access.Repositorio.repositorioCorreo;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -35,17 +37,17 @@ public class Main extends Application {
         IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("NEONDB");
         ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
         IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("NEONDB");
-        
         IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("NEONDB");
+        INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("NEONDB");
         
-        Repositorio repositorio = new Repositorio(repositorioUsuarios, repositorioEmpresa, repositorioCoordinador, repositorioEstudiante, repositorioProyectos);
+        Repositorio repositorio = new Repositorio(repositorioUsuarios, repositorioEmpresa, repositorioCoordinador, repositorioEstudiante, repositorioProyectos, repositorioCorreo);
         
         repositorioUsuarios.setRepositorioEmpresa(repositorioEmpresa);
         repositorioUsuarios.setRepositorioCoordinador(repositorioCoordinador);
         repositorioUsuarios.setRepositorioEstudiante(repositorioEstudiante);
         repositorioUsuarios.setRepositorioProyecto(repositorioProyectos);
-        
         repositorioEmpresa.setRepositorioProyecto(repositorioProyectos);
+        repositorioUsuarios.setRepositorioCorreo(repositorioCorreo);
         
         LogInServices loginServices = new LogInServices(repositorioUsuarios);
         
