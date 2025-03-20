@@ -16,7 +16,7 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
     private static final String url = "jdbc:postgresql://ep-twilight-rice-a5meykz5-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require";
     private static final String user = "neondb_owner";
     private static final String password = "npg_J9zkqVtWupl1";
-    
+
     private static IProyectoRepositorio repositorioProyecto;
 
 // Método para obtener la conexión con usuario y contraseña
@@ -30,40 +30,55 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
             return false;
         }
 
-        String sql = "INSERT INTO Empresa (nit, id_usuario, nombre, email, sector, telefono, representante_nombre, representante_apellido, cargo) "
+        String sqlSelectUsuario = "SELECT id FROM Usuario WHERE nombre_usuario = ? AND contrasena = ?";
+        String sqlEmpresa = "INSERT INTO Empresa (nit, id_usuario, nombre, email, sector, telefono_contacto, nombre_contacto, apellido_contacto, cargo_contacto) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = conectar(); PreparedStatement stmtSelectUsuario = conn.prepareStatement(sqlSelectUsuario); PreparedStatement stmtEmpresa = conn.prepareStatement(sqlEmpresa)) {
+
             conn.setAutoCommit(false);
 
-            stmt.setString(1, nuevaEmpresa.getNitEmpresa());
-            stmt.setInt(2, nuevaEmpresa.getIdUsuario());
-            stmt.setString(3, nuevaEmpresa.getNombreEmpresa());
-            stmt.setString(4, nuevaEmpresa.getEmailEmpresa());
-            stmt.setString(5, nuevaEmpresa.getSectorEmpresa());
-            stmt.setString(6, nuevaEmpresa.getContactoEmpresa());
-            stmt.setString(7, nuevaEmpresa.getNombreContactoEmpresa());
-            stmt.setString(8, nuevaEmpresa.getApellidoContactoEmpresa());
-            stmt.setString(9, nuevaEmpresa.getCargoContactoEmpresa());
+            // Obtener el ID del usuario
+            stmtSelectUsuario.setString(1, nuevaEmpresa.getNombreUsuario());
+            stmtSelectUsuario.setString(2, nuevaEmpresa.getContrasenaUsuario());
 
-            int filasAfectadas = stmt.executeUpdate();
-            if (filasAfectadas > 0) {
-                conn.commit();
-                return true;
-            } else {
-                conn.rollback();
-                return false;
+            try (ResultSet rs = stmtSelectUsuario.executeQuery()) {
+                if (!rs.next()) {
+                    conn.rollback();
+                    return false;
+                }
+
+                int idUsuario = rs.getInt("id");
+
+                // Insertar empresa
+                stmtEmpresa.setString(1, nuevaEmpresa.getNitEmpresa());
+                stmtEmpresa.setInt(2, idUsuario);
+                stmtEmpresa.setString(3, nuevaEmpresa.getNombreEmpresa());
+                stmtEmpresa.setString(4, nuevaEmpresa.getEmailEmpresa());
+                stmtEmpresa.setString(5, nuevaEmpresa.getSectorEmpresa());
+                stmtEmpresa.setString(6, nuevaEmpresa.getContactoEmpresa());
+                stmtEmpresa.setString(7, nuevaEmpresa.getNombreContactoEmpresa());
+                stmtEmpresa.setString(8, nuevaEmpresa.getApellidoContactoEmpresa());
+                stmtEmpresa.setString(9, nuevaEmpresa.getCargoContactoEmpresa());
+
+                if (stmtEmpresa.executeUpdate() > 0) {
+                    conn.commit();
+                    return true;
+                }
             }
+            conn.rollback();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     @Override
     public Empresa buscarEmpresa(String nombreUsuario) {
-        String sql = "SELECT e.nit, e.nombre, e.email, e.sector, e.telefono, e.representante_nombre, e.representante_apellido, e.cargo, u.nombre_usuario, u.contrasena "
-                + "FROM Empresa e INNER JOIN Usuario u ON e.id_usuario = u.id WHERE u.nombre_usuario = ?";
+        String sql = "SELECT e.nit, e.nombre, e.email, e.sector, e.telefono_contacto, e.nombre_contacto, e.apellido_contacto, e.cargo_contacto, u.nombre_usuario, u.contrasena "
+                + "FROM Empresa e "
+                + "INNER JOIN Usuario u ON e.id_usuario = u.id "
+                + "WHERE u.nombre_usuario = ?";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nombreUsuario);
@@ -75,10 +90,10 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
                         rs.getString("nombre"),
                         rs.getString("email"),
                         rs.getString("sector"),
-                        rs.getString("telefono"),
-                        rs.getString("representante_nombre"),
-                        rs.getString("representante_apellido"),
-                        rs.getString("cargo"),
+                        rs.getString("telefono_contacto"),
+                        rs.getString("nombre_contacto"),
+                        rs.getString("apellido_contacto"),
+                        rs.getString("cargo_contacto"),
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena")
                 );
@@ -88,12 +103,12 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
         }
         return null;
     }
-    
-    
-        @Override
+
+    @Override
     public Empresa buscarEmpresa(String nombreUsuario, String contrasenaUsuario) {
-        String sql = "SELECT e.nit, e.nombre, e.email, e.sector, e.telefono, e.representante_nombre, e.representante_apellido, e.cargo, u.nombre_usuario, u.contrasena "
-                + "FROM Empresa e INNER JOIN Usuario u ON e.id_usuario = u.id "
+        String sql = "SELECT e.nit, e.nombre, e.email, e.sector, e.telefono_contacto, e.nombre_contacto, e.apellido_contacto, e.cargo_contacto, u.nombre_usuario, u.contrasena "
+                + "FROM Empresa e "
+                + "INNER JOIN Usuario u ON e.id_usuario = u.id "
                 + "WHERE u.nombre_usuario = ? AND u.contrasena = ?";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -107,10 +122,10 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
                         rs.getString("nombre"),
                         rs.getString("email"),
                         rs.getString("sector"),
-                        rs.getString("telefono"),
-                        rs.getString("representante_nombre"),
-                        rs.getString("representante_apellido"),
-                        rs.getString("cargo"),
+                        rs.getString("telefono_contacto"),
+                        rs.getString("nombre_contacto"),
+                        rs.getString("apellido_contacto"),
+                        rs.getString("cargo_contacto"),
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena")
                 );
@@ -120,14 +135,13 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
         }
         return null;
     }
-    
-    
 
     @Override
     public List<Empresa> listarEmpresas() {
         List<Empresa> listaEmpresas = new ArrayList<>();
-        String sql = "SELECT e.nit, e.nombre, e.email, e.sector, e.telefono, e.representante_nombre, e.representante_apellido, e.cargo, u.nombre_usuario, u.contrasena "
-                + "FROM Empresa e JOIN Usuario u ON e.id_usuario = u.id";
+        String sql = "SELECT e.nit, e.nombre, e.email, e.sector, e.telefono_contacto, e.nombre_contacto, e.apellido_contacto, e.cargo_contacto, u.nombre_usuario, u.contrasena "
+                + "FROM Empresa e "
+                + "JOIN Usuario u ON e.id_usuario = u.id";
 
         try (Connection conn = conectar(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
@@ -136,15 +150,13 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
                         rs.getString("nombre"),
                         rs.getString("email"),
                         rs.getString("sector"),
-                        rs.getString("telefono"),
-                        rs.getString("representante_nombre"),
-                        rs.getString("representante_apellido"),
-                        rs.getString("cargo"),
+                        rs.getString("telefono_contacto"),
+                        rs.getString("nombre_contacto"),
+                        rs.getString("apellido_contacto"),
+                        rs.getString("cargo_contacto"),
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena")
                 );
-                
-                empresa.setRepositorioProyectos(repositorioProyecto);
                 listaEmpresas.add(empresa);
             }
         } catch (SQLException e) {
@@ -169,6 +181,4 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
             return false;
         }
     }
-
-
 }

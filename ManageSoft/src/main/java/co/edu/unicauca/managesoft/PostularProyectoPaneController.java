@@ -84,8 +84,7 @@ public class PostularProyectoPaneController implements Initializable {
         String tiempoEstipulado = txtTiempoEstipulado.getText();
 
         try {
-            empresa.setIdUsuario(1); // Debe borrarse
-            boolean guardar = empresa.agregarProyecto(repositorio, nombreVacante, resumenVacante, objetivo, descripcionVacante, presupuesto, presupuesto);
+            boolean guardar = empresa.agregarProyecto(repositorio, nombreVacante, resumenVacante, objetivo, descripcionVacante, tiempoEstipulado, presupuesto);
 
             if (guardar) {
                 mostrarAlerta("Exito", "El proyecto se postulo correctamente", Alert.AlertType.CONFIRMATION);
