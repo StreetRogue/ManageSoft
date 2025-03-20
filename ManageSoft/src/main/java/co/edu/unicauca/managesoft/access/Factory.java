@@ -20,6 +20,7 @@ public class Factory {
     private Map<String, IEstudianteRepositorio> repositoriosEstudiante;
     private Map<String, IUsuarioRepositorio> repositoriosUsuario;
     private Map<String, IProyectoRepositorio> repositoriosProyecto;
+    private Map<String, INotificacionRepositorio> repositorioCorreo;
 
     private Factory() {
         repositoriosEmpresa = new HashMap<>();
@@ -27,6 +28,7 @@ public class Factory {
         repositoriosEstudiante = new HashMap<>();
         repositoriosUsuario = new HashMap<>();
         repositoriosProyecto = new HashMap<>();
+        repositorioCorreo = new HashMap<>();
 
         // Repositorios Empresa
         repositoriosEmpresa.put("ARRAYS", new EmpresaRepositorioArray());
@@ -45,6 +47,8 @@ public class Factory {
 
         //Repositorios Proyectos
         repositoriosProyecto.put("NEONDB", new ProyectoRepositorioNeonDB());
+        
+        repositorioCorreo.put("NEONDB", new NotificacionRepositorioNeonDB());
     }
 
     /**
@@ -121,6 +125,17 @@ public class Factory {
 
         if (repositoriosProyecto.containsKey(repositorio)) {
             resultado = repositoriosProyecto.get(repositorio);
+        }
+
+        return resultado;
+    }
+    
+    public INotificacionRepositorio getNotificacionRepositorio(String repositorio) {
+
+        INotificacionRepositorio resultado = null;
+
+        if (repositorioCorreo.containsKey(repositorio)) {
+            resultado = repositorioCorreo.get(repositorio);
         }
 
         return resultado;

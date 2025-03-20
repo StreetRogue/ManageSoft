@@ -256,6 +256,26 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 3);
 }
 
+#txtMotivoContacto {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 3);
+}
+
+#txtMotivoContacto .content {
+    -fx-background-color:   #1E2126; /* Fondo oscuro para el área de texto */
+}
+
+#txtMotivoContacto .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+#txtMotivoContacto .scroll-pane .viewport {
+    -fx-background-color:   #1E2126; /* Fondo de la caja de texto */
+}
+
 /* ---------- Barra de desplazamiento en el área de descripción ---------- */
 #txtDescripcionVacante .scroll-bar {
     -fx-background-color: #1E2126; /* Color de fondo de la barra de desplazamiento */
@@ -271,6 +291,23 @@
 #txtDescripcionVacante .scroll-bar .increment-button,
 #txtDescripcionVacante .scroll-bar .decrement-button {
     -fx-background-color: #1E2126; /* Color del fondo */
+    -fx-background-radius: 5px;
+}
+
+#txtMotivoContacto .scroll-bar {
+    -fx-background-color: #1E2126; /* Color de fondo de la barra de desplazamiento */
+}
+
+/* Estilo para la parte móvil de la barra de desplazamiento */
+#txtMotivoContacto .scroll-bar .thumb {
+    -fx-background-color: #2A2D32; /* Color del slider (ligeramente más claro) */
+    -fx-background-radius: 5px;
+}
+
+/* Estilo para los botones de desplazamiento */
+#txtMotivoContacto .scroll-bar .increment-button,
+#txtMotivoContacto .scroll-bar .decrement-button {
+    -fx-background-color:  #1E2126; /* Color del fondo */
     -fx-background-radius: 5px;
 }
 

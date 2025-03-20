@@ -1,7 +1,4 @@
-    /*
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-     */
+
     package co.edu.unicauca.managesoft.services;
 
     import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
@@ -11,10 +8,8 @@
     import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
     import co.edu.unicauca.managesoft.infra.MyException;
 
-    /**
-     *
-     * @author jutak
-     */
+    
+    
     public class LogInServices {
         private IUsuarioRepositorio repositorio;
         

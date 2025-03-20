@@ -1,12 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.Repositorio;
+import co.edu.unicauca.managesoft.entities.Empresa;
+import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.services.LogInServices;
+import co.edu.unicauca.managesoft.services.ProyectoServices;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,7 +28,9 @@ public class DashboardEstudianteController implements Initializable {
 
     private Usuario usuario;
     private LogInServices loginServices;
-    
+    private ProyectoServices proyectoServices;
+    private Estudiante estudiante;
+
     @FXML
     private AnchorPane contentPane;
     private Repositorio repositorio;
@@ -41,27 +42,55 @@ public class DashboardEstudianteController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
-    
+
     public void inicializarVista() {
-        cargarDashboardPane();
+        cargarDashboardEstudiante();
     }
-    
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+
+    public void setUsuario(Estudiante estudiante) {
+        this.estudiante = estudiante;
     }
-    
+
     public void setLoginServices(LogInServices loginServices) {
         this.loginServices = loginServices;
     }
-    
+
     public void setRepositorio(Repositorio repositorio) {
         this.repositorio = repositorio;
     }
-    
+
+//    public void setEstudiante(Estudiante estudiante) {
+//        this.estudiante = estudiante;
+//    }
+//    
     @FXML
-    private void cargarDashboardPane() {
+    private void cargarDashboardEstudiante() {
         try {
+            System.out.println("ZARNAAAA: "+estudiante.getCodigoSimcaEstudiante());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("DashboardEstudiantePane.fxml"));
+            Parent nuevaVista = loader.load();
+            
+            // Ajustar la vista al tamaño del contentPane
+            contentPane.getChildren().setAll(nuevaVista);
+            AnchorPane.setTopAnchor(nuevaVista, 0.0);
+            AnchorPane.setBottomAnchor(nuevaVista, 0.0);
+            AnchorPane.setLeftAnchor(nuevaVista, 0.0);
+            AnchorPane.setRightAnchor(nuevaVista, 0.0);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void cargarProyectosEstudiante() {
+        System.out.println("Método cargarProyectosEstudiante() llamado correctamente");
+        ListaProyectoEstudiantePaneController listaProyectosEstudianteControlador = new ListaProyectoEstudiantePaneController(repositorio.getRepositorioProyecto(), estudiante);
+        try {
+
+            System.out.println("CULOOOOOOOOO: " + estudiante.getCodigoSimcaEstudiante());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("listaProyectoEstudiantePane.fxml"));
+            loader.setController(listaProyectosEstudianteControlador);
             Parent nuevaVista = loader.load();
 
             // Ajustar la vista al tamaño del contentPane
@@ -75,12 +104,12 @@ public class DashboardEstudianteController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     private void cerrarSesion(ActionEvent event) {
         try {
             UserLoginController userLoginController = new UserLoginController(repositorio, loginServices);
-            
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
             loader.setController(userLoginController);
             Parent root = loader.load();
@@ -94,5 +123,5 @@ public class DashboardEstudianteController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
 }

@@ -107,4 +107,9 @@ public class UsuarioRepositorioArray implements IUsuarioRepositorio {
         }
         return false;
     }
+
+    @Override
+    public void setRepositorioCorreo(INotificacionRepositorio repositorioCorreo) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

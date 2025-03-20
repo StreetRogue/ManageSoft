@@ -4,16 +4,14 @@
  */
 package co.edu.unicauca.managesoft.access;
 
-import co.edu.unicauca.managesoft.entities.Empresa;
+import co.edu.unicauca.managesoft.entities.Correo;
+import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Proyecto;
-import java.util.List;
 
 /**
  *
- * @author camac
+ * @author juane
  */
-public interface IProyectoRepositorio {
-    boolean guardarProyecto(Proyecto nuevoProyecto, Empresa empresa);
-    List<Proyecto> listarProyectos(Empresa empresa);
-    List<Proyecto> listarProyectosGeneral();
+public interface INotificacionRepositorio {
+        boolean enviarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto);
 }

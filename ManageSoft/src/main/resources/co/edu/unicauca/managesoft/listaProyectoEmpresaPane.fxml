@@ -19,7 +19,7 @@
             <Line endX="952.2999877929688" layoutX="160.0" layoutY="132.0" startX="-100.0" stroke="WHITE" />
             <TableView fx:id="tableViewProyectos" layoutX="60.0" layoutY="174.0" prefHeight="530.0" prefWidth="1053.0" stylesheets="@styles.css">
               <columns>
-                <TableColumn fx:id="colNit" editable="false" prefWidth="60.0" sortable="false" text="Nit Empresa" />
+                <TableColumn fx:id="colId" editable="false" prefWidth="60.0" sortable="false" text="Id Proyecto" />
                 <TableColumn fx:id="colNombre" editable="false" prefWidth="140.0" sortable="false" text="Nombre" />
                   <TableColumn fx:id="colEstado" editable="false" prefWidth="100.0" sortable="false" text="Estado" />
                   <TableColumn fx:id="colFechaCreacion" editable="false" prefWidth="120.0" sortable="false" text="Fecha de Creacion" />

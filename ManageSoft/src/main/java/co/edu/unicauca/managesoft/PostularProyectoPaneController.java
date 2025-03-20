@@ -23,12 +23,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import javafx.stage.Modality;
 
 public class PostularProyectoPaneController implements Initializable {
+
     private IProyectoRepositorio repositorio;
     private Proyecto proyectoRegistrado;
     private Empresa empresa;
-    
 
     public PostularProyectoPaneController(IProyectoRepositorio repositorio, Empresa empresa) {
         this.repositorio = repositorio;
@@ -74,7 +75,7 @@ public class PostularProyectoPaneController implements Initializable {
     // Método para capturar los datos del formulario
     @FXML
     private void postularProyecto(ActionEvent event) throws IOException {
-        
+
         // Obtener los valores de los campos
         String nombreVacante = txtNombreVacante.getText();
         String descripcionVacante = txtDescripcionVacante.getText();
@@ -94,12 +95,13 @@ public class PostularProyectoPaneController implements Initializable {
             mostrarAlerta("Atencion", e.getMessage(), Alert.AlertType.WARNING);
         }
     }
-    
+
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta) {
         Alert alert = new Alert(tipoAlerta);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
-        alert.showAndWait();
+        alert.initModality(Modality.NONE);
+        alert.show();
     }
 }

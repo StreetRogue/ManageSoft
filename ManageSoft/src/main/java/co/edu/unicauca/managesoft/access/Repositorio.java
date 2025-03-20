@@ -17,14 +17,16 @@ public class Repositorio {
     public static ICoordinadorRepositorio repositorioCoordinador;
     public static IEstudianteRepositorio repositorioEstudiante;
     public static IProyectoRepositorio repositorioProyecto;
+    public static INotificacionRepositorio repositorioCorreo;
 
     public Repositorio(IUsuarioRepositorio repositorioUsuario, IEmpresaRepositorio repositorioEmpresa, ICoordinadorRepositorio repositorioCoordinador, 
-            IEstudianteRepositorio repositorioEstudiante, IProyectoRepositorio repositorioProyecto) {
+            IEstudianteRepositorio repositorioEstudiante, IProyectoRepositorio repositorioProyecto, INotificacionRepositorio repositorioCorreo) {
             this.repositorioUsuario = repositorioUsuario;
             this.repositorioEmpresa = repositorioEmpresa;
             this.repositorioCoordinador = repositorioCoordinador;
             this.repositorioEstudiante = repositorioEstudiante;
             this.repositorioProyecto = repositorioProyecto;
+            this.repositorioCorreo = repositorioCorreo;
     }
 
     public static IUsuarioRepositorio getRepositorioUsuario() {
@@ -65,6 +67,14 @@ public class Repositorio {
 
     public static void setRepositorioProyecto(IProyectoRepositorio repositorioProyecto) {
         Repositorio.repositorioProyecto = repositorioProyecto;
+    }
+
+    public static INotificacionRepositorio getRepositorioCorreo() {
+        return repositorioCorreo;
+    }
+
+    public static void setRepositorioCorreo(INotificacionRepositorio repositorioCorreo) {
+        Repositorio.repositorioCorreo = repositorioCorreo;
     }
 
     
