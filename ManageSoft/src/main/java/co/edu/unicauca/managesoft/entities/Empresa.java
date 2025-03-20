@@ -22,7 +22,6 @@ public class Empresa extends Usuario {
     private String nombreContactoEmpresa;
     private String apellidoContactoEmpresa;
     private String cargoContactoEmpresa;
-    private int idUsuario;
     private IProyectoRepositorio repositorioProyectos;
     
     public Empresa(String nitEmpresa, String nombreEmpresa, String emailEmpresa, String sectorEmpresa, String contactoEmpresa, String nombreContactoEmpresa, String apellidoContactoEmpresa, String cargoContactoEmpresa) {
@@ -136,13 +135,5 @@ public class Empresa extends Usuario {
         return repositorioProyectos.listarProyectos(this);
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-    
-    
 }

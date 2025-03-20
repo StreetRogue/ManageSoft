@@ -22,7 +22,6 @@ public class Proyecto extends Subject {
     private String presupuestoProyecto;
     private String fechaPublicacionProyecto;
     private IEstadoProyecto estadoProyecto;
-    private int idEmpresa;
 
     public Proyecto() {
     }
@@ -131,14 +130,6 @@ public class Proyecto extends Subject {
                 estadoProyecto.cambiarEstado(this, estadoProyecto);
             }
         }
-    }
-
-    public int getIdEmpresa() {
-        return idEmpresa;
-    }
-
-    public void setIdEmpresa(int idEmpresa) {
-        this.idEmpresa = idEmpresa;
     }
 
 }

@@ -70,20 +70,13 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
             if (filasAfectadas > 0) {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        int idUsuario = generatedKeys.getInt(1); // Obtener el ID del usuario insertado
-
-                        // Asignamos el ID al objeto Usuario
-                        nuevoUsuario.setIdUsuario(idUsuario);
 
                         // Registrar en el repositorio adecuado dependiendo del tipo de usuario
                         if (nuevoUsuario instanceof Estudiante) {
-                            Estudiante estudiante = (Estudiante) nuevoUsuario;
-                            estudiante.setIdUsuario(idUsuario); // Asignar el ID al Estudiante
-                            return repositorioEstudiante.guardar(estudiante); // Guardar el Estudiante
+                            return repositorioEstudiante.guardar((Estudiante) nuevoUsuario);
+                            
                         } else if (nuevoUsuario instanceof Empresa) {
-                            Empresa empresa = (Empresa) nuevoUsuario;
-                            empresa.setIdUsuario(idUsuario);
-                            return repositorioEmpresa.guardar(empresa);
+                            return repositorioEmpresa.guardar((Empresa) nuevoUsuario);
                         }
                     }
                 }

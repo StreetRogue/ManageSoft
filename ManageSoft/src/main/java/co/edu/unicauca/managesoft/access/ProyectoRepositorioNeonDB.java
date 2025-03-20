@@ -31,7 +31,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
 
     @Override
     public boolean guardarProyecto(Proyecto nuevoProyecto, Empresa empresa) {
-        String sql = "INSERT INTO Proyecto (nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto, estado, id_empresa) "
+        String sql = "INSERT INTO Proyecto (nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto, estado, nit_empresa) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -44,7 +44,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
             stmt.setInt(5, Integer.parseInt(nuevoProyecto.getMaximoMesesProyecto()));
             stmt.setFloat(6, Float.parseFloat((nuevoProyecto.getPresupuestoProyecto())));
             stmt.setString(7, nuevoProyecto.getEstadoProyecto().obtenerEstado()); // Por ejemplo, 'RECIBIDO' si no se ha establecido otro
-            stmt.setInt(8, empresa.getIdUsuario()); // Aquí debes pasar el id de la empresa asociada
+            stmt.setString(8, empresa.getNitEmpresa()); // Aquí debes pasar el id de la empresa asociada
 
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas > 0) {
@@ -63,17 +63,15 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     @Override
     public List<Proyecto> listarProyectos(Empresa empresa) {
         
-        empresa.setIdUsuario(1);
-
-        System.out.println("Buscando proyectos para la empresa con ID: " + empresa.getIdUsuario());
+        System.out.println("Buscando proyectos para la empresa con NIT: " + empresa.getNitEmpresa());
 
         String sql = "SELECT nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto,  fecha, estado "
-            + "FROM Proyecto WHERE id_empresa = ?";
+            + "FROM Proyecto WHERE nit_empresa = ?";
 
         List<Proyecto> proyectos = new ArrayList<>();
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, empresa.getIdUsuario());
+            stmt.setString(1, empresa.getNitEmpresa());
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {

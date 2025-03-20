@@ -30,7 +30,7 @@ public class CoordinadorRepositorioNeonDB implements ICoordinadorRepositorio {
     @Override
     public Coordinador buscarCoordinador(String nombreUsuario) {
         String sql = "SELECT u.nombre_usuario, u.contrasena, u.id_rol, "
-                + "c.nombre, c.email, c.telefono "
+                + "c.nombreCoordinador, c.emailCoordinador, c.telefonoCoordinador "
                 + "FROM Coordinador c "
                 + "INNER JOIN Usuario u ON c.id_usuario = u.id "
                 + "WHERE u.nombre_usuario = ?";
@@ -43,9 +43,9 @@ public class CoordinadorRepositorioNeonDB implements ICoordinadorRepositorio {
                 return new Coordinador(
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena"),
-                        rs.getString("nombre"),
-                        rs.getString("email"),
-                        rs.getString("telefono")
+                        rs.getString("nombreCoordinador"),
+                        rs.getString("emailCoordinador"),
+                        rs.getString("telefonoCoordinador")
                 );
             } else {
                 return null;  // No se encuentra el coordinador
@@ -59,7 +59,7 @@ public class CoordinadorRepositorioNeonDB implements ICoordinadorRepositorio {
     @Override
     public Coordinador buscarCoordinador(String nombreUsuario, String contrasenaUsuario) {
         String sql = "SELECT u.nombre_usuario, u.contrasena, u.id_rol, "
-                + "c.nombre, c.email, c.telefono "
+                + "c.nombreCoordinador, c.emailCoordinador, c.telefonoCoordinador "
                 + "FROM Coordinador c "
                 + "INNER JOIN Usuario u ON c.id_usuario = u.id "
                 + "WHERE u.nombre_usuario = ? AND u.contrasena = ?";
@@ -73,9 +73,9 @@ public class CoordinadorRepositorioNeonDB implements ICoordinadorRepositorio {
                 return new Coordinador(
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena"),
-                        rs.getString("nombre"),
-                        rs.getString("email"),
-                        rs.getString("telefono")
+                        rs.getString("nombreCoordinador"),
+                        rs.getString("emailCoordinador"),
+                        rs.getString("telefonoCoordinador")
                 );
             } else {
                 return null;  // No se encuentra el coordinador con ese usuario y contraseña

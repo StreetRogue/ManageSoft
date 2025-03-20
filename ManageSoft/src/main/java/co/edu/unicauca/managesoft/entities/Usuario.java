@@ -12,7 +12,6 @@ public class Usuario {
     private String nombreUsuario;
     private String contrasenaUsuario;
     private enumTipoUsuario tipoUsuario;
-    private int idUsuario;
     
     public Usuario() {}
 
@@ -46,13 +45,4 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-    
-    
 }

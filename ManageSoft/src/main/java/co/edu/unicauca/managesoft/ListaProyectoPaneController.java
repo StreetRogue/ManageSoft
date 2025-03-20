@@ -27,7 +27,7 @@ public class ListaProyectoPaneController implements IObserver {
     @FXML
     private TableView<Proyecto> tableViewProyectos;
     @FXML
-    private TableColumn<Proyecto, Integer> colId;
+    private TableColumn<Proyecto, Integer> colNit;
     @FXML
     private TableColumn<Proyecto, String> colNombre;
     @FXML
@@ -53,6 +53,7 @@ public class ListaProyectoPaneController implements IObserver {
         proyectosList = FXCollections.observableArrayList();
         cargarProyectos(empresa);
         tableViewProyectos.setItems(proyectosList);
+        //colNit.setCellValueFactory(new PropertyValueFactory<>("nombreProyecto"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreProyecto"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estadoProyecto"));
         colFechaCreacion.setCellValueFactory(new PropertyValueFactory<>("fechaPublicacionProyecto"));
@@ -78,7 +79,6 @@ public class ListaProyectoPaneController implements IObserver {
     }
 
     private List<Proyecto> obtenerProyectosDesdeBaseDeDatos(Empresa empresa) {
-        ProyectoRepositorioNeonDB repositorio = new ProyectoRepositorioNeonDB();
         return repositorio.listarProyectos(empresa);
     }
 }
