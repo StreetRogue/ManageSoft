@@ -66,7 +66,6 @@ public class DashboardEstudianteController implements Initializable {
     @FXML
     private void cargarDashboardEstudiante() {
         try {
-            System.out.println("ZARNAAAA: "+estudiante.getCodigoSimcaEstudiante());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("DashboardEstudiantePane.fxml"));
             Parent nuevaVista = loader.load();
             
@@ -88,7 +87,6 @@ public class DashboardEstudianteController implements Initializable {
         ListaProyectoEstudiantePaneController listaProyectosEstudianteControlador = new ListaProyectoEstudiantePaneController(repositorio.getRepositorioProyecto(), estudiante);
         try {
 
-            System.out.println("CULOOOOOOOOO: " + estudiante.getCodigoSimcaEstudiante());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("listaProyectoEstudiantePane.fxml"));
             loader.setController(listaProyectosEstudianteControlador);
             Parent nuevaVista = loader.load();

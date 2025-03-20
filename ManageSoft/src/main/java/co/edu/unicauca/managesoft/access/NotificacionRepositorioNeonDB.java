@@ -22,10 +22,11 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
 
     @Override
     public boolean enviarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto) {
-        System.out.println(estudiante.getCodigoSimcaEstudiante());
+        System.out.println("Código SIMCA del estudiante: " + estudiante.getCodigoSimcaEstudiante());
+
         String sqlSelectCoordinador = "SELECT id FROM Coordinador WHERE emailcoordinador = ?";
-        String sqlInsertSolicitud = "INSERT INTO SolicitudProyecto (codigoEstudiante, id_coordinador, id_proyecto, emailCoordinador, asunto, motivo) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlInsertSolicitud = "INSERT INTO SolicitudProyecto (codigoEstudiante, id_coordinador, id_proyecto, emailCoordinador, asunto, motivo, estado) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = conectar(); PreparedStatement stmtSelectCoordinador = conn.prepareStatement(sqlSelectCoordinador); PreparedStatement stmtInsertSolicitud = conn.prepareStatement(sqlInsertSolicitud)) {
 
@@ -36,7 +37,7 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
 
             try (ResultSet rs = stmtSelectCoordinador.executeQuery()) {
                 if (!rs.next()) {
-                    System.out.println("️No se encontró el coordinador con el email: " + correo.getDestinatario());
+                    System.out.println("❌ No se encontró el coordinador con el email: " + correo.getDestinatario());
                     conn.rollback();
                     return false;
                 }
@@ -44,21 +45,23 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
                 int idCoordinador = rs.getInt("id");
 
                 // Insertar la solicitud en la tabla SolicitudProyecto
-                stmtInsertSolicitud.setLong(1, Long.parseLong(estudiante.getNombreEstudiante()));
-                stmtInsertSolicitud.setInt(2, idCoordinador);
-                stmtInsertSolicitud.setInt(3, proyecto.getIdProyecto());
-                stmtInsertSolicitud.setString(4, correo.getDestinatario());
-                stmtInsertSolicitud.setString(5, correo.getAsunto());
-                stmtInsertSolicitud.setString(6, correo.getMensaje());
+                stmtInsertSolicitud.setLong(1, Long.parseLong(estudiante.getNombreEstudiante())); // Código del estudiante
+                stmtInsertSolicitud.setInt(2, idCoordinador); // ID del coordinador
+                stmtInsertSolicitud.setInt(3, proyecto.getIdProyecto()); // ID del proyecto
+                stmtInsertSolicitud.setString(4, correo.getDestinatario()); // Email del coordinador
+                stmtInsertSolicitud.setString(5, correo.getAsunto()); // Asunto del correo
+                stmtInsertSolicitud.setString(6, correo.getMensaje()); // Motivo del contacto
+                stmtInsertSolicitud.setString(7, "ENVIADO"); // Estado inicial
 
                 if (stmtInsertSolicitud.executeUpdate() > 0) {
                     conn.commit();
-                    System.out.println("Solicitud de contacto registrada correctamente.");
+                    System.out.println("✅ Solicitud de contacto registrada correctamente.");
                     return true;
                 }
             }
             conn.rollback();
         } catch (SQLException e) {
+            System.err.println("❌ Error al enviar la solicitud: " + e.getMessage());
             e.printStackTrace();
         }
         return false;

@@ -16,4 +16,5 @@ public interface IProyectoRepositorio {
     boolean guardarProyecto(Proyecto nuevoProyecto, Empresa empresa);
     List<Proyecto> listarProyectos(Empresa empresa);
     List<Proyecto> listarProyectosGeneral();
+    
 }

@@ -1,9 +1,7 @@
 package co.edu.unicauca.managesoft;
 
-import co.edu.unicauca.managesoft.access.INotificacionRepositorio;
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.access.Repositorio;
-import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.IObserver;
@@ -14,7 +12,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -108,27 +105,18 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
 
     private void configurarColumnaCorreo() {
         colEnviarCorreo.setCellFactory(tc -> new TableCell<Proyecto, Void>() {
-            private final ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(
-                    "/co/edu/unicauca/managesoft/resources/emailVector.png"
-            )));
-
             private final Button btn = new Button();
 
             {
-                // Configurar la imagen como ícono del botón
                 Image image = new Image(getClass().getResourceAsStream("/co/edu/unicauca/managesoft/resources/emailVector.png"));
                 ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(20);
                 imageView.setFitHeight(20);
                 btn.setGraphic(imageView);
-
-                // Hacer que el botón sea transparente
                 btn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
 
-                // Agregar evento de clic
                 btn.setOnAction(event -> {
                     Proyecto proyecto = getTableView().getItems().get(getIndex());
-                    System.out.println("VAGINAAAAA:  "+ estudiante.getCodigoSimcaEstudiante());
                     abrirVistaContactarCoordinador(proyecto, estudiante);
                 });
             }
@@ -136,11 +124,11 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
+                if (empty || getTableView().getItems().get(getIndex()).isCorreoEnviado()) {
                     setGraphic(null);
                 } else {
                     setGraphic(btn);
-                    setAlignment(Pos.CENTER); // Centrar el botón en la celda
+                    setAlignment(Pos.CENTER);
                 }
             }
         });
@@ -155,9 +143,13 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
 
             Stage stage = new Stage();
             stage.initOwner(tableViewProyectos.getScene().getWindow());
-            stage.initModality(Modality.WINDOW_MODAL);  // Bloquea la interacción con la ventana principal
+            stage.initModality(Modality.WINDOW_MODAL);  
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.showAndWait();
+            
+            tableViewProyectos.refresh();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

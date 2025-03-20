@@ -24,6 +24,7 @@ public class Proyecto extends Subject {
     private String fechaPublicacionProyecto;
     private IEstadoProyecto estadoProyecto;
     private String nombreEmpresa;
+    private boolean correoEnviado;
 
     public Proyecto() {
     }
@@ -148,6 +149,15 @@ public class Proyecto extends Subject {
 
     public void setNombreEmpresa(String nombreEmpresa) {
         this.nombreEmpresa = nombreEmpresa;
+    }
+
+    public boolean isCorreoEnviado() {
+        return correoEnviado;
+    }
+
+    public void setCorreoEnviado(boolean correoEnviado) {
+        this.correoEnviado = correoEnviado;
+        notificarCambios();
     }
 
 }

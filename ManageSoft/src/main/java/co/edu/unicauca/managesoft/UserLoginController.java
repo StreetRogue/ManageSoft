@@ -5,6 +5,7 @@
 package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.Repositorio;
+import co.edu.unicauca.managesoft.entities.Coordinador;
 import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Usuario;
@@ -127,7 +128,7 @@ public class UserLoginController implements Initializable {
                 ((DashboardEmpresaController) controller).setRepositorio(repositorio);
                 ((DashboardEmpresaController) controller).inicializarVista();
             } else if (controller instanceof DashboardCoordinadorController) {
-                ((DashboardCoordinadorController) controller).setUsuario(usuarioInicio);
+                ((DashboardCoordinadorController) controller).setUsuario((Coordinador)usuarioInicio);
                 ((DashboardCoordinadorController) controller).setLoginServices(loginServices);
                 ((DashboardCoordinadorController) controller).setRepositorio(repositorio);
                 ((DashboardCoordinadorController) controller).inicializarVista();

@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class ContactarCoordinadorPaneController {
 
@@ -26,6 +27,7 @@ public class ContactarCoordinadorPaneController {
     private Estudiante estudiante;
     private Proyecto proyecto;
     private INotificacionRepositorio repositorioNotificacion;
+    private boolean correoEnviado = false;
 
     public ContactarCoordinadorPaneController(INotificacionRepositorio repositorioNotificacion, Estudiante estudiante, Proyecto proyecto) {
         this.repositorioNotificacion = repositorioNotificacion;
@@ -61,8 +63,6 @@ public class ContactarCoordinadorPaneController {
         String emailDestinatario = txtEmailContacto.getText();
         String asunto = txtAsuntoContacto.getText();
         String motivo = txtMotivoContacto.getText();
-        
-        System.out.println("PENEEEEEEEEEEEEEEEE:  "+estudiante.getCodigoSimcaEstudiante());
 
         System.out.println("Email: " + emailDestinatario);
         System.out.println("Asunto: " + asunto);
@@ -74,20 +74,38 @@ public class ContactarCoordinadorPaneController {
 
             boolean enviarCorreo = notificacionServicio.guardarCorreo(correo, estudiante, proyecto);
             if (enviarCorreo) {
-                mostrarAlerta("Exito", "Correo enviado exitosamente", Alert.AlertType.CONFIRMATION);
+                proyecto.setCorreoEnviado(true);
+                mostrarAlerta("Exito", "Correo enviado exitosamente", Alert.AlertType.CONFIRMATION, event);
+                cerrarVentana(event);
             }
         } catch (MyException e) {
-            mostrarAlerta("Error", "No se pudo enviar el correo", Alert.AlertType.CONFIRMATION);
+            mostrarAlerta("Error", "No se pudo enviar el correo", Alert.AlertType.CONFIRMATION, event);
         }
 
     }
 
-    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta) {
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta, ActionEvent event) {
+        // Obtener la ventana actual (Contactar Coordinador)
+
         Alert alert = new Alert(tipoAlerta);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
-        alert.showAndWait();
+
+        // Obtener la ventana actual (Contactar Coordinador)
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+        // Asegurar que la alerta se muestre sobre esta ventana
+        alert.initOwner(stage);
+        alert.showAndWait().ifPresent(response -> {
+            if (tipoAlerta == Alert.AlertType.CONFIRMATION) {
+                cerrarVentana(event);
+            }
+        });
+    }
+
+    private void cerrarVentana(ActionEvent event) {
+        ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
     }
 
 }

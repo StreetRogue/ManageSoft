@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +29,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -85,13 +85,7 @@ public class UserRegisterController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Llenar el ComboBox con los valores del enum
-        //cboRolUser.getItems().setAll(enumTipoUsuario.values());
-        cboRolUser.getItems().setAll(
-                Arrays.stream(enumTipoUsuario.values())
-                        .filter(tipo -> tipo != enumTipoUsuario.COORDINADOR)
-                        .collect(Collectors.toList())
-        );
+        cboRolUser.getItems().setAll(enumTipoUsuario.values());
     }
 
     @FXML
@@ -114,20 +108,7 @@ public class UserRegisterController implements Initializable {
         }
     }
 
-    @FXML
-    private void showLoginForm(MouseEvent event) throws IOException {
-        UserLoginController userLoginController = new UserLoginController(repositorio, loginServices);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
-        loader.setController(userLoginController);
-        Parent root = loader.load();
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.centerOnScreen();
-        stage.show();
-    }
+    
 
     public void guardarEstudiante(Estudiante estudiante) {
         usuarioRegistrado = estudiante;
@@ -165,6 +146,7 @@ public class UserRegisterController implements Initializable {
         Map<enumTipoUsuario, String> paginas = new HashMap<>();
         paginas.put(enumTipoUsuario.EMPRESA, "ventanaEmpresaRegistrar.fxml");
         paginas.put(enumTipoUsuario.ESTUDIANTE, "ventanaEstudianteRegistrar.fxml");
+        paginas.put(enumTipoUsuario.COORDINADOR, "ventanaCoordinadorRegistrar.fxml");
 
         // Obtener la vista según el rol seleccionado
         String vista = paginas.get(selectedRol);
@@ -179,6 +161,9 @@ public class UserRegisterController implements Initializable {
             } else if (selectedRol.equals(enumTipoUsuario.ESTUDIANTE)) {
                 controller = new VentanaEstudianteRegistrarController(loginServices);
                 ((VentanaEstudianteRegistrarController) controller).setUserRegisterController(this);
+            } else if (selectedRol.equals(enumTipoUsuario.COORDINADOR)) {
+                controller = new VentanaCoordinadorRegistrarController(loginServices);
+                ((VentanaCoordinadorRegistrarController) controller).setUserRegisterController(this);
             } else {
                 throw new IllegalArgumentException("Rol no soportado: " + selectedRol);
             }
@@ -188,12 +173,12 @@ public class UserRegisterController implements Initializable {
                 loader.setController(controller);
                 Parent root = loader.load();
 
-                // Crear una nueva ventana sin cerrar la actual
                 Stage newStage = new Stage();
                 newStage.setScene(new Scene(root));
                 newStage.setTitle("Registro de " + selectedRol);
                 newStage.setResizable(false);
                 newStage.centerOnScreen();
+                newStage.initModality(Modality.APPLICATION_MODAL); // Evita que la ventana principal se bloquee
                 newStage.show();
 
                 System.out.println("Ventana de " + selectedRol + " mostrada correctamente.");
@@ -233,7 +218,6 @@ public class UserRegisterController implements Initializable {
             usuarioRegistrado.setContrasenaUsuario(contrasenaUsuario);
             usuarioRegistrado.setTipoUsuario(tipoUsuario);
             boolean usuarioGuardado = loginServices.registrarUsuario(usuarioRegistrado);
-            //ProgressBar.setVisible(true);
             if (usuarioGuardado) {
                 System.out.println("Usuario registrado con éxito:");
                 System.out.println("Nombre de usuario: " + nombreUsuario);
