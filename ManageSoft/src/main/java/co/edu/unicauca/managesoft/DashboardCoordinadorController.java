@@ -5,6 +5,8 @@
 package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.Repositorio;
+import co.edu.unicauca.managesoft.entities.Coordinador;
+import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import java.io.IOException;
@@ -26,8 +28,10 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class DashboardCoordinadorController implements Initializable {
+
     private Usuario usuario;
     private LogInServices loginServices;
+    private Coordinador coordinador;
 
     /**
      * Initializes the controller class.
@@ -38,21 +42,21 @@ public class DashboardCoordinadorController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
     }
-    
+
     public void inicializarVista() {
         cargarDashboardPane();
     }
-    
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+
+    public void setUsuario(Coordinador coordinador) {
+        this.coordinador = coordinador;
     }
-    
+
     public void setLoginServices(LogInServices loginServices) {
         this.loginServices = loginServices;
     }
-    
+
     public void setRepositorio(Repositorio repositorio) {
         this.repositorio = repositorio;
     }
@@ -77,8 +81,10 @@ public class DashboardCoordinadorController implements Initializable {
 
     @FXML
     private void cargarProyectosCoordinador() {
+        ListaProyectoCoordinadorPaneController listaProyectoCoordinador = new ListaProyectoCoordinadorPaneController(repositorio.getRepositorioProyecto(), coordinador);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ListaProyectoCoordinadorPane.fxml"));
+            loader.setController(listaProyectoCoordinador);
             Parent nuevaVista = loader.load();
 
             // Ajustar la vista al tamaño del contentPane
@@ -97,7 +103,7 @@ public class DashboardCoordinadorController implements Initializable {
     private void cerrarSesion(ActionEvent event) {
         try {
             UserLoginController userLoginController = new UserLoginController(repositorio, loginServices);
-            
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserLoginVista.fxml"));
             loader.setController(userLoginController);
             Parent root = loader.load();

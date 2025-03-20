@@ -5,6 +5,8 @@
 package co.edu.unicauca.managesoft.access;
 
 import co.edu.unicauca.managesoft.entities.Empresa;
+import co.edu.unicauca.managesoft.entities.EstadoAceptado;
+import co.edu.unicauca.managesoft.entities.EstadoCerrado;
 import co.edu.unicauca.managesoft.entities.EstadoEnEjecucion;
 import co.edu.unicauca.managesoft.entities.EstadoRechazado;
 import co.edu.unicauca.managesoft.entities.EstadoRecibido;
@@ -112,11 +114,20 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     public List<Proyecto> listarProyectosGeneral() {
         System.out.println("Buscando todos los proyectos en la base de datos...");
 
-        String sql = "SELECT p.id, p.nombre AS nombre_proyecto, p.estado, p.presupuesto, "
-                + "p.tiempo_maximo_meses, p.resumen, p.objetivos, p.descripcion, p.fecha, "
-                + "e.nombre AS nombre_empresa "
+        String sql = "SELECT p.id, "
+                + "p.nombre AS nombre_proyecto, "
+                + "p.estado, "
+                + "p.presupuesto, "
+                + "p.tiempo_maximo_meses, "
+                + "p.resumen, "
+                + "p.objetivos, "
+                + "p.descripcion, "
+                + "p.fecha, "
+                + "e.nombre AS nombre_empresa, "
+                + "CASE WHEN sp.estado = 'ENVIADO' THEN TRUE ELSE FALSE END AS correo_enviado "
                 + "FROM Proyecto p "
-                + "JOIN Empresa e ON p.nit_empresa = e.nit";
+                + "JOIN Empresa e ON p.nit_empresa = e.nit "
+                + "LEFT JOIN SolicitudProyecto sp ON p.id = sp.id_proyecto;";
         List<Proyecto> proyectos = new ArrayList<>();
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
@@ -131,6 +142,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
                 proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
                 proyecto.setNombreEmpresa(rs.getString("nombre_empresa"));
+                proyecto.setCorreoEnviado(rs.getBoolean("correo_enviado"));
 
                 // Recuperar el estado del proyecto
                 String estado = rs.getString("estado");
@@ -161,6 +173,10 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 return new EstadoRechazado();
             case "EN EJECUCIÓN":
                 return new EstadoEnEjecucion();
+            case "CERRADO":
+                return new EstadoCerrado();
+            case "ACEPTADO":
+                return new EstadoAceptado();
             default:
                 throw new IllegalArgumentException("Estado no reconocido: " + estado);
         }

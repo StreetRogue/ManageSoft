@@ -103,6 +103,23 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 15, 0.3, 0, 5); /* Sombra */
 }
 
+#btnModificarDatos {
+    -fx-background-color: #3B82F6; /* Color normal */
+    -fx-text-fill: white;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Bold";
+    -fx-cursor: hand;
+    -fx-transition: 0.3s;
+}
+
+#btnModificarDatos:hover {
+    -fx-background-color: #2563EB; /* Color más oscuro en hover */
+    -fx-translate-y: -2px; /* Efecto de elevación */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 15, 0.3, 0, 5); /* Sombra */
+}
+
 /* ---------- Campos de texto ---------- */
 
 /* Estilo para el campo de usuario */
@@ -276,6 +293,19 @@
     -fx-background-color:   #1E2126; /* Fondo de la caja de texto */
 }
 
+#txtComentario .content {
+    -fx-background-color:   #1E2126; /* Fondo oscuro para el área de texto */
+}
+
+#txtComentario  .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+#txtComentario  .scroll-pane .viewport {
+    -fx-background-color:   #1E2126; /* Fondo de la caja de texto */
+}
+
+
 /* ---------- Barra de desplazamiento en el área de descripción ---------- */
 #txtDescripcionVacante .scroll-bar {
     -fx-background-color: #1E2126; /* Color de fondo de la barra de desplazamiento */
@@ -310,6 +340,24 @@
     -fx-background-color:  #1E2126; /* Color del fondo */
     -fx-background-radius: 5px;
 }
+
+#txtComentario .scroll-bar {
+    -fx-background-color: #1E2126; /* Color de fondo de la barra de desplazamiento */
+}
+
+/* Estilo para la parte móvil de la barra de desplazamiento */
+#txtComentario .scroll-bar .thumb {
+    -fx-background-color: #2A2D32; /* Color del slider (ligeramente más claro) */
+    -fx-background-radius: 5px;
+}
+
+/* Estilo para los botones de desplazamiento */
+#txtComentario .scroll-bar .increment-button,
+#txtComentario .scroll-bar .decrement-button {
+    -fx-background-color:  #1E2126; /* Color del fondo */
+    -fx-background-radius: 5px;
+}
+
 
 /* Estilo del área de texto para el resumen de la vacante */
 #txtResumenVacante {
@@ -512,7 +560,7 @@
 
 /* Lista desplegable */
 #cboRolUser .list-cell {
-    -fx-background-color:  #1E2126; 
+    -fx-background-color:  #1E2126;
     -fx-text-fill: #B0B0B0;
     -fx-font-size: 12px;
     -fx-font-family: "Segoe UI Regular";
@@ -522,4 +570,35 @@
 #cboRolUser .list-cell:hover {
     -fx-background-color: #333333;
 }
+
+
+/*Combo Box estadoProyecto*/
+
+#cboEstadoProyecto {
+    -fx-background-color:  #1E2126;  /* Color de fondo oscuro */
+    -fx-border-color: transparent;  /* Sin bordes visibles */
+    -fx-border-radius: 5px;         /* Bordes redondeados */
+    -fx-padding: 5px;
+    -fx-text-fill: #B0B0B0;         /* Color del texto */
+    -fx-font-size: 14px;
+}
+
+/* Flecha del ComboBox */
+#cboEstadoProyecto {
+    -fx-background-color: #B0B0B0; /* Color de la flecha */
+}
+
+/* Lista desplegable */
+#cboEstadoProyecto {
+    -fx-background-color:  #1E2126;
+    -fx-text-fill: #B0B0B0;
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI Regular";
+}
+
+/* Hover en la lista */
+#cboEstadoProyecto:hover {
+    -fx-background-color: #333333;
+}
+
 
