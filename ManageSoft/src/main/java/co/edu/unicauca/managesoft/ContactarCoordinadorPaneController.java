@@ -1,17 +1,14 @@
 package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.INotificacionRepositorio;
-import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.entities.Correo;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.MyException;
 import co.edu.unicauca.managesoft.services.NotificacionServices;
-import java.net.URL;
-import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;

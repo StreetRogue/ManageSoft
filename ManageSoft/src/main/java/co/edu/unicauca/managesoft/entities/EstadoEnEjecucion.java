@@ -19,7 +19,7 @@ public class EstadoEnEjecucion implements IEstadoProyecto {
 
     @Override
     public String obtenerEstado() {
-        return "EN EJECUCION";
+        return "EN_EJECUCION";
     }
 
     @Override
