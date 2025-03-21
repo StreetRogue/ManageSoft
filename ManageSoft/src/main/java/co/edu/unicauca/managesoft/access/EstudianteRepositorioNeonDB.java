@@ -99,9 +99,9 @@ public class EstudianteRepositorioNeonDB implements IEstudianteRepositorio {
 
             if (rs.next()) {
                 return new Estudiante(
-                        String.valueOf(rs.getLong("codigoEstudiante")),
                         rs.getString("nombreEstudiante"),
                         rs.getString("apellidoEstudiante"),
+                        String.valueOf(rs.getLong("codigoEstudiante")),
                         rs.getString("correoEstudiante"),
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena")
@@ -129,9 +129,9 @@ public class EstudianteRepositorioNeonDB implements IEstudianteRepositorio {
 
             if (rs.next()) {
                 return new Estudiante(
-                        String.valueOf(rs.getLong("codigoEstudiante")),
                         rs.getString("nombreEstudiante"),
                         rs.getString("apellidoEstudiante"),
+                        String.valueOf(rs.getLong("codigoEstudiante")),
                         rs.getString("correoEstudiante"),
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena")
@@ -156,9 +156,9 @@ public class EstudianteRepositorioNeonDB implements IEstudianteRepositorio {
 
             while (rs.next()) {
                 Estudiante estudiante = new Estudiante(
-                        String.valueOf(rs.getLong("codigoEstudiante")),
                         rs.getString("nombreEstudiante"),
                         rs.getString("apellidoEstudiante"),
+                        String.valueOf(rs.getLong("codigoEstudiante")),
                         rs.getString("correoEstudiante"),
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena")

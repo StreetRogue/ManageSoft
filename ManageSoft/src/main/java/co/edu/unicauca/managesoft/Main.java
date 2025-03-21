@@ -78,5 +78,17 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch();
+        //DATOS DE PARA INICIAR SESION
+        /*
+        ESTUDIANTE:
+        Usuario: estudiante1
+        Contraseña: clave123
+        EMPRESA:
+        Usuario: empresa1
+        Contraseña: contra123
+        Coordinador
+        Usuario: coord1
+        Contraseña: contrasegura1
+        */
     }
 }
