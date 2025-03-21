@@ -26,7 +26,7 @@ public class EstudianteRepositorioNeonDB implements IEstudianteRepositorio {
     private static final String password = "npg_J9zkqVtWupl1";
 
 // Método para obtener la conexión con usuario y contraseña
-    private Connection conectar() throws SQLException {
+    protected Connection conectar() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 
@@ -171,7 +171,7 @@ public class EstudianteRepositorioNeonDB implements IEstudianteRepositorio {
         return listaEstudiantes;
     }
 
-    private boolean existeSimca(String codigo) {
+    protected boolean existeSimca(String codigo) {
         long aux = Long.parseLong(codigo); // Usamos Long en lugar de Integer
         String sql = "SELECT 1 FROM Estudiante WHERE codigoEstudiante = ?";
 
