@@ -3,7 +3,7 @@ module co.edu.unicauca.managesoft {
     requires javafx.fxml;
     requires java.base;
 
-    opens co.edu.unicauca.managesoft to javafx.fxml, org.mockito;
+    opens co.edu.unicauca.managesoft to javafx.fxml;
     opens co.edu.unicauca.managesoft.entities to javafx.base;
     exports co.edu.unicauca.managesoft;
     

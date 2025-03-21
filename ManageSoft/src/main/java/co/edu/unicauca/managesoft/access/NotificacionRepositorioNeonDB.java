@@ -48,7 +48,7 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
                 int idCoordinador = rs.getInt("id");
 
                 // Insertar la solicitud en la tabla SolicitudProyecto
-                stmtInsertSolicitud.setLong(1, Long.parseLong(estudiante.getNombreEstudiante())); // Usar el código del estudiante
+                stmtInsertSolicitud.setLong(1, Long.parseLong(estudiante.getCodigoSimcaEstudiante())); // Usar el código del estudiante
                 stmtInsertSolicitud.setInt(2, idCoordinador);
                 stmtInsertSolicitud.setInt(3, proyecto.getIdProyecto());
                 stmtInsertSolicitud.setString(4, correo.getDestinatario());
