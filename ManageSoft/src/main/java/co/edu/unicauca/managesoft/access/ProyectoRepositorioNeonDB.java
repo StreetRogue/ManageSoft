@@ -27,7 +27,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     private static final String password = "npg_J9zkqVtWupl1";
 
     // Método para obtener la conexión con usuario y contraseña
-    private Connection conectar() throws SQLException {
+    protected Connection conectar() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 
