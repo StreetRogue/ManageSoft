@@ -7,8 +7,8 @@ public class Correo {
     private String asunto;
     private String mensaje;
     private int idProyecto;
-    private long codigoEstudiante;
-    private int idCoordinador;
+
+
 
     public Correo(String destinatario, String asunto, String mensaje) {
 
@@ -58,19 +58,4 @@ public class Correo {
         this.idProyecto = idProyecto;
     }
 
-    public long getCodigoEstudiante() {
-        return codigoEstudiante;
-    }
-
-    public void setCodigoEstudiante(long codigoEstudiante) {
-        this.codigoEstudiante = codigoEstudiante;
-    }
-
-    public int getIdCoordinador() {
-        return idCoordinador;
-    }
-
-    public void setIdCoordinador(int idCoordinador) {
-        this.idCoordinador = idCoordinador;
-    }
 }

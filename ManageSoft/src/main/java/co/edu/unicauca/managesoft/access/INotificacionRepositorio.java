@@ -4,6 +4,7 @@
  */
 package co.edu.unicauca.managesoft.access;
 
+import co.edu.unicauca.managesoft.entities.Coordinador;
 import co.edu.unicauca.managesoft.entities.Correo;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Proyecto;
@@ -14,4 +15,5 @@ import co.edu.unicauca.managesoft.entities.Proyecto;
  */
 public interface INotificacionRepositorio {
         boolean enviarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto);
+        boolean enviarComentario(String comentario, Coordinador coordinador ,Proyecto Proyecto);
 }

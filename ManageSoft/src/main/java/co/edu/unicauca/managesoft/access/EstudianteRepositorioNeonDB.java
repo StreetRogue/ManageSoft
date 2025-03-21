@@ -32,43 +32,54 @@ public class EstudianteRepositorioNeonDB implements IEstudianteRepositorio {
 
     @Override
     public boolean guardar(Estudiante nuevoEstudiante) {
-
         if (existeSimca(nuevoEstudiante.getCodigoSimcaEstudiante())) {
             return false;
         }
 
-        String sqlSelectUsuario = "SELECT id FROM Usuario WHERE nombre_usuario = ? AND contrasena = ?";
-        String sqlEstudiante = "INSERT INTO Estudiante (codigoEstudiante, nombreEstudiante, apellidoEstudiante, correoEstudiante, id_usuario) VALUES (?, ?, ?, ?, ?)";
+        String sqlUsuario = "INSERT INTO Usuario (nombre_usuario, contrasena, id_rol) "
+                + "SELECT ?, ?, r.id FROM Rol r WHERE r.nombre_rol = ? RETURNING id";
+        String sqlEstudiante = "INSERT INTO Estudiante (codigoEstudiante, nombreEstudiante, apellidoEstudiante, correoEstudiante, id_usuario) "
+                + "VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = conectar(); PreparedStatement stmtSelectUsuario = conn.prepareStatement(sqlSelectUsuario); PreparedStatement stmtEstudiante = conn.prepareStatement(sqlEstudiante)) {
+        try (Connection conn = conectar(); PreparedStatement stmtUsuario = conn.prepareStatement(sqlUsuario, PreparedStatement.RETURN_GENERATED_KEYS); PreparedStatement stmtEstudiante = conn.prepareStatement(sqlEstudiante)) {
 
-            conn.setAutoCommit(false); // Desactivar auto-commit
+            conn.setAutoCommit(false); // Iniciar transacción
 
-            // Obtener el ID del usuario
-            stmtSelectUsuario.setString(1, nuevoEstudiante.getNombreUsuario());
-            stmtSelectUsuario.setString(2, nuevoEstudiante.getContrasenaUsuario());
+            // Insertar usuario
+            stmtUsuario.setString(1, nuevoEstudiante.getNombreUsuario());
+            stmtUsuario.setString(2, nuevoEstudiante.getContrasenaUsuario());
+            stmtUsuario.setString(3, "ESTUDIANTE"); // Suponiendo que el rol se llama 'Estudiante'
 
-            try (ResultSet rs = stmtSelectUsuario.executeQuery()) {
-                if (!rs.next()) {
+            int filasUsuario = stmtUsuario.executeUpdate();
+            if (filasUsuario == 0) {
+                conn.rollback();
+                return false;
+            }
+
+            // Obtener el ID del usuario insertado
+            int idUsuario;
+            try (ResultSet rs = stmtUsuario.getGeneratedKeys()) {
+                if (rs.next()) {
+                    idUsuario = rs.getInt(1);
+                } else {
                     conn.rollback();
                     return false;
                 }
-
-                int idUsuario = rs.getInt("id");
-
-                // Insertar estudiante
-                stmtEstudiante.setLong(1, Long.parseLong(nuevoEstudiante.getCodigoSimcaEstudiante()));
-                stmtEstudiante.setString(2, nuevoEstudiante.getNombreEstudiante());
-                stmtEstudiante.setString(3, nuevoEstudiante.getApellidoEstudiante());
-                stmtEstudiante.setString(4, nuevoEstudiante.getEmailEstudiante());
-                stmtEstudiante.setInt(5, idUsuario);
-
-                if (stmtEstudiante.executeUpdate() > 0) {
-                    conn.commit();
-                    return true;
-                }
             }
-            conn.rollback();
+
+            // Insertar estudiante
+            stmtEstudiante.setLong(1, Long.parseLong(nuevoEstudiante.getCodigoSimcaEstudiante()));
+            stmtEstudiante.setString(2, nuevoEstudiante.getNombreEstudiante());
+            stmtEstudiante.setString(3, nuevoEstudiante.getApellidoEstudiante());
+            stmtEstudiante.setString(4, nuevoEstudiante.getEmailEstudiante());
+            stmtEstudiante.setInt(5, idUsuario);
+
+            if (stmtEstudiante.executeUpdate() > 0) {
+                conn.commit();  // Confirmar la transacción si todo salió bien
+                return true;
+            }
+
+            conn.rollback(); // Si la inserción de estudiante falla, revertir
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -161,11 +172,11 @@ public class EstudianteRepositorioNeonDB implements IEstudianteRepositorio {
     }
 
     private boolean existeSimca(String codigo) {
-        int aux = Integer.parseInt(codigo);
+        long aux = Long.parseLong(codigo); // Usamos Long en lugar de Integer
         String sql = "SELECT 1 FROM Estudiante WHERE codigoEstudiante = ?";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, aux); // Establece el parámetro de la consulta con el código recibido
+            stmt.setLong(1, aux); // Establece el parámetro de la consulta con el código recibido
             ResultSet rs = stmt.executeQuery();
 
             // Si se encuentra un registro, devuelve true
