@@ -125,19 +125,19 @@ public class ListaProyectoCoordinadorPaneController implements IObserver {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || getTableView().getItems().get(getIndex()).isCorreoEnviado()) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(btn);
-                    setAlignment(Pos.CENTER);
+                if (getIndex() < 0 || getIndex() >= getTableView().getItems().size()) {
+                    return;
                 }
+
+                setGraphic(btn);
+                setAlignment(Pos.CENTER);
             }
         });
     }
 
     private void abrirVistaModificarProyecto(Proyecto proyecto, Coordinador coordinador) {
         try {
-            ModificarProyectoController controller = new ModificarProyectoController(repositorio.getRepositorioProyecto(), repositorio.getRepositorioCorreo(),  coordinador, proyecto);
+            ModificarProyectoController controller = new ModificarProyectoController(repositorio.getRepositorioProyecto(), repositorio.getRepositorioCorreo(), coordinador, proyecto);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modificarProyecto.fxml"));
             loader.setController(controller);
             Parent root = loader.load();

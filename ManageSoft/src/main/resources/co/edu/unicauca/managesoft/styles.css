@@ -266,6 +266,69 @@
     -fx-background-color:  #292D34; /* Fondo de la caja de texto */
 }
 
+/* Estilo del área de texto para la descripción de la vacante */
+#txtComentario {
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 3);
+}
+
+#txtComentario .content {
+    -fx-background-color:  #292D34; /* Fondo oscuro para el área de texto */
+}
+
+#txtComentario .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+#txtComentario .scroll-pane .viewport {
+    -fx-background-color:  #292D34; /* Fondo de la caja de texto */
+}
+
+#cboEstadoProyecto {
+    -fx-background-color: #1E2126;  /* Fondo oscuro */
+    -fx-border-color: transparent;  /* Sin bordes */
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI";
+}
+
+/* Color del texto en el ComboBox cuando está cerrado */
+#cboEstadoProyecto .list-cell {
+    -fx-text-fill: white;  /* Texto blanco */
+}
+
+/* Color del texto del elemento seleccionado */
+#cboEstadoProyecto .combo-box-popup .list-view .list-cell {
+    -fx-text-fill: white;  /* Texto blanco */
+    -fx-background-color: #1E2126; /* Fondo oscuro */
+}
+
+/* Color del texto cuando pasas el mouse sobre las opciones */
+#cboEstadoProyecto .combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #333333; /* Color más oscuro */
+}
+
+/* Flecha del ComboBox */
+#cboEstadoProyecto .arrow-button {
+    -fx-background-color: #1E2126; /* Mismo color que el fondo */
+}
+
+/* Color de la flecha dentro del botón */
+#cboEstadoProyecto .arrow-button .arrow {
+    -fx-background-color: white;  /* Flecha blanca */
+}
+
+/* Color del texto cuando no hay selección */
+#cboEstadoProyecto:empty .list-cell {
+    -fx-prompt-text-fill: white;  /* Texto en blanco si está vacío */
+}
+
+
+
 #txtPresupuestoVacante {
     -fx-font-family: "Segoe UI Light";
     -fx-font-size: 16px;
@@ -572,33 +635,5 @@
 }
 
 
-/*Combo Box estadoProyecto*/
-
-#cboEstadoProyecto {
-    -fx-background-color:  #1E2126;  /* Color de fondo oscuro */
-    -fx-border-color: transparent;  /* Sin bordes visibles */
-    -fx-border-radius: 5px;         /* Bordes redondeados */
-    -fx-padding: 5px;
-    -fx-text-fill: #B0B0B0;         /* Color del texto */
-    -fx-font-size: 14px;
-}
-
-/* Flecha del ComboBox */
-#cboEstadoProyecto {
-    -fx-background-color: #B0B0B0; /* Color de la flecha */
-}
-
-/* Lista desplegable */
-#cboEstadoProyecto {
-    -fx-background-color:  #1E2126;
-    -fx-text-fill: #B0B0B0;
-    -fx-font-size: 12px;
-    -fx-font-family: "Segoe UI Regular";
-}
-
-/* Hover en la lista */
-#cboEstadoProyecto:hover {
-    -fx-background-color: #333333;
-}
 
 
