@@ -68,7 +68,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
 
         // Modificamos la consulta para incluir el campo 'id'
         String sql = "SELECT id, nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto, fecha, estado "
-                + "FROM Proyecto WHERE nit_empresa = ?";
+                + "FROM Proyecto WHERE nit_empresa = ? ORDER BY nombre ASC;";
 
         List<Proyecto> proyectos = new ArrayList<>();
 
@@ -127,7 +127,8 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 + "CASE WHEN sp.estado = 'ENVIADO' THEN TRUE ELSE FALSE END AS correo_enviado "
                 + "FROM Proyecto p "
                 + "JOIN Empresa e ON p.nit_empresa = e.nit "
-                + "LEFT JOIN SolicitudProyecto sp ON p.id = sp.id_proyecto;";
+                + "LEFT JOIN SolicitudProyecto sp ON p.id = sp.id_proyecto "
+                + "ORDER BY p.nombre ASC;";
         List<Proyecto> proyectos = new ArrayList<>();
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
@@ -172,7 +173,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 return new EstadoRecibido();
             case "RECHAZADO":
                 return new EstadoRechazado();
-            case "EN EJECUCIÓN":
+            case "EN_EJECUCION":
                 return new EstadoEnEjecucion();
             case "CERRADO":
                 return new EstadoCerrado();

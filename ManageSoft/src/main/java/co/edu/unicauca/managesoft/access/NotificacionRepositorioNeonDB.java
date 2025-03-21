@@ -25,8 +25,9 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
     public boolean enviarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto) {
         System.out.println(estudiante.getCodigoSimcaEstudiante());
         String sqlSelectCoordinador = "SELECT id FROM Coordinador WHERE emailcoordinador = ?";
-        String sqlInsertSolicitud = "INSERT INTO SolicitudProyecto (codigoEstudiante, id_coordinador, id_proyecto, emailCoordinador, asunto, motivo) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+
+        String sqlInsertSolicitud = "INSERT INTO SolicitudProyecto (codigoEstudiante, id_coordinador, id_proyecto, emailCoordinador, asunto, motivo, estado)"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = conectar(); PreparedStatement stmtSelectCoordinador = conn.prepareStatement(sqlSelectCoordinador); PreparedStatement stmtInsertSolicitud = conn.prepareStatement(sqlInsertSolicitud)) {
 
@@ -37,7 +38,9 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
 
             try (ResultSet rs = stmtSelectCoordinador.executeQuery()) {
                 if (!rs.next()) {
-                    System.out.println("️No se encontró el coordinador con el email: " + correo.getDestinatario());
+
+                    System.out.println("No se encontró el coordinador con el email: " + correo.getDestinatario());
+
                     conn.rollback();
                     return false;
                 }
