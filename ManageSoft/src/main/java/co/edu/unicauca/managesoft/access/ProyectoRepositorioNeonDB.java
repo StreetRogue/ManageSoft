@@ -110,6 +110,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
         return proyectos;
     }
 
+    
     @Override
     public List<Proyecto> listarProyectosGeneral() {
         System.out.println("Buscando todos los proyectos en la base de datos...");
