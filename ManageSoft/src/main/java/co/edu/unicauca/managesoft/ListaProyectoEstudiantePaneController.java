@@ -54,8 +54,6 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
     @FXML
     private TableColumn<Proyecto, String> colNombre;
     @FXML
-    private TableColumn<Proyecto, String> colEstado;
-    @FXML
     private TableColumn<Proyecto, String> colEmpresa;
     @FXML
     private TableColumn<Proyecto, String> colResumen;
@@ -75,7 +73,6 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
         tableViewProyectos.setItems(proyectosEmpresaList);
         colId.setCellValueFactory(new PropertyValueFactory<>("idProyecto"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreProyecto"));
-        colEstado.setCellValueFactory(new PropertyValueFactory<>("estadoProyecto"));
         colEmpresa.setCellValueFactory(new PropertyValueFactory<>("nombreEmpresa"));
         colResumen.setCellValueFactory(new PropertyValueFactory<>("resumenProyecto"));
         colPresupuesto.setCellValueFactory(new PropertyValueFactory<>("presupuestoProyecto"));
@@ -103,8 +100,6 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
         return repositorioProyecto.listarProyectosGeneral();
     }
 
-    
-    
     private void configurarColumnaCorreo() {
         colEnviarCorreo.setCellFactory(tc -> new TableCell<Proyecto, Void>() {
             private final Button btn = new Button();
@@ -145,12 +140,11 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
 
             Stage stage = new Stage();
             stage.initOwner(tableViewProyectos.getScene().getWindow());
-            stage.initModality(Modality.WINDOW_MODAL);  
+            stage.initModality(Modality.WINDOW_MODAL);
             stage.setScene(new Scene(root));
             stage.showAndWait();
-            
-            tableViewProyectos.refresh();
 
+            tableViewProyectos.refresh();
 
         } catch (IOException e) {
             e.printStackTrace();
