@@ -20,11 +20,11 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
     private static IProyectoRepositorio repositorioProyecto;
 
 // Método para obtener la conexión con usuario y contraseña
-    private Connection conectar() throws SQLException {
+    protected Connection conectar() throws SQLException {
         return DriverManager.getConnection(url, user, password);
 
     }
-
+    
     @Override
     public boolean guardar(Empresa nuevaEmpresa) {
         // Verificar si ya existe un NIT registrado
@@ -186,7 +186,7 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
         this.repositorioProyecto = repositorioProyecto;
     }
 
-    private boolean existeNit(String nit) {
+    protected boolean existeNit(String nit) {
         String sql = "SELECT 1 FROM Empresa WHERE nit = ?";
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nit);

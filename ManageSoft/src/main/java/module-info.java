@@ -8,5 +8,4 @@ module co.edu.unicauca.managesoft {
     exports co.edu.unicauca.managesoft;
     
     requires java.sql;
-
 }
