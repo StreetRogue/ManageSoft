@@ -165,7 +165,8 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     }
 
     // Método para mapear el estado en String a la clase concreta de estado
-    private IEstadoProyecto obtenerEstadoProyecto(String estado) {
+    @Override
+    public IEstadoProyecto obtenerEstadoProyecto(String estado) {
         switch (estado) {
             case "RECIBIDO":
                 return new EstadoRecibido();
@@ -179,6 +180,30 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 return new EstadoAceptado();
             default:
                 throw new IllegalArgumentException("Estado no reconocido: " + estado);
+        }
+    }
+
+    @Override
+    public boolean actualizarEstadoProyecto(int idProyecto, String nuevoEstado) {
+        String sql = "UPDATE Proyecto SET estado = ? WHERE id = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            conn.setAutoCommit(false);
+
+            stmt.setString(1, nuevoEstado);
+            stmt.setInt(2, idProyecto);
+
+            int filasAfectadas = stmt.executeUpdate();
+            if (filasAfectadas > 0) {
+                conn.commit();
+                return true;
+            } else {
+                conn.rollback();
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

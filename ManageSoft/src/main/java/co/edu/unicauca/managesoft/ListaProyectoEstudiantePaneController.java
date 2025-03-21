@@ -103,6 +103,8 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
         return repositorioProyecto.listarProyectosGeneral();
     }
 
+    
+    
     private void configurarColumnaCorreo() {
         colEnviarCorreo.setCellFactory(tc -> new TableCell<Proyecto, Void>() {
             private final Button btn = new Button();

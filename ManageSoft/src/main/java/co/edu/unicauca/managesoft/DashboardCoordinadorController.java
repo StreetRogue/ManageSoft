@@ -64,6 +64,10 @@ public class DashboardCoordinadorController implements Initializable {
     @FXML
     private void cargarDashboardPane() {
         try {
+            
+            System.out.println("Nombre: "+coordinador.getNombreUsuario());
+            System.out.println("Email: "+coordinador.getEmail());
+            System.out.println("Telefono: "+coordinador.getTelefono());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("DashboardCoordinadorPane.fxml"));
             Parent nuevaVista = loader.load();
 

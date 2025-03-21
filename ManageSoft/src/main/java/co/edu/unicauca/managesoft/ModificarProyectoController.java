@@ -10,6 +10,7 @@ import co.edu.unicauca.managesoft.entities.EstadoRechazado;
 import co.edu.unicauca.managesoft.entities.EstadoRecibido;
 import co.edu.unicauca.managesoft.entities.IEstadoProyecto;
 import co.edu.unicauca.managesoft.entities.Proyecto;
+import co.edu.unicauca.managesoft.services.NotificacionServices;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -40,12 +42,14 @@ public class ModificarProyectoController implements Initializable {
     private INotificacionRepositorio repositorioCorreo;
     private Coordinador coordinador;
     private Proyecto proyecto;
+    private NotificacionServices notificacionServicio;
 
     public ModificarProyectoController(IProyectoRepositorio repositorioProyecto, INotificacionRepositorio repositorioCorreo, Coordinador coordinador, Proyecto proyecto) {
         this.repositorioProyecto = repositorioProyecto;
         this.repositorioCorreo = repositorioCorreo;
         this.coordinador = coordinador;
         this.proyecto = proyecto;
+        this.notificacionServicio = new NotificacionServices(this.repositorioCorreo);
     }
 
     @FXML
@@ -97,39 +101,64 @@ public class ModificarProyectoController implements Initializable {
         }
     }
 
-//    @FXML
-//    private void modificarDatos() {
-//        IEstadoProyecto nuevoEstado = cboEstadoProyecto.getValue();
-//        String comentario = txtComentario.getText();
-//
-//        if (nuevoEstado == null) {
-//            mostrarAlerta("Error", "Seleccione un estado válido", Alert.AlertType.ERROR);
-//            return;
-//        }
-//
-//        // Cambiar el estado del proyecto
-//        proyecto.setEstadoProyecto(nuevoEstado);
-//
-//        // Actualizar el estado en la base de datos
-//        //boolean actualizado = repositorioProyecto.actualizarEstadoProyecto(proyecto.getIdProyecto(), nuevoEstado.obtenerEstado(), comentario);
-//
-//        if (actualizado) {
-//            mostrarAlerta("Éxito", "Estado actualizado correctamente", Alert.AlertType.INFORMATION);
-//
-//            // Cerrar la ventana
-//            Stage stage = (Stage) btnModificarDatos.getScene().getWindow();
-//            stage.close();
-//        } else {
-//            mostrarAlerta("Error", "No se pudo actualizar el estado", Alert.AlertType.ERROR);
-//        }
-//    }
-//
-//    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta) {
-//        Alert alert = new Alert(tipoAlerta);
-//        alert.setTitle(titulo);
-//        alert.setHeaderText(null);
-//        alert.setContentText(mensaje);
-//        alert.showAndWait();
-//    }
+    @FXML
+    private void modificarDatos(ActionEvent event) {
+        IEstadoProyecto nuevoEstado = cboEstadoProyecto.getValue();
+        String comentario = txtComentario.getText();
+
+        if (nuevoEstado == null) {
+            mostrarAlerta("Error", "Seleccione un estado válido", Alert.AlertType.ERROR, event);
+            return;
+        }
+
+        // Usar el método cambiarEstado del estado actual para actualizar el estado del proyecto
+        proyecto.getEstadoProyecto().cambiarEstado(proyecto, nuevoEstado);
+
+        // Actualizar el estado en la base de datos
+        boolean actualizado = repositorioProyecto.actualizarEstadoProyecto(proyecto.getIdProyecto(), nuevoEstado.obtenerEstado());
+
+        if (actualizado) {
+            mostrarAlerta("Éxito", "Estado actualizado correctamente", Alert.AlertType.INFORMATION, event);
+
+            // Llamar al método enviarComentario del servicio de notificación
+            boolean comentarioEnviado = notificacionServicio.enviarComentario(comentario, coordinador, proyecto);
+
+            if (comentarioEnviado) {
+                mostrarAlerta("Comentario", "Comentario enviado correctamente", Alert.AlertType.INFORMATION, event);
+            } else {
+                mostrarAlerta("Comentario", "Error al enviar el comentario", Alert.AlertType.ERROR, event);
+            }
+
+            // Cerrar la ventana
+            Stage stage = (Stage) btnModificarDatos.getScene().getWindow();
+            stage.close();
+        } else {
+            mostrarAlerta("Error", "No se pudo actualizar el estado", Alert.AlertType.ERROR, event);
+        }
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta, ActionEvent event) {
+        // Obtener la ventana actual (Contactar Coordinador)
+
+        Alert alert = new Alert(tipoAlerta);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+
+        // Obtener la ventana actual (Contactar Coordinador)
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+        // Asegurar que la alerta se muestre sobre esta ventana
+        alert.initOwner(stage);
+        alert.showAndWait().ifPresent(response -> {
+            if (tipoAlerta == Alert.AlertType.CONFIRMATION) {
+                cerrarVentana(event);
+            }
+        });
+    }
+
+    private void cerrarVentana(ActionEvent event) {
+        ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
+    }
 
 }

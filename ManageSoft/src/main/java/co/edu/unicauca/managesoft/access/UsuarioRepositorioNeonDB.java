@@ -58,39 +58,16 @@ public class UsuarioRepositorioNeonDB implements IUsuarioRepositorio {
         if (existeUsuario(nuevoUsuario.getNombreUsuario())) {
             return false;  // Si el usuario ya existe, no lo registramos
         }
-
-        String sqlUsuario = "INSERT INTO Usuario (nombre_usuario, contrasena, id_rol) "
-                + "SELECT ?, ?, r.id FROM Rol r WHERE r.nombre_rol = ?";
-
-        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sqlUsuario, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            // Establecemos los parámetros para la consulta SQL
-            stmt.setString(1, nuevoUsuario.getNombreUsuario());
-            stmt.setString(2, nuevoUsuario.getContrasenaUsuario());
-            stmt.setString(3, nuevoUsuario.getTipoUsuario().toString()); // Guardamos el nombre del enum como String
-
-            // Ejecutamos la consulta de inserción
-            int filasAfectadas = stmt.executeUpdate();
-
-            // Si la inserción fue exitosa, obtenemos el ID generado
-            if (filasAfectadas > 0) {
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-
-                        // Registrar en el repositorio adecuado dependiendo del tipo de usuario
-                        if (nuevoUsuario instanceof Estudiante) {
-                            return repositorioEstudiante.guardar((Estudiante) nuevoUsuario);
-
-                        } else if (nuevoUsuario instanceof Empresa) {
-                            return repositorioEmpresa.guardar((Empresa) nuevoUsuario);
-                        }
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+        
+        // Registrar en el repositorio adecuado dependiendo del tipo de usuario
+        if (nuevoUsuario instanceof Estudiante) {
+            return repositorioEstudiante.guardar((Estudiante) nuevoUsuario);
+            
+        } else if (nuevoUsuario instanceof Empresa) {
+            return repositorioEmpresa.guardar((Empresa) nuevoUsuario);
         }
-        return false;  // En caso de error o si no se pudo insertar el usuario
+
+        return false;  // Si no es un tipo de usuario válido, retorna falso
     }
 
     @Override

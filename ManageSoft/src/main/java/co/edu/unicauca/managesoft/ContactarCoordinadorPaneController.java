@@ -84,28 +84,28 @@ public class ContactarCoordinadorPaneController {
 
     }
 
-    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta, ActionEvent event) {
-        // Obtener la ventana actual (Contactar Coordinador)
+        private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta, ActionEvent event) {
+            // Obtener la ventana actual (Contactar Coordinador)
 
-        Alert alert = new Alert(tipoAlerta);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
+            Alert alert = new Alert(tipoAlerta);
+            alert.setTitle(titulo);
+            alert.setHeaderText(null);
+            alert.setContentText(mensaje);
 
-        // Obtener la ventana actual (Contactar Coordinador)
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            // Obtener la ventana actual (Contactar Coordinador)
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
-        // Asegurar que la alerta se muestre sobre esta ventana
-        alert.initOwner(stage);
-        alert.showAndWait().ifPresent(response -> {
-            if (tipoAlerta == Alert.AlertType.CONFIRMATION) {
-                cerrarVentana(event);
-            }
-        });
-    }
+            // Asegurar que la alerta se muestre sobre esta ventana
+            alert.initOwner(stage);
+            alert.showAndWait().ifPresent(response -> {
+                if (tipoAlerta == Alert.AlertType.CONFIRMATION) {
+                    cerrarVentana(event);
+                }
+            });
+        }
 
-    private void cerrarVentana(ActionEvent event) {
-        ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
-    }
+        private void cerrarVentana(ActionEvent event) {
+            ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
+        }
 
 }

@@ -22,55 +22,71 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
 // Método para obtener la conexión con usuario y contraseña
     private Connection conectar() throws SQLException {
         return DriverManager.getConnection(url, user, password);
+
     }
 
     @Override
     public boolean guardar(Empresa nuevaEmpresa) {
+        // Verificar si ya existe un NIT registrado
         if (existeNit(nuevaEmpresa.getNitEmpresa())) {
-            return false;
+            return false;  // Si el NIT ya existe, no podemos guardar la empresa
         }
 
-        String sqlSelectUsuario = "SELECT id FROM Usuario WHERE nombre_usuario = ? AND contrasena = ?";
-        String sqlEmpresa = "INSERT INTO Empresa (nit, id_usuario, nombre, email, sector, telefono_contacto, nombre_contacto, apellido_contacto, cargo_contacto) "
+        // SQL para insertar un nuevo usuario
+        String sqlUsuario = "INSERT INTO Usuario (nombre_usuario, contrasena, id_rol) "
+                + "SELECT ?, ?, r.id FROM Rol r WHERE r.nombre_rol = ? RETURNING id";
+
+        // SQL para insertar la nueva empresa
+        String sqlEmpresa = "INSERT INTO Empresa (nit, nombre, email, sector, telefono_contacto, nombre_contacto, apellido_contacto, cargo_contacto, id_usuario) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = conectar(); PreparedStatement stmtSelectUsuario = conn.prepareStatement(sqlSelectUsuario); PreparedStatement stmtEmpresa = conn.prepareStatement(sqlEmpresa)) {
+        try (Connection conn = conectar(); PreparedStatement stmtUsuario = conn.prepareStatement(sqlUsuario, PreparedStatement.RETURN_GENERATED_KEYS); PreparedStatement stmtEmpresa = conn.prepareStatement(sqlEmpresa)) {
 
-            conn.setAutoCommit(false);
+            conn.setAutoCommit(false);  // Iniciar transacción
 
-            // Obtener el ID del usuario
-            stmtSelectUsuario.setString(1, nuevaEmpresa.getNombreUsuario());
-            stmtSelectUsuario.setString(2, nuevaEmpresa.getContrasenaUsuario());
+            // Insertar usuario
+            stmtUsuario.setString(1, nuevaEmpresa.getNombreUsuario());
+            stmtUsuario.setString(2, nuevaEmpresa.getContrasenaUsuario());  // Asegúrate de que la contraseña esté cifrada si es necesario
+            stmtUsuario.setString(3, "EMPRESA");  // Suponiendo que el rol se llama 'Empresa'
 
-            try (ResultSet rs = stmtSelectUsuario.executeQuery()) {
-                if (!rs.next()) {
+            int filasUsuario = stmtUsuario.executeUpdate();
+            if (filasUsuario == 0) {
+                conn.rollback();
+                return false;
+            }
+
+            // Obtener el ID del usuario insertado
+            int idUsuario;
+            try (ResultSet rs = stmtUsuario.getGeneratedKeys()) {
+                if (rs.next()) {
+                    idUsuario = rs.getInt(1);
+                } else {
                     conn.rollback();
                     return false;
                 }
-
-                int idUsuario = rs.getInt("id");
-
-                // Insertar empresa
-                stmtEmpresa.setString(1, nuevaEmpresa.getNitEmpresa());
-                stmtEmpresa.setInt(2, idUsuario);
-                stmtEmpresa.setString(3, nuevaEmpresa.getNombreEmpresa());
-                stmtEmpresa.setString(4, nuevaEmpresa.getEmailEmpresa());
-                stmtEmpresa.setString(5, nuevaEmpresa.getSectorEmpresa());
-                stmtEmpresa.setString(6, nuevaEmpresa.getContactoEmpresa());
-                stmtEmpresa.setString(7, nuevaEmpresa.getNombreContactoEmpresa());
-                stmtEmpresa.setString(8, nuevaEmpresa.getApellidoContactoEmpresa());
-                stmtEmpresa.setString(9, nuevaEmpresa.getCargoContactoEmpresa());
-
-                if (stmtEmpresa.executeUpdate() > 0) {
-                    conn.commit();
-                    return true;
-                }
             }
-            conn.rollback();
+
+            // Insertar empresa
+            stmtEmpresa.setString(1, nuevaEmpresa.getNitEmpresa());
+            stmtEmpresa.setString(2, nuevaEmpresa.getNombreEmpresa());
+            stmtEmpresa.setString(3, nuevaEmpresa.getEmailEmpresa());
+            stmtEmpresa.setString(4, nuevaEmpresa.getSectorEmpresa());
+            stmtEmpresa.setString(5, nuevaEmpresa.getContactoEmpresa());
+            stmtEmpresa.setString(6, nuevaEmpresa.getNombreContactoEmpresa());
+            stmtEmpresa.setString(7, nuevaEmpresa.getApellidoContactoEmpresa());
+            stmtEmpresa.setString(8, nuevaEmpresa.getCargoContactoEmpresa());
+            stmtEmpresa.setInt(9, idUsuario);  // Asociar la empresa con el id_usuario
+
+            if (stmtEmpresa.executeUpdate() > 0) {
+                conn.commit();  // Confirmar la transacción si todo salió bien
+                return true;
+            }
+
+            conn.rollback();  // Si la inserción de la empresa falla, revertir
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return false;  // Si ocurre algún error, devolvemos false
     }
 
     @Override
