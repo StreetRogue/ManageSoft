@@ -3,6 +3,7 @@ package co.edu.unicauca.managesoft;
 import co.edu.unicauca.managesoft.access.INotificacionRepositorio;
 import co.edu.unicauca.managesoft.entities.Correo;
 import co.edu.unicauca.managesoft.entities.Estudiante;
+import co.edu.unicauca.managesoft.entities.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.MyException;
 import co.edu.unicauca.managesoft.services.NotificacionServices;
@@ -22,11 +23,11 @@ public class ContactarCoordinadorPaneController {
      */
     private NotificacionServices notificacionServicio;
     private Estudiante estudiante;
-    private Proyecto proyecto;
+    private ProyectTable proyecto;
     private INotificacionRepositorio repositorioNotificacion;
     private boolean correoEnviado = false;
 
-    public ContactarCoordinadorPaneController(INotificacionRepositorio repositorioNotificacion, Estudiante estudiante, Proyecto proyecto) {
+    public ContactarCoordinadorPaneController(INotificacionRepositorio repositorioNotificacion, Estudiante estudiante, ProyectTable proyecto) {
         this.repositorioNotificacion = repositorioNotificacion;
         this.notificacionServicio = new NotificacionServices(this.repositorioNotificacion);
         this.estudiante = estudiante;
@@ -71,7 +72,7 @@ public class ContactarCoordinadorPaneController {
 
             boolean enviarCorreo = notificacionServicio.guardarCorreo(correo, estudiante, proyecto);
             if (enviarCorreo) {
-                proyecto.setCorreoEnviado(true);
+                //proyecto.setCorreoEnviado(true);
                 mostrarAlerta("Exito", "Correo enviado exitosamente", Alert.AlertType.CONFIRMATION, event);
                 cerrarVentana(event);
             }

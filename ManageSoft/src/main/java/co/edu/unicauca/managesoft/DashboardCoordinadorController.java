@@ -29,7 +29,7 @@ import javafx.stage.Stage;
  */
 public class DashboardCoordinadorController implements Initializable {
 
-    private Usuario usuario;
+//    private Usuario usuario;
     private LogInServices loginServices;
     private Coordinador coordinador;
 
@@ -85,7 +85,7 @@ public class DashboardCoordinadorController implements Initializable {
 
     @FXML
     private void cargarProyectosCoordinador() {
-        ListaProyectoCoordinadorPaneController listaProyectoCoordinador = new ListaProyectoCoordinadorPaneController(repositorio.getRepositorioProyecto(), coordinador);
+        ListaProyectoCoordinadorPaneController listaProyectoCoordinador = new ListaProyectoCoordinadorPaneController(coordinador);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ListaProyectoCoordinadorPane.fxml"));
             loader.setController(listaProyectoCoordinador);

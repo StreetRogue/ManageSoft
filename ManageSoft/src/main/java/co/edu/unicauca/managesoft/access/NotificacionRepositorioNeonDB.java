@@ -3,6 +3,7 @@ package co.edu.unicauca.managesoft.access;
 import co.edu.unicauca.managesoft.entities.Coordinador;
 import co.edu.unicauca.managesoft.entities.Correo;
 import co.edu.unicauca.managesoft.entities.Estudiante;
+import co.edu.unicauca.managesoft.entities.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,7 +23,7 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
     }
 
     @Override
-    public boolean enviarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto) {
+    public boolean enviarCorreo(Correo correo, Estudiante estudiante, ProyectTable proyecto) {
         System.out.println(estudiante.getCodigoSimcaEstudiante());
         String sqlSelectCoordinador = "SELECT id FROM Coordinador WHERE emailcoordinador = ?";
 
@@ -70,7 +71,7 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
     }
 
     @Override
-    public boolean enviarComentario(String comentario, Coordinador coordinador, Proyecto proyecto) {
+    public boolean enviarComentario(String comentario, Coordinador coordinador, ProyectTable proyecto) {
         String emailCoordinador = coordinador.getEmail();
         String emailEmpresa = obtenerEmailEmpresa(proyecto.getNombreEmpresa()); // Obtener el email de la empresa desde el nombre de la empresa
 
@@ -79,10 +80,9 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
             System.out.println("No se encontró el correo de la empresa.");
             return false;
         }
-
         // SQL para insertar el comentario en la base de datos
         String sql = "INSERT INTO Comentario (comentario, email_coordinador, email_empresa, id_proyecto) VALUES (?, ?, ?, ?)";
-
+//
         try (PreparedStatement stmt = conectar().prepareStatement(sql)) {
             stmt.setString(1, comentario);
             stmt.setString(2, emailCoordinador);
@@ -115,5 +115,4 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
 
         return emailEmpresa;
     }
-
 }

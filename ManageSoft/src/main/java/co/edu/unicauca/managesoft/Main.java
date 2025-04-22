@@ -40,12 +40,11 @@ public class Main extends Application {
         IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("NEONDB");
         INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("NEONDB");
         
-        Repositorio repositorio = new Repositorio(repositorioUsuarios, repositorioEmpresa, repositorioCoordinador, repositorioEstudiante, repositorioProyectos, repositorioCorreo);
+        Repositorio repositorio = new Repositorio(repositorioUsuarios, repositorioEmpresa, repositorioCoordinador, repositorioEstudiante,repositorioCorreo);
         
         repositorioUsuarios.setRepositorioEmpresa(repositorioEmpresa);
         repositorioUsuarios.setRepositorioCoordinador(repositorioCoordinador);
         repositorioUsuarios.setRepositorioEstudiante(repositorioEstudiante);
-        repositorioUsuarios.setRepositorioProyecto(repositorioProyectos);
         repositorioEmpresa.setRepositorioProyecto(repositorioProyectos);
         repositorioUsuarios.setRepositorioCorreo(repositorioCorreo);
         

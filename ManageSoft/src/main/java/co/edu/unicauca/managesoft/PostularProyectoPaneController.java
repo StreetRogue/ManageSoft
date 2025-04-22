@@ -27,12 +27,9 @@ import javafx.stage.Modality;
 
 public class PostularProyectoPaneController implements Initializable {
 
-    private IProyectoRepositorio repositorio;
-    private Proyecto proyectoRegistrado;
     private Empresa empresa;
 
-    public PostularProyectoPaneController(IProyectoRepositorio repositorio, Empresa empresa) {
-        this.repositorio = repositorio;
+    public PostularProyectoPaneController(Empresa empresa) {
         this.empresa = empresa;
     }
 
@@ -85,7 +82,7 @@ public class PostularProyectoPaneController implements Initializable {
         String tiempoEstipulado = txtTiempoEstipulado.getText();
 
         try {
-            boolean guardar = empresa.agregarProyecto(repositorio, nombreVacante, resumenVacante, objetivo, descripcionVacante, tiempoEstipulado, presupuesto);
+            boolean guardar = empresa.agregarProyecto(empresa.getRepositorioProyectos(), nombreVacante, resumenVacante, objetivo, descripcionVacante, tiempoEstipulado, presupuesto);
 
             if (guardar) {
                 mostrarAlerta("Exito", "El proyecto se postulo correctamente", Alert.AlertType.CONFIRMATION);

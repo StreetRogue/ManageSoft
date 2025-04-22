@@ -72,6 +72,8 @@ public class EmpresaRepositorioArray implements IEmpresaRepositorio {
     
     
     
+    
+    
     private boolean existeNit(String nit){
         for (Empresa empresa: empresasArray){
             if (empresa.getNitEmpresa().equals(nit)){
@@ -79,6 +81,11 @@ public class EmpresaRepositorioArray implements IEmpresaRepositorio {
             }
         }
         return false;
+    }
+
+    @Override
+    public IProyectoRepositorio getRepositorioProyecto() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

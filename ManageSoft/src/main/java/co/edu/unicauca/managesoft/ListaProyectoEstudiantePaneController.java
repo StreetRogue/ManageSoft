@@ -1,8 +1,10 @@
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.IEmpresaRepositorio;
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.entities.Estudiante;
+import co.edu.unicauca.managesoft.entities.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.IObserver;
 import java.io.IOException;
@@ -31,12 +33,10 @@ import javafx.stage.Stage;
  */
 public class ListaProyectoEstudiantePaneController implements IObserver {
 
-    private IProyectoRepositorio repositorioProyecto;
     private Repositorio repositorio;
     private Estudiante estudiante;
 
-    public ListaProyectoEstudiantePaneController(IProyectoRepositorio repositorioProyecto, Estudiante estudiante) {
-        this.repositorioProyecto = repositorioProyecto;
+    public ListaProyectoEstudiantePaneController(Estudiante estudiante) {
         this.estudiante = estudiante;
     }
 
@@ -48,23 +48,23 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
      * Initializes the controller class.
      */
     @FXML
-    private TableView<Proyecto> tableViewProyectos;
+    private TableView<ProyectTable> tableViewProyectos;
     @FXML
-    private TableColumn<Proyecto, Integer> colId;
+    private TableColumn<ProyectTable, Integer> colId;
     @FXML
-    private TableColumn<Proyecto, String> colNombre;
+    private TableColumn<ProyectTable, String> colNombre;
     @FXML
-    private TableColumn<Proyecto, String> colEmpresa;
+    private TableColumn<ProyectTable, String> colEmpresa;
     @FXML
-    private TableColumn<Proyecto, String> colResumen;
+    private TableColumn<ProyectTable, String> colResumen;
     @FXML
-    private TableColumn<Proyecto, Double> colPresupuesto;
+    private TableColumn<ProyectTable, Double> colPresupuesto;
     @FXML
-    private TableColumn<Proyecto, String> colTiempoEstipulado;
+    private TableColumn<ProyectTable, String> colTiempoEstipulado;
     @FXML
-    private TableColumn<Proyecto, Void> colEnviarCorreo;
+    private TableColumn<ProyectTable, Void> colEnviarCorreo;
 
-    private ObservableList<Proyecto> proyectosEmpresaList;
+    private ObservableList<ProyectTable> proyectosEmpresaList;
 
     @FXML
     public void initialize() {
@@ -82,11 +82,11 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
     }
 
     public void cargarProyectos() {
-        List<Proyecto> proyectos = obtenerProyectosDesdeBaseDeDatos();
+        List<ProyectTable> proyectos = obtenerProyectosDesdeBaseDeDatos();
         proyectosEmpresaList.clear();
         proyectosEmpresaList.addAll(proyectos);
 
-        for (Proyecto proyecto : proyectos) {
+        for (ProyectTable proyecto : proyectos) {
             proyecto.agregarObservador(this);
         }
     }
@@ -96,12 +96,12 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
         tableViewProyectos.refresh();
     }
 
-    private List<Proyecto> obtenerProyectosDesdeBaseDeDatos() {
-        return repositorioProyecto.listarProyectosGeneral();
+    private List<ProyectTable> obtenerProyectosDesdeBaseDeDatos() {
+        return repositorio.getRepositorioEmpresa().getRepositorioProyecto().listarProyectosGeneral();
     }
 
     private void configurarColumnaCorreo() {
-        colEnviarCorreo.setCellFactory(tc -> new TableCell<Proyecto, Void>() {
+        colEnviarCorreo.setCellFactory(tc -> new TableCell<ProyectTable, Void>() {
             private final Button btn = new Button();
 
             {
@@ -113,7 +113,7 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
                 btn.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
 
                 btn.setOnAction(event -> {
-                    Proyecto proyecto = getTableView().getItems().get(getIndex());
+                    ProyectTable proyecto = getTableView().getItems().get(getIndex());
                     abrirVistaContactarCoordinador(proyecto, estudiante);
                 });
             }
@@ -131,7 +131,7 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
         });
     }
 
-    private void abrirVistaContactarCoordinador(Proyecto proyecto, Estudiante estudiante) {
+    private void abrirVistaContactarCoordinador(ProyectTable proyecto, Estudiante estudiante) {
         try {
             ContactarCoordinadorPaneController controller = new ContactarCoordinadorPaneController(repositorio.getRepositorioCorreo(), estudiante, proyecto);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("contactarCoordinadorPane.fxml"));

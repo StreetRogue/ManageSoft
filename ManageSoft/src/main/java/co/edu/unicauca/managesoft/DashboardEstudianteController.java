@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  */
 public class DashboardEstudianteController implements Initializable {
 
-    private Usuario usuario;
+//    private Usuario usuario;
     private LogInServices loginServices;
     private ProyectoServices proyectoServices;
     private Estudiante estudiante;
@@ -58,11 +58,7 @@ public class DashboardEstudianteController implements Initializable {
     public void setRepositorio(Repositorio repositorio) {
         this.repositorio = repositorio;
     }
-
-//    public void setEstudiante(Estudiante estudiante) {
-//        this.estudiante = estudiante;
-//    }
-//    
+    
     @FXML
     private void cargarDashboardEstudiante() {
         try {
@@ -84,7 +80,7 @@ public class DashboardEstudianteController implements Initializable {
     @FXML
     private void cargarProyectosEstudiante() {
         System.out.println("Método cargarProyectosEstudiante() llamado correctamente");
-        ListaProyectoEstudiantePaneController listaProyectosEstudianteControlador = new ListaProyectoEstudiantePaneController(repositorio.getRepositorioProyecto(), estudiante);
+        ListaProyectoEstudiantePaneController listaProyectosEstudianteControlador = new ListaProyectoEstudiantePaneController(estudiante);
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("listaProyectoEstudiantePane.fxml"));

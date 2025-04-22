@@ -5,14 +5,12 @@
 package co.edu.unicauca.managesoft.entities;
 
 import co.edu.unicauca.managesoft.infra.Subject;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  *
- * @author jutak
+ * @author camac
  */
-public class Proyecto extends Subject {
+public class ProyectTable extends Subject {
 
     private int idProyecto;
     private String nombreProyecto;
@@ -23,41 +21,32 @@ public class Proyecto extends Subject {
     private String presupuestoProyecto;
     private String fechaPublicacionProyecto;
     private IEstadoProyecto estadoProyecto;
+    private String nombreEmpresa;
+    private boolean correoEnviado;
 
-    public Proyecto() {
+    public ProyectTable() {
     }
 
-    // Constructor CON el presupuesto
-    public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto) {
+    public ProyectTable(int idProyecto, String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto, String fechaPublicacionProyecto, IEstadoProyecto estadoProyecto, String nombreEmpresa, boolean correoEnviado) {
+        this.idProyecto = idProyecto;
         this.nombreProyecto = nombreProyecto;
         this.resumenProyecto = resumenProyecto;
         this.objetivoProyecto = objetivoProyecto;
         this.descripcionProyecto = descripcionProyecto;
         this.maximoMesesProyecto = maximoMesesProyecto;
         this.presupuestoProyecto = presupuestoProyecto;
-
-        // Obtener fecha actual del computador y formatearla
-        Date fechaActual = new Date();
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        this.fechaPublicacionProyecto = formato.format(fechaActual);
-
-        this.estadoProyecto = new EstadoRecibido();
+        this.fechaPublicacionProyecto = fechaPublicacionProyecto;
+        this.estadoProyecto = estadoProyecto;
+        this.nombreEmpresa = nombreEmpresa;
+        this.correoEnviado = correoEnviado;
     }
 
-    // Constructor SIN el presupuesto
-    public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto) {
-        this.nombreProyecto = nombreProyecto;
-        this.resumenProyecto = resumenProyecto;
-        this.objetivoProyecto = objetivoProyecto;
-        this.descripcionProyecto = descripcionProyecto;
-        this.maximoMesesProyecto = maximoMesesProyecto;
+    public int getIdProyecto() {
+        return idProyecto;
+    }
 
-        // Obtener fecha actual del computador y formatearla
-        Date fechaActual = new Date();
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        this.fechaPublicacionProyecto = formato.format(fechaActual);
-
-        this.estadoProyecto = new EstadoRecibido();
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
     }
 
     public String getNombreProyecto() {
@@ -121,24 +110,39 @@ public class Proyecto extends Subject {
     }
 
     public void setEstadoProyecto(IEstadoProyecto estadoProyecto) {
-        if (this.estadoProyecto != estadoProyecto) { // ✅ Evita recursión infinita
-            this.estadoProyecto = estadoProyecto;  // Asigna el nuevo estado
-            setChanged();
-            notificarCambios();
-
-            // Solo llama a cambiarEstado si es necesario
-            if (estadoProyecto != null) {
-                estadoProyecto.cambiarEstado(this, estadoProyecto);
-            }
-        }
+        this.estadoProyecto = estadoProyecto;
     }
 
-    public int getIdProyecto() {
-        return idProyecto;
+    public String getNombreEmpresa() {
+        return nombreEmpresa;
     }
 
-    public void setIdProyecto(int idProyecto) {
-        this.idProyecto = idProyecto;
+    public void setNombreEmpresa(String nombreEmpresa) {
+        this.nombreEmpresa = nombreEmpresa;
+    }
+
+    public boolean isCorreoEnviado() {
+        return correoEnviado;
+    }
+
+    public void setCorreoEnviado(boolean correoEnviado) {
+        this.correoEnviado = correoEnviado;
+    }
+
+    public Proyecto toProyecto() {
+        Proyecto proyecto = new Proyecto();
+
+        proyecto.setIdProyecto(this.idProyecto);
+        proyecto.setNombreProyecto(this.nombreProyecto);
+        proyecto.setResumenProyecto(this.resumenProyecto);
+        proyecto.setObjetivoProyecto(this.objetivoProyecto);
+        proyecto.setDescripcionProyecto(this.descripcionProyecto);
+        proyecto.setMaximoMesesProyecto(this.maximoMesesProyecto);
+        proyecto.setPresupuestoProyecto(this.presupuestoProyecto);
+        proyecto.setFechaPublicacionProyecto(this.fechaPublicacionProyecto);
+        proyecto.setEstadoProyecto(this.estadoProyecto);
+
+        return proyecto;
     }
 
 }

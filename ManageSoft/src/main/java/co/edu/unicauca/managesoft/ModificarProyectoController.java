@@ -9,6 +9,7 @@ import co.edu.unicauca.managesoft.entities.EstadoEnEjecucion;
 import co.edu.unicauca.managesoft.entities.EstadoRechazado;
 import co.edu.unicauca.managesoft.entities.EstadoRecibido;
 import co.edu.unicauca.managesoft.entities.IEstadoProyecto;
+import co.edu.unicauca.managesoft.entities.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.services.NotificacionServices;
 import java.net.URL;
@@ -41,10 +42,10 @@ public class ModificarProyectoController implements Initializable {
     private IProyectoRepositorio repositorioProyecto;
     private INotificacionRepositorio repositorioCorreo;
     private Coordinador coordinador;
-    private Proyecto proyecto;
+    private ProyectTable proyecto;
     private NotificacionServices notificacionServicio;
 
-    public ModificarProyectoController(IProyectoRepositorio repositorioProyecto, INotificacionRepositorio repositorioCorreo, Coordinador coordinador, Proyecto proyecto) {
+    public ModificarProyectoController(IProyectoRepositorio repositorioProyecto, INotificacionRepositorio repositorioCorreo, Coordinador coordinador, ProyectTable proyecto) {
         this.repositorioProyecto = repositorioProyecto;
         this.repositorioCorreo = repositorioCorreo;
         this.coordinador = coordinador;
@@ -112,7 +113,8 @@ public class ModificarProyectoController implements Initializable {
         }
 
         // Usar el método cambiarEstado del estado actual para actualizar el estado del proyecto
-        proyecto.getEstadoProyecto().cambiarEstado(proyecto, nuevoEstado);
+        Proyecto proyectAux = proyecto.toProyecto();
+        proyectAux.getEstadoProyecto().cambiarEstado(proyectAux, nuevoEstado);
 
         // Actualizar el estado en la base de datos
         boolean actualizado = repositorioProyecto.actualizarEstadoProyecto(proyecto.getIdProyecto(), nuevoEstado.obtenerEstado());
