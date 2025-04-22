@@ -18,4 +18,6 @@ public interface IEmpresaRepositorio {
     List<Empresa> listarEmpresas();
     
     void setRepositorioProyecto(IProyectoRepositorio repositorioProyecto);
+    IProyectoRepositorio getRepositorioProyecto();
+
 }

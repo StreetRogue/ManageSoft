@@ -132,7 +132,7 @@ public class Empresa extends Usuario {
     }
     
     public List<Proyecto> listarProyectos() {
-        return repositorioProyectos.listarProyectos(this);
+        return repositorioProyectos.listarProyectos(this.nitEmpresa);
     }
 
 

@@ -6,9 +6,7 @@ package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.entities.Empresa;
-import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.services.LogInServices;
-import co.edu.unicauca.managesoft.services.ProyectoServices;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,7 +28,6 @@ import javafx.stage.Stage;
 public class DashboardEmpresaController implements Initializable {
     private Empresa empresa;
     private LogInServices loginServices;
-    private ProyectoServices proyectoServices;
     
     /**
      * Initializes the controller class.
@@ -90,7 +87,7 @@ public class DashboardEmpresaController implements Initializable {
     
     @FXML
     private void cargarPostularProyecto() {
-        PostularProyectoPaneController proyectoControlador = new PostularProyectoPaneController(repositorio.getRepositorioProyecto(), empresa);
+        PostularProyectoPaneController proyectoControlador = new PostularProyectoPaneController(empresa);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("postularProyectoPane.fxml")); 
             loader.setController(proyectoControlador);
@@ -112,7 +109,7 @@ public class DashboardEmpresaController implements Initializable {
     
     @FXML
     private void cargarProyectosEmpresa() {
-        ListaProyectoPaneController listaProyectosControlador = new ListaProyectoPaneController(repositorio.getRepositorioProyecto(), empresa);
+        ListaProyectoPaneController listaProyectosControlador = new ListaProyectoPaneController(empresa);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("listaProyectoEmpresaPane.fxml"));
             loader.setController(listaProyectosControlador);

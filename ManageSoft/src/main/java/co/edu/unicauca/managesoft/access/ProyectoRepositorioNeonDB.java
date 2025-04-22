@@ -11,6 +11,7 @@ import co.edu.unicauca.managesoft.entities.EstadoEnEjecucion;
 import co.edu.unicauca.managesoft.entities.EstadoRechazado;
 import co.edu.unicauca.managesoft.entities.EstadoRecibido;
 import co.edu.unicauca.managesoft.entities.IEstadoProyecto;
+import co.edu.unicauca.managesoft.entities.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -63,8 +64,8 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     }
 
     @Override
-    public List<Proyecto> listarProyectos(Empresa empresa) {
-        System.out.println("Buscando proyectos para la empresa con NIT: " + empresa.getNitEmpresa());
+    public List<Proyecto> listarProyectos(String nitEmpresa) {
+        System.out.println("Buscando proyectos para la empresa con NIT: " + nitEmpresa);
 
         // Modificamos la consulta para incluir el campo 'id'
         String sql = "SELECT id, nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto, fecha, estado "
@@ -73,7 +74,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
         List<Proyecto> proyectos = new ArrayList<>();
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, empresa.getNitEmpresa());
+            stmt.setString(1, nitEmpresa);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -112,7 +113,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
 
     
     @Override
-    public List<Proyecto> listarProyectosGeneral() {
+    public List<ProyectTable> listarProyectosGeneral() {
         System.out.println("Buscando todos los proyectos en la base de datos...");
 
         String sql = "SELECT p.id, "
@@ -130,11 +131,11 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 + "JOIN Empresa e ON p.nit_empresa = e.nit "
                 + "LEFT JOIN SolicitudProyecto sp ON p.id = sp.id_proyecto "
                 + "ORDER BY p.nombre ASC;";
-        List<Proyecto> proyectos = new ArrayList<>();
+        List<ProyectTable> proyectos = new ArrayList<>();
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Proyecto proyecto = new Proyecto();
+                ProyectTable proyecto = new ProyectTable();
                 proyecto.setIdProyecto(rs.getInt("id"));
                 proyecto.setNombreProyecto(rs.getString("nombre_proyecto"));
                 proyecto.setResumenProyecto(rs.getString("resumen"));
@@ -144,7 +145,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
                 proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
                 proyecto.setNombreEmpresa(rs.getString("nombre_empresa"));
-                proyecto.setCorreoEnviado(rs.getBoolean("correo_enviado"));
+//                proyecto.setCorreoEnviado(rs.getBoolean("correo_enviado"));
 
                 // Recuperar el estado del proyecto
                 String estado = rs.getString("estado");
@@ -159,7 +160,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
 
         // Verificar los proyectos obtenidos
         System.out.println("Proyectos obtenidos de la BD:");
-        for (Proyecto p : proyectos) {
+        for (ProyectTable p : proyectos) {
             System.out.println("Nombre: " + p.getNombreProyecto() + ", Estado: " + p.getEstadoProyecto());
         }
 

@@ -16,11 +16,11 @@ import java.util.List;
 public class ListaProyectoPaneController implements IObserver {
 
     private Empresa empresa;
-    private IProyectoRepositorio repositorio;
+    //private IProyectoRepositorio repositorio;
 
-    public ListaProyectoPaneController( IProyectoRepositorio repositorio, Empresa empresa) {
+    public ListaProyectoPaneController(Empresa empresa) {
         this.empresa = empresa;
-        this.repositorio = repositorio;
+        //this.repositorio = repositorio;
     }
     
     @FXML
@@ -62,7 +62,7 @@ public class ListaProyectoPaneController implements IObserver {
     }
 
     public void cargarProyectos(Empresa empresa) {
-        List<Proyecto> proyectos = obtenerProyectosDesdeBaseDeDatos(empresa);
+        List<Proyecto> proyectos = obtenerProyectosDesdeBaseDeDatos(empresa.getNitEmpresa());
         
         proyectosList.clear();
         proyectosList.addAll(proyectos);
@@ -77,7 +77,7 @@ public class ListaProyectoPaneController implements IObserver {
         tableViewProyectos.refresh();
     }
 
-    private List<Proyecto> obtenerProyectosDesdeBaseDeDatos(Empresa empresa) {
-        return repositorio.listarProyectos(empresa);
+    private List<Proyecto> obtenerProyectosDesdeBaseDeDatos(String nitEmpresa) {
+        return empresa.getRepositorioProyectos().listarProyectos(nitEmpresa);
     }
 }

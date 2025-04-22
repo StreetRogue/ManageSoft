@@ -8,6 +8,7 @@ import co.edu.unicauca.managesoft.access.INotificacionRepositorio;
 import co.edu.unicauca.managesoft.entities.Coordinador;
 import co.edu.unicauca.managesoft.entities.Correo;
 import co.edu.unicauca.managesoft.entities.Estudiante;
+import co.edu.unicauca.managesoft.entities.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 
 /**
@@ -22,11 +23,11 @@ public class NotificacionServices {
         this.repositorio = repositorio;
     }
 
-    public boolean guardarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto) {
+    public boolean guardarCorreo(Correo correo, Estudiante estudiante, ProyectTable proyecto) {
         return repositorio.enviarCorreo(correo, estudiante, proyecto);
     }
     
-    public boolean enviarComentario(String comentario, Coordinador coordinador, Proyecto proyecto){
+    public boolean enviarComentario(String comentario, Coordinador coordinador, ProyectTable proyecto){
         return repositorio.enviarComentario(comentario, coordinador, proyecto);
     }
 
