@@ -28,12 +28,11 @@ public class DashboardEstudianteController implements Initializable {
 
     private Usuario usuario;
     private LogInServices loginServices;
-    private ProyectoServices proyectoServices;
     private Estudiante estudiante;
+    private Repositorio repositorio;
 
     @FXML
     private AnchorPane contentPane;
-    private Repositorio repositorio;
 
     /**
      * Initializes the controller class.
@@ -84,7 +83,8 @@ public class DashboardEstudianteController implements Initializable {
     @FXML
     private void cargarProyectosEstudiante() {
         System.out.println("Método cargarProyectosEstudiante() llamado correctamente");
-        ListaProyectoEstudiantePaneController listaProyectosEstudianteControlador = new ListaProyectoEstudiantePaneController(repositorio.getRepositorioProyecto(), estudiante);
+        
+        ListaProyectoEstudiantePaneController listaProyectosEstudianteControlador = new ListaProyectoEstudiantePaneController(repositorio, repositorio.getRepositorioEmpresa().listarEmpresas(), estudiante);
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("listaProyectoEstudiantePane.fxml"));

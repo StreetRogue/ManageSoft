@@ -6,7 +6,6 @@ package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.entities.Empresa;
-import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import co.edu.unicauca.managesoft.services.ProyectoServices;
 import java.io.IOException;
@@ -30,14 +29,14 @@ import javafx.stage.Stage;
 public class DashboardEmpresaController implements Initializable {
     private Empresa empresa;
     private LogInServices loginServices;
-    private ProyectoServices proyectoServices;
+    private Repositorio repositorio;
     
     /**
      * Initializes the controller class.
      */
     @FXML
     private AnchorPane contentPane; // Este es el Pane donde se cargarán las vistas
-    private Repositorio repositorio;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -112,7 +111,7 @@ public class DashboardEmpresaController implements Initializable {
     
     @FXML
     private void cargarProyectosEmpresa() {
-        ListaProyectoPaneController listaProyectosControlador = new ListaProyectoPaneController(repositorio.getRepositorioProyecto(), empresa);
+        ListaProyectoPaneController listaProyectosControlador = new ListaProyectoPaneController(empresa);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("listaProyectoEmpresaPane.fxml"));
             loader.setController(listaProyectosControlador);

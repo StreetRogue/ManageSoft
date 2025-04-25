@@ -23,7 +23,6 @@ public class Proyecto extends Subject {
     private String presupuestoProyecto;
     private String fechaPublicacionProyecto;
     private IEstadoProyecto estadoProyecto;
-    private String nombreEmpresa;
     private boolean correoEnviado;
 
     public Proyecto() {
@@ -80,6 +79,10 @@ public class Proyecto extends Subject {
 
     public String getObjetivoProyecto() {
         return objetivoProyecto;
+    }
+    
+    public String getNombreEmpresa() {
+        return "Pene";
     }
 
     public void setObjetivoProyecto(String objetivoProyecto) {
@@ -141,14 +144,6 @@ public class Proyecto extends Subject {
 
     public void setIdProyecto(int idProyecto) {
         this.idProyecto = idProyecto;
-    }
-
-    public String getNombreEmpresa() {
-        return nombreEmpresa;
-    }
-
-    public void setNombreEmpresa(String nombreEmpresa) {
-        this.nombreEmpresa = nombreEmpresa;
     }
 
     public boolean isCorreoEnviado() {

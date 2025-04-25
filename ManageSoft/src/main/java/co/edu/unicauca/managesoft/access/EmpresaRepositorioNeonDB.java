@@ -101,7 +101,7 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Empresa(
+                Empresa empresa = new Empresa(
                         rs.getString("nit"),
                         rs.getString("nombre"),
                         rs.getString("email"),
@@ -113,6 +113,9 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena")
                 );
+                empresa.setRepositorioProyectos(repositorioProyecto);
+                return empresa;
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,7 +136,7 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Empresa(
+                Empresa empresa = new Empresa(
                         rs.getString("nit"),
                         rs.getString("nombre"),
                         rs.getString("email"),
@@ -145,6 +148,8 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena")
                 );
+                empresa.setRepositorioProyectos(repositorioProyecto);
+                return empresa;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -173,6 +178,7 @@ public class EmpresaRepositorioNeonDB implements IEmpresaRepositorio {
                         rs.getString("nombre_usuario"),
                         rs.getString("contrasena")
                 );
+                empresa.setRepositorioProyectos(repositorioProyecto);
                 listaEmpresas.add(empresa);
             }
         } catch (SQLException e) {

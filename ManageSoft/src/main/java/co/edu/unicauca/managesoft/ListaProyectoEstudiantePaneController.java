@@ -2,10 +2,12 @@ package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.access.Repositorio;
+import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.IObserver;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,18 +32,14 @@ import javafx.stage.Stage;
  * @author juane
  */
 public class ListaProyectoEstudiantePaneController implements IObserver {
-
-    private IProyectoRepositorio repositorioProyecto;
     private Repositorio repositorio;
+    private List<Empresa> empresas;
     private Estudiante estudiante;
 
-    public ListaProyectoEstudiantePaneController(IProyectoRepositorio repositorioProyecto, Estudiante estudiante) {
-        this.repositorioProyecto = repositorioProyecto;
-        this.estudiante = estudiante;
-    }
-
-    public void setRepositorio(Repositorio repositorio) {
+    public ListaProyectoEstudiantePaneController(Repositorio repositorio, List<Empresa> empresas, Estudiante estudiante) {
         this.repositorio = repositorio;
+        this.empresas = empresas;
+        this.estudiante = estudiante;
     }
 
     /**
@@ -97,7 +95,11 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
     }
 
     private List<Proyecto> obtenerProyectosDesdeBaseDeDatos() {
-        return repositorioProyecto.listarProyectosGeneral();
+        List<Proyecto> proyectos = new ArrayList<>();
+        for (Empresa empresa : empresas) {
+            proyectos.addAll(empresa.listarProyectos());
+        }
+        return proyectos;
     }
 
     private void configurarColumnaCorreo() {

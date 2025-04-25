@@ -143,7 +143,6 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 proyecto.setMaximoMesesProyecto(String.valueOf(rs.getInt("tiempo_maximo_meses")));
                 proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
                 proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
-                proyecto.setNombreEmpresa(rs.getString("nombre_empresa"));
                 proyecto.setCorreoEnviado(rs.getBoolean("correo_enviado"));
 
                 // Recuperar el estado del proyecto

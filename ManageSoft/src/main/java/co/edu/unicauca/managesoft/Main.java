@@ -8,7 +8,6 @@ import co.edu.unicauca.managesoft.access.INotificacionRepositorio;
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
 import co.edu.unicauca.managesoft.access.Repositorio;
-import static co.edu.unicauca.managesoft.access.Repositorio.repositorioCorreo;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

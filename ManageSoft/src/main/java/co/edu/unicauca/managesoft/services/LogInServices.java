@@ -5,7 +5,6 @@
     import co.edu.unicauca.managesoft.entities.Empresa;
     import co.edu.unicauca.managesoft.entities.Estudiante;
     import co.edu.unicauca.managesoft.entities.Usuario;
-    import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
     import co.edu.unicauca.managesoft.infra.MyException;
 
     
