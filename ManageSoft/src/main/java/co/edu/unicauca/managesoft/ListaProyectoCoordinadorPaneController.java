@@ -7,7 +7,7 @@ package co.edu.unicauca.managesoft;
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.entities.Coordinador;
-import co.edu.unicauca.managesoft.entities.ProyectTable;
+import co.edu.unicauca.managesoft.infra.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.IObserver;
 import java.io.IOException;

@@ -11,7 +11,7 @@ import co.edu.unicauca.managesoft.entities.EstadoEnEjecucion;
 import co.edu.unicauca.managesoft.entities.EstadoRechazado;
 import co.edu.unicauca.managesoft.entities.EstadoRecibido;
 import co.edu.unicauca.managesoft.entities.IEstadoProyecto;
-import co.edu.unicauca.managesoft.entities.ProyectTable;
+import co.edu.unicauca.managesoft.infra.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import java.sql.Connection;
 import java.sql.DriverManager;

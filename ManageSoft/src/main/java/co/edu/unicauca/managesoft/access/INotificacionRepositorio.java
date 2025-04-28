@@ -7,7 +7,7 @@ package co.edu.unicauca.managesoft.access;
 import co.edu.unicauca.managesoft.entities.Coordinador;
 import co.edu.unicauca.managesoft.entities.Correo;
 import co.edu.unicauca.managesoft.entities.Estudiante;
-import co.edu.unicauca.managesoft.entities.ProyectTable;
+import co.edu.unicauca.managesoft.infra.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 
 /**

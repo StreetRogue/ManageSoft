@@ -6,7 +6,7 @@ package co.edu.unicauca.managesoft.access;
 
 import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.IEstadoProyecto;
-import co.edu.unicauca.managesoft.entities.ProyectTable;
+import co.edu.unicauca.managesoft.infra.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import java.util.List;
 
