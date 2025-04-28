@@ -3,7 +3,7 @@ package co.edu.unicauca.managesoft;
 import co.edu.unicauca.managesoft.access.INotificacionRepositorio;
 import co.edu.unicauca.managesoft.entities.Correo;
 import co.edu.unicauca.managesoft.entities.Estudiante;
-import co.edu.unicauca.managesoft.entities.ProyectTable;
+import co.edu.unicauca.managesoft.infra.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.MyException;
 import co.edu.unicauca.managesoft.services.NotificacionServices;

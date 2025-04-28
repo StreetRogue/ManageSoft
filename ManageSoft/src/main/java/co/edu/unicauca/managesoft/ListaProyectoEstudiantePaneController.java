@@ -4,7 +4,7 @@ import co.edu.unicauca.managesoft.access.IEmpresaRepositorio;
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.access.Repositorio;
 import co.edu.unicauca.managesoft.entities.Estudiante;
-import co.edu.unicauca.managesoft.entities.ProyectTable;
+import co.edu.unicauca.managesoft.infra.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.IObserver;
 import java.io.IOException;

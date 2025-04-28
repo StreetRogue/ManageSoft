@@ -7,13 +7,13 @@ package co.edu.unicauca.managesoft.entities;
 import co.edu.unicauca.managesoft.infra.Subject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author jutak
  */
 public class Proyecto extends Subject {
-
     private int idProyecto;
     private String nombreProyecto;
     private String resumenProyecto;
@@ -23,6 +23,8 @@ public class Proyecto extends Subject {
     private String presupuestoProyecto;
     private String fechaPublicacionProyecto;
     private IEstadoProyecto estadoProyecto;
+    private List<Estudiante> estudiantesPostulados;
+    private List<Estudiante> estudiantesAceptados;
 
     public Proyecto() {
     }

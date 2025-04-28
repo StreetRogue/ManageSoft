@@ -4,6 +4,8 @@
  */
 package co.edu.unicauca.managesoft.entities;
 
+import java.util.List;
+
 /**
  *
  * @author jutak
@@ -13,6 +15,8 @@ public class Estudiante extends Usuario {
     private String apellidoEstudiante;
     private String codigoSimcaEstudiante;
     private String emailEstudiante;
+    private List<Proyecto> proyectosPostulados;
+    private List<Proyecto> proyectoAceptados;
 
     public Estudiante(String nombreEstudiante, String apellidoEstudiante, String codigoSimcaEstudiante, String emailEstudiante) {
         this.nombreEstudiante = nombreEstudiante;
