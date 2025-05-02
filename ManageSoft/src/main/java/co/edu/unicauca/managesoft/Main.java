@@ -28,10 +28,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-//        IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("ARRAYS");
-//        ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("ARRRAYS");
-//        IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("ARRAYS");
-//        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("ARRAYS");
+
         
         IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
         IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("NEONDB");

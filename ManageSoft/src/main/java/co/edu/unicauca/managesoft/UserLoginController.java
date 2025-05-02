@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
 import co.edu.unicauca.managesoft.access.Repositorio;
+import co.edu.unicauca.managesoft.access.UsuarioRepositorioMicroservicio;
 import co.edu.unicauca.managesoft.entities.Coordinador;
 import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Estudiante;
@@ -29,52 +27,40 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.TextFlow;
-
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author juane
- */
 public class UserLoginController implements Initializable {
     private Repositorio repositorio;
     private LogInServices loginServices;
-    
+
+    private IUsuarioRepositorio usuarioRepositorio; // Repositorio del microservicio
+
     public UserLoginController(Repositorio repositorio, LogInServices loginServices) {
         this.repositorio = repositorio;
         this.loginServices = loginServices;
+        this.usuarioRepositorio = new UsuarioRepositorioMicroservicio(); // Usar el repositorio de microservicio
     }
 
-    /**
-     * Initializes the controller class.
-     */
     @FXML
-    private TextField txtUsuario; // Campo de contraseña
-
+    private TextField txtUsuario; // Campo de usuario
     @FXML
     private PasswordField txtPassword; // Campo de contraseña
-
     @FXML
     private ImageView eyeIcon; // Ícono del ojo
-
     @FXML
     private TextField txtVisiblePassword;
-
     @FXML
     private TextFlow lblRegistrarUser;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         txtVisiblePassword.setVisible(false);
-
     }
-    
+
     public void setLoginServices(LogInServices loginServices) {
         this.loginServices = loginServices;
     }
 
-    
     @FXML
     private void showPassword() {
         txtVisiblePassword.setText(txtPassword.getText()); // Copiar el texto
@@ -85,7 +71,7 @@ public class UserLoginController implements Initializable {
     @FXML
     private void showRegistrarForm(MouseEvent event) throws IOException {
         UserRegisterController userRegisterController = new UserRegisterController(repositorio, loginServices);
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("userRegisterVista.fxml"));
         loader.setController(userRegisterController);
         Parent root = loader.load();
@@ -110,9 +96,19 @@ public class UserLoginController implements Initializable {
         String usuario = txtUsuario.getText();
         String contrasena = txtPassword.getText();
 
-        Usuario usuarioInicio = loginServices.iniciarSesion(usuario, contrasena);
+        // Llamar al repositorio para verificar las credenciales
+        Usuario usuarioInicio = usuarioRepositorio.iniciarSesion(usuario, contrasena);
+
+        System.out.println("Usuario obtenido: " + usuarioInicio);
+        System.out.println("Tipo de usuario: " + usuarioInicio.getClass().getSimpleName());
+
+
+
 
         if (usuarioInicio != null) {
+
+            enumTipoUsuario tipoUsuario = usuarioInicio.getTipoUsuario();
+
             Map<enumTipoUsuario, String> paginas = new HashMap<>();
             paginas.put(enumTipoUsuario.EMPRESA, "DashboardEmpresa.fxml");
             paginas.put(enumTipoUsuario.COORDINADOR, "DashboardCoordinador.fxml");
@@ -122,21 +118,30 @@ public class UserLoginController implements Initializable {
             Parent root = loader.load();
 
             Object controller = loader.getController();
-            if (controller instanceof DashboardEmpresaController) {
-                ((DashboardEmpresaController) controller).setUsuario((Empresa) usuarioInicio);
-                ((DashboardEmpresaController) controller).setLoginServices(loginServices);
-                ((DashboardEmpresaController) controller).setRepositorio(repositorio);
-                ((DashboardEmpresaController) controller).inicializarVista();
-            } else if (controller instanceof DashboardCoordinadorController) {
-                ((DashboardCoordinadorController) controller).setUsuario((Coordinador)usuarioInicio);
-                ((DashboardCoordinadorController) controller).setLoginServices(loginServices);
-                ((DashboardCoordinadorController) controller).setRepositorio(repositorio);
-                ((DashboardCoordinadorController) controller).inicializarVista();
-            } else if (controller instanceof DashboardEstudianteController) {
-                ((DashboardEstudianteController) controller).setUsuario( (Estudiante) usuarioInicio);
-                ((DashboardEstudianteController) controller).setLoginServices(loginServices);
-                ((DashboardEstudianteController) controller).setRepositorio(repositorio);
-                ((DashboardEstudianteController) controller).inicializarVista();
+            if (tipoUsuario == enumTipoUsuario.EMPRESA && usuarioInicio instanceof Empresa) {
+                Empresa empresaUsuario = (Empresa) usuarioInicio;
+                DashboardEmpresaController dashboardController = (DashboardEmpresaController) controller;
+                dashboardController.setUsuario(empresaUsuario);
+                dashboardController.setLoginServices(loginServices);
+                dashboardController.setRepositorio(repositorio);
+                dashboardController.inicializarVista();
+            } else if (tipoUsuario == enumTipoUsuario.COORDINADOR && usuarioInicio instanceof Coordinador) {
+                Coordinador coordinadorUsuario = (Coordinador) usuarioInicio;
+                DashboardCoordinadorController dashboardController = (DashboardCoordinadorController) controller;
+                dashboardController.setUsuario(coordinadorUsuario);
+                dashboardController.setLoginServices(loginServices);
+                dashboardController.setRepositorio(repositorio);
+                dashboardController.inicializarVista();
+            } else if (tipoUsuario == enumTipoUsuario.ESTUDIANTE && usuarioInicio instanceof Estudiante) {
+                Estudiante estudianteUsuario = (Estudiante) usuarioInicio;
+                DashboardEstudianteController dashboardController = (DashboardEstudianteController) controller;
+                dashboardController.setUsuario(estudianteUsuario);
+                dashboardController.setLoginServices(loginServices);
+                dashboardController.setRepositorio(repositorio);
+                dashboardController.inicializarVista();
+            } else {
+                System.out.println("Tipo de usuario no coincide con la clase esperada");
+                return;  // Salir si el tipo no coincide
             }
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -159,7 +164,5 @@ public class UserLoginController implements Initializable {
         } else {
             System.out.println("Usuario no registrado");
         }
-
     }
-
 }
