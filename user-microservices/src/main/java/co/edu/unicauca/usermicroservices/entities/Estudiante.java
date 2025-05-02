@@ -11,9 +11,12 @@ import lombok.*;
 @ToString
 
 @Entity
+@DiscriminatorValue("ESTUDIANTE")
 public class Estudiante extends Usuario{
 
-    private Long codigoEstudiante;
+    @Column(unique = true, nullable = false)
+    private Long codigoSimcaEstudiante;
+
     private String nombreEstudiante;
     private String apellidoEstudiante;
     private String emailEstudiante;

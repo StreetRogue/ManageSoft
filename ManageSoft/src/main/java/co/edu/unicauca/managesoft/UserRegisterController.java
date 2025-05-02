@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
 import co.edu.unicauca.managesoft.access.Repositorio;
+import co.edu.unicauca.managesoft.access.UsuarioRepositorioMicroservicio;
 import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Usuario;
@@ -13,11 +11,9 @@ import co.edu.unicauca.managesoft.infra.MyException;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,46 +32,33 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author juane
- */
 public class UserRegisterController implements Initializable {
 
     private LogInServices loginServices;
     private Usuario usuarioRegistrado;
     private boolean datosCargados = false;
 
-    /**
-     * Initializes the controller class.
-     */
+    // Campos FXML
     @FXML
     private TextField txtRegUsuario; // Campo de usuario
-
     @FXML
     private PasswordField txtRegPassword; // Campo de contraseña
-
     @FXML
     private ImageView eyeIcon; // Ícono del ojo
-
     @FXML
     private TextField txtVisiblePassword;
-
     @FXML
     private ComboBox<enumTipoUsuario> cboRolUser;
-
     @FXML
     private TextFlow lblLoginUser;
 
-    // Variables para almacenar los datos del estudiante
+    // Variables para almacenar los datos del estudiante o empresa
     private String nombreEstudiante;
     private String apellidoEstudiante;
     private String codigoSIMCA;
     private String emailEstudiante;
     private Repositorio repositorio;
 
-    // Variables para almacenar los datos del estudiante
     // Constructor
     public UserRegisterController(Repositorio repositorio, LogInServices loginServices) {
         this.repositorio = repositorio;
@@ -108,8 +91,6 @@ public class UserRegisterController implements Initializable {
         }
     }
 
-    
-
     public void guardarEstudiante(Estudiante estudiante) {
         usuarioRegistrado = estudiante;
 
@@ -118,7 +99,6 @@ public class UserRegisterController implements Initializable {
         System.out.println("Apellido: " + ((Estudiante) usuarioRegistrado).getApellidoEstudiante());
         System.out.println("Codigo de Simca: " + ((Estudiante) usuarioRegistrado).getCodigoSimcaEstudiante());
         System.out.println("email: " + ((Estudiante) usuarioRegistrado).getEmailEstudiante());
-
     }
 
     public void guardarEmpresa(Empresa empresa) {
@@ -214,21 +194,28 @@ public class UserRegisterController implements Initializable {
         }
 
         try {
+            // Asignar el nombre de usuario, contraseña y tipo de usuario
             usuarioRegistrado.setNombreUsuario(nombreUsuario);
             usuarioRegistrado.setContrasenaUsuario(contrasenaUsuario);
             usuarioRegistrado.setTipoUsuario(tipoUsuario);
-            boolean usuarioGuardado = loginServices.registrarUsuario(usuarioRegistrado);
+
+            // Llamar al repositorio para registrar el usuario (microservicio)
+            IUsuarioRepositorio usuarioRepositorio = new UsuarioRepositorioMicroservicio();
+            boolean usuarioGuardado = usuarioRepositorio.registrarUsuario(usuarioRegistrado);
+
             if (usuarioGuardado) {
                 System.out.println("Usuario registrado con éxito:");
                 System.out.println("Nombre de usuario: " + nombreUsuario);
                 System.out.println("Contraseña: " + contrasenaUsuario);
-                System.out.println("tipo: " + tipoUsuario);
-                mostrarAlerta("Exito", "Usuario registrado correctamente", Alert.AlertType.CONFIRMATION);
+                System.out.println("Tipo de usuario: " + tipoUsuario);
+                mostrarAlerta("Éxito", "Usuario registrado correctamente", Alert.AlertType.CONFIRMATION);
                 showLoginForm();
+            } else {
+                mostrarAlerta("Error", "Error en el registro del usuario.", Alert.AlertType.ERROR);
             }
 
         } catch (MyException e) {
-            mostrarAlerta("Atencion", e.getMessage(), Alert.AlertType.WARNING);
+            mostrarAlerta("Atención", e.getMessage(), Alert.AlertType.WARNING);
         }
     }
 
@@ -240,5 +227,4 @@ public class UserRegisterController implements Initializable {
         alert.initModality(Modality.NONE);
         alert.show();
     }
-
 }

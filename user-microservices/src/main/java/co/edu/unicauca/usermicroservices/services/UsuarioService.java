@@ -1,13 +1,7 @@
 package co.edu.unicauca.usermicroservices.services;
 
 
-import co.edu.unicauca.usermicroservices.entities.Coordinador;
-import co.edu.unicauca.usermicroservices.entities.Empresa;
-import co.edu.unicauca.usermicroservices.entities.Estudiante;
-import co.edu.unicauca.usermicroservices.entities.Usuario;
-import co.edu.unicauca.usermicroservices.repositories.CoordinadorRepository;
-import co.edu.unicauca.usermicroservices.repositories.EmpresaRepository;
-import co.edu.unicauca.usermicroservices.repositories.EstudianteRepository;
+import co.edu.unicauca.usermicroservices.entities.*;
 import co.edu.unicauca.usermicroservices.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,40 +14,41 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
 
-    // Metodo para registrar un usuario
+
     public Usuario register(Usuario usuario) {
-        System.out.println("Tipo de usuario recibido: " + usuario.getClass().getName());
-        System.out.println(usuario.getTipoUsuario());
-        if (usuario instanceof Estudiante) {
-            // Crear Estudiante
-            Estudiante estudiante = (Estudiante) usuario;
-            System.out.println(estudiante.getIdUsuario());
-            System.out.println(estudiante.getNombreUsuario());
-            return usuarioRepository.save(estudiante);
-        } else if (usuario instanceof Coordinador) {
-            // Crear Coordinador
-            Coordinador coordinador = (Coordinador) usuario;
-            return usuarioRepository.save(coordinador);
-        } else if (usuario instanceof Empresa) {
-            // Crear Empresa
-            Empresa empresa = (Empresa) usuario;
-            return usuarioRepository.save(empresa);
-        } else {
-            System.out.println("ERROR: Tipo de usuario desconocido");
-            return null;
+        System.out.println("Tipo de usuario recibido: " + usuario.getTipoUsuario());
+        System.out.println("Id usuario: " + usuario.getIdUsuario());
+
+        // Convertir el tipo de usuario de String a enumTipoUsuario (enum)
+        if (usuario.getTipoUsuario() != null) {
+            enumTipoUsuario tipoUsuarioEnum = enumTipoUsuario.valueOf(String.valueOf(usuario.getTipoUsuario()));
+
+            usuario.setTipoUsuario(tipoUsuarioEnum);
+
+
+            switch (tipoUsuarioEnum) {  // Usamos el enum en lugar del String
+                case ESTUDIANTE:
+                    return usuarioRepository.save((Estudiante) usuario);  // Guardamos como Estudiante
+                case COORDINADOR:
+                    return usuarioRepository.save((Coordinador) usuario);  // Guardamos como Coordinador
+                case EMPRESA:
+                    return usuarioRepository.save((Empresa) usuario);  // Guardamos como Empresa
+                default:
+                    throw new IllegalArgumentException("Tipo de usuario desconocido");
+            }
         }
+        return null;
     }
 
     // Metodo para login de usuario
     public Usuario login(String nombreUsuario, String contrasenaUsuario) {
-        // Buscar el usuario en la base de datos por nombre de usuario y contraseña
-        Usuario usuario = usuarioRepository.findByNombreUsuarioAndContrasena(nombreUsuario, contrasenaUsuario);
 
-        // Verificar que el usuario exista y que la contraseña coincida
-        if (usuario != null && usuario.getContrasena().equals(contrasenaUsuario)) {
+        Usuario usuario = usuarioRepository.findByNombreUsuarioAndContrasenaUsuario(nombreUsuario, contrasenaUsuario);
+        
+        if (usuario != null && usuario.getContrasenaUsuario().equals(contrasenaUsuario)) {
             return usuario;
         }
-        return null;  // Si el usuario no existe o la contraseña no coincide
+        return null;
     }
 
 

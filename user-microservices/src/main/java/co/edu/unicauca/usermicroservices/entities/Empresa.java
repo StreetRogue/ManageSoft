@@ -10,10 +10,12 @@ import lombok.*;
 @ToString
 
 @Entity
+@DiscriminatorValue("EMPRESA")
+
 public class Empresa extends Usuario {
 
 
-    @Column(name = "nit")
+    @Column(name = "nit", unique = true, nullable = false)
     private String nitEmpresa;
     @Column(nullable = false)
     private String nombreEmpresa;

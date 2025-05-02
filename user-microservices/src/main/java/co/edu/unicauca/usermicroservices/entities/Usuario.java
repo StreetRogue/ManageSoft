@@ -1,7 +1,7 @@
 package co.edu.unicauca.usermicroservices.entities;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import co.edu.unicauca.usermicroservices.serializers.UsuarioDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,23 +12,20 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipoUsuario")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Estudiante.class, name = "ESTUDIANTE"),
-        @JsonSubTypes.Type(value = Coordinador.class, name = "COORDINADOR"),
-        @JsonSubTypes.Type(value = Empresa.class, name = "EMPRESA")
-})
+@JsonDeserialize(using = UsuarioDeserializer.class)
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_usuario")
     private int idUsuario;
 
+    @Column(unique = true, nullable = false)
     private String nombreUsuario;
-    private String contrasena;
+    @Column(nullable = false)
+    private String contrasenaUsuario;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_usuario")
