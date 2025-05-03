@@ -73,7 +73,7 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
     @Override
     public boolean enviarComentario(String comentario, Coordinador coordinador, ProyectTable proyecto) {
         String emailCoordinador = coordinador.getEmail();
-        String emailEmpresa = obtenerEmailEmpresa(proyecto.getNombreEmpresa()); // Obtener el email de la empresa desde el nombre de la empresa
+        String emailEmpresa = obtenerEmailEmpresa(proyecto.getEmpresa().getNombreEmpresa()); // Obtener el email de la empresa desde el nombre de la empresa
 
         if (emailEmpresa == null) {
             // Si no se encontró el correo de la empresa, no se puede enviar el comentario
