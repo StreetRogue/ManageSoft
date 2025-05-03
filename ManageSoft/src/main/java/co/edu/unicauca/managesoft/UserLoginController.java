@@ -38,7 +38,8 @@ public class UserLoginController implements Initializable {
     public UserLoginController(Repositorio repositorio, LogInServices loginServices) {
         this.repositorio = repositorio;
         this.loginServices = loginServices;
-        this.usuarioRepositorio = new UsuarioRepositorioMicroservicio(); // Usar el repositorio de microservicio
+        this.usuarioRepositorio = repositorio.getRepositorioUsuario();
+//        this.usuarioRepositorio = new UsuarioRepositorioMicroservicio(); // Usar el repositorio de microservicio
     }
 
     @FXML

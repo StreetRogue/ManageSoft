@@ -46,6 +46,10 @@ public class Empresa extends Usuario {
         this.apellidoContactoEmpresa = apellidoContactoEmpresa;
         this.cargoContactoEmpresa = cargoContactoEmpresa;
     }
+
+    public Empresa() {
+    }
+    
     
     public String getNitEmpresa() {
         return nitEmpresa;
@@ -119,12 +123,12 @@ public class Empresa extends Usuario {
         this.repositorioProyectos = repositorioProyectos;
     }
     
-    public boolean agregarProyecto(IProyectoRepositorio repositorioProyecto, String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto) {
+    public boolean agregarProyecto(IProyectoRepositorio repositorioProyecto, String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto, Empresa empresa) {
         ProyectoServices proyectoServices = new ProyectoServices(repositorioProyecto);
         Proyecto proyecto;
         
-        if (presupuestoProyecto != null) proyecto = new Proyecto(nombreProyecto, resumenProyecto, objetivoProyecto, descripcionProyecto, maximoMesesProyecto, presupuestoProyecto);
-        else proyecto = new Proyecto(nombreProyecto, resumenProyecto, objetivoProyecto, descripcionProyecto, maximoMesesProyecto);
+        if (presupuestoProyecto != null) proyecto = new Proyecto(nombreProyecto, resumenProyecto, objetivoProyecto, descripcionProyecto, maximoMesesProyecto, presupuestoProyecto, empresa);
+        else proyecto = new Proyecto(nombreProyecto, resumenProyecto, objetivoProyecto, descripcionProyecto, maximoMesesProyecto, empresa);
         
         boolean guardar = proyectoServices.guardarProyecto(proyecto, this);
         

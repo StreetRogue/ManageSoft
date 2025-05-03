@@ -7,6 +7,7 @@ package co.edu.unicauca.managesoft.entities;
 import co.edu.unicauca.managesoft.infra.Subject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -23,14 +24,15 @@ public class Proyecto extends Subject {
     private String presupuestoProyecto;
     private String fechaPublicacionProyecto;
     private IEstadoProyecto estadoProyecto;
-    private String nombreEmpresa;
-    private boolean correoEnviado;
+    private List<Estudiante> estudiantesPostulados;
+    private List<Estudiante> estudiantesAceptados;
+    private Empresa empresa;
 
     public Proyecto() {
     }
 
     // Constructor CON el presupuesto
-    public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto) {
+    public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto, Empresa empresa) {
         this.nombreProyecto = nombreProyecto;
         this.resumenProyecto = resumenProyecto;
         this.objetivoProyecto = objetivoProyecto;
@@ -44,10 +46,12 @@ public class Proyecto extends Subject {
         this.fechaPublicacionProyecto = formato.format(fechaActual);
 
         this.estadoProyecto = new EstadoRecibido();
+
+        this.empresa = empresa;
     }
 
     // Constructor SIN el presupuesto
-    public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto) {
+    public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, Empresa empresa) {
         this.nombreProyecto = nombreProyecto;
         this.resumenProyecto = resumenProyecto;
         this.objetivoProyecto = objetivoProyecto;
@@ -60,6 +64,8 @@ public class Proyecto extends Subject {
         this.fechaPublicacionProyecto = formato.format(fechaActual);
 
         this.estadoProyecto = new EstadoRecibido();
+
+        this.empresa = empresa;
     }
 
     public String getNombreProyecto() {
@@ -143,21 +149,15 @@ public class Proyecto extends Subject {
         this.idProyecto = idProyecto;
     }
 
-    public String getNombreEmpresa() {
-        return nombreEmpresa;
+    public Empresa getEmpresa() {
+        return empresa;
     }
 
-    public void setNombreEmpresa(String nombreEmpresa) {
-        this.nombreEmpresa = nombreEmpresa;
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 
-    public boolean isCorreoEnviado() {
-        return correoEnviado;
+    public void agregarEstudiante(Estudiante estudiante){
+        estudiantesPostulados.add(estudiante);
     }
-
-    public void setCorreoEnviado(boolean correoEnviado) {
-        this.correoEnviado = correoEnviado;
-        notificarCambios();
-    }
-
 }

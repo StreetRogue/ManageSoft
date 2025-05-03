@@ -116,7 +116,8 @@ public class ModificarProyectoController implements Initializable {
 
         // Actualizar el estado en la base de datos
         boolean actualizado = repositorioProyecto.actualizarEstadoProyecto(proyecto.getIdProyecto(), nuevoEstado.obtenerEstado());
-
+        
+        
         if (actualizado) {
             mostrarAlerta("Éxito", "Estado actualizado correctamente", Alert.AlertType.INFORMATION, event);
 
