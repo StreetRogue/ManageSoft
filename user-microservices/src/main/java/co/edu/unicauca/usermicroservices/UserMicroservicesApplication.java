@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class UserMicroservicesApplication {
 
 	public static void main(String[] args) {
-
+		// PRUEBA
 		SpringApplication.run(UserMicroservicesApplication.class, args);
 	}
 
