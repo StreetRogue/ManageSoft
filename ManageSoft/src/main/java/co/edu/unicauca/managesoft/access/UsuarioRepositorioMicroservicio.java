@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 public class UsuarioRepositorioMicroservicio implements IUsuarioRepositorio{
     
     
-    
+    ////PENE
     private static final String URL_MICROSERVICIO = "http://localhost:8081/api/usuarios/";
 
      @Override
