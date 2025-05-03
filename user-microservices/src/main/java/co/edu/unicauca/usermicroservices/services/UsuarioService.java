@@ -13,6 +13,10 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    public Iterable<Usuario> findAllUsers() {
+        return usuarioRepository.findAll();
+    }
+
 
 
     public Usuario register(Usuario usuario) {
