@@ -14,6 +14,7 @@ import java.util.List;
  * @author jutak
  */
 public class Proyecto extends Subject {
+
     private int idProyecto;
     private String nombreProyecto;
     private String resumenProyecto;
@@ -25,12 +26,13 @@ public class Proyecto extends Subject {
     private IEstadoProyecto estadoProyecto;
     private List<Estudiante> estudiantesPostulados;
     private List<Estudiante> estudiantesAceptados;
+    private Empresa empresa;
 
     public Proyecto() {
     }
 
     // Constructor CON el presupuesto
-    public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto) {
+    public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto, Empresa empresa) {
         this.nombreProyecto = nombreProyecto;
         this.resumenProyecto = resumenProyecto;
         this.objetivoProyecto = objetivoProyecto;
@@ -44,10 +46,12 @@ public class Proyecto extends Subject {
         this.fechaPublicacionProyecto = formato.format(fechaActual);
 
         this.estadoProyecto = new EstadoRecibido();
+
+        this.empresa = empresa;
     }
 
     // Constructor SIN el presupuesto
-    public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto) {
+    public Proyecto(String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, Empresa empresa) {
         this.nombreProyecto = nombreProyecto;
         this.resumenProyecto = resumenProyecto;
         this.objetivoProyecto = objetivoProyecto;
@@ -60,6 +64,8 @@ public class Proyecto extends Subject {
         this.fechaPublicacionProyecto = formato.format(fechaActual);
 
         this.estadoProyecto = new EstadoRecibido();
+
+        this.empresa = empresa;
     }
 
     public String getNombreProyecto() {
@@ -143,4 +149,15 @@ public class Proyecto extends Subject {
         this.idProyecto = idProyecto;
     }
 
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    public void agregarEstudiante(Estudiante estudiante){
+        estudiantesPostulados.add(estudiante);
+    }
 }

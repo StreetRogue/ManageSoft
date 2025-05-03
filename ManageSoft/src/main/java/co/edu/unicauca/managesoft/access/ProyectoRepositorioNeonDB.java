@@ -111,7 +111,6 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
         return proyectos;
     }
 
-    
     @Override
     public List<ProyectTable> listarProyectosGeneral() {
         System.out.println("Buscando todos los proyectos en la base de datos...");
@@ -125,15 +124,24 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 + "p.objetivos, "
                 + "p.descripcion, "
                 + "p.fecha, "
+                + "e.nit AS nit_empresa, "
                 + "e.nombre AS nombre_empresa, "
+                + "e.sector, "
+                + "e.email, "
+                + "e.telefono_contacto, "
+                + "e.nombre_contacto, "
+                + "e.apellido_contacto, "
+                + "e.cargo_contacto, "
                 + "CASE WHEN sp.estado = 'ENVIADO' THEN TRUE ELSE FALSE END AS correo_enviado "
                 + "FROM Proyecto p "
                 + "JOIN Empresa e ON p.nit_empresa = e.nit "
                 + "LEFT JOIN SolicitudProyecto sp ON p.id = sp.id_proyecto "
                 + "ORDER BY p.nombre ASC;";
+
         List<ProyectTable> proyectos = new ArrayList<>();
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
                 ProyectTable proyecto = new ProyectTable();
                 proyecto.setIdProyecto(rs.getInt("id"));
@@ -145,9 +153,22 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
                 proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
                 proyecto.setNombreEmpresa(rs.getString("nombre_empresa"));
-//                proyecto.setCorreoEnviado(rs.getBoolean("correo_enviado"));
+                proyecto.setCorreoEnviado(rs.getBoolean("correo_enviado"));
 
-                // Recuperar el estado del proyecto
+                // Crear y setear objeto Empresa
+                Empresa empresa = new Empresa();
+                empresa.setNitEmpresa(rs.getString("nit_empresa"));
+                empresa.setNombreEmpresa(rs.getString("nombre_empresa"));
+                empresa.setSectorEmpresa(rs.getString("sector"));
+                empresa.setEmailEmpresa(rs.getString("email"));
+                empresa.setContactoEmpresa(rs.getString("telefono_contacto"));
+                empresa.setNombreContactoEmpresa(rs.getString("nombre_contacto"));
+                empresa.setApellidoContactoEmpresa(rs.getString("apellido_contacto"));
+                empresa.setCargoContactoEmpresa(rs.getString("cargo_contacto"));
+
+                proyecto.setEmpresa(empresa);
+
+                // Estado del proyecto
                 String estado = rs.getString("estado");
                 IEstadoProyecto estadoProyecto = obtenerEstadoProyecto(estado);
                 proyecto.setEstadoProyecto(estadoProyecto);
@@ -158,10 +179,9 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
             e.printStackTrace();
         }
 
-        // Verificar los proyectos obtenidos
         System.out.println("Proyectos obtenidos de la BD:");
         for (ProyectTable p : proyectos) {
-            System.out.println("Nombre: " + p.getNombreProyecto() + ", Estado: " + p.getEstadoProyecto());
+            System.out.println("Nombre: " + p.getNombreProyecto() + ", Empresa: " + (p.getEmpresa() != null ? p.getEmpresa().getNombreEmpresa() : "N/A"));
         }
 
         return proyectos;
