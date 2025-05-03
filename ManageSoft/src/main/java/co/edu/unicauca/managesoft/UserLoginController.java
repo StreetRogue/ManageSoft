@@ -44,6 +44,11 @@ public class UserLoginController implements Initializable {
     public UserLoginController(Repositorio repositorio, LogInServices loginServices) {
         this.repositorio = repositorio;
         this.loginServices = loginServices;
+<<<<<<< Updated upstream
+=======
+        this.usuarioRepositorio = repositorio.getRepositorioUsuario();
+//        this.usuarioRepositorio = new UsuarioRepositorioMicroservicio(); // Usar el repositorio de microservicio
+>>>>>>> Stashed changes
     }
 
     /**

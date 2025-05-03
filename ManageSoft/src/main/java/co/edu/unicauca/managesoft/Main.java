@@ -7,6 +7,7 @@ import co.edu.unicauca.managesoft.access.IEstudianteRepositorio;
 import co.edu.unicauca.managesoft.access.INotificacionRepositorio;
 import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.access.IUsuarioRepositorio;
+import co.edu.unicauca.managesoft.access.NotificacionRepositorioMicroservicio;
 import co.edu.unicauca.managesoft.access.Repositorio;
 import static co.edu.unicauca.managesoft.access.Repositorio.repositorioCorreo;
 import co.edu.unicauca.managesoft.services.LogInServices;
@@ -38,7 +39,8 @@ public class Main extends Application {
         ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
         IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("NEONDB");
         IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("NEONDB");
-        INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("NEONDB");
+        //INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("NEONDB");
+        INotificacionRepositorio repositorioCorreo = new NotificacionRepositorioMicroservicio(); // Mientras tanto
         
         Repositorio repositorio = new Repositorio(repositorioUsuarios, repositorioEmpresa, repositorioCoordinador, repositorioEstudiante,repositorioCorreo);
         
@@ -81,7 +83,7 @@ public class Main extends Application {
         /*
         ESTUDIANTE:
         Usuario: estudiante1
-        Contraseña: clave123
+        Contraseña: contra123
         EMPRESA:
         Usuario: empresa1
         Contraseña: contra123

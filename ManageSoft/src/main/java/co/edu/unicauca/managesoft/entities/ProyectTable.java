@@ -4,6 +4,12 @@
  */
 package co.edu.unicauca.managesoft.entities;
 
+<<<<<<< Updated upstream:ManageSoft/src/main/java/co/edu/unicauca/managesoft/entities/ProyectTable.java
+=======
+import co.edu.unicauca.managesoft.entities.Empresa;
+import co.edu.unicauca.managesoft.entities.IEstadoProyecto;
+import co.edu.unicauca.managesoft.entities.Proyecto;
+>>>>>>> Stashed changes:ManageSoft/src/main/java/co/edu/unicauca/managesoft/infra/ProyectTable.java
 import co.edu.unicauca.managesoft.infra.Subject;
 
 /**
@@ -22,12 +28,13 @@ public class ProyectTable extends Subject {
     private String fechaPublicacionProyecto;
     private IEstadoProyecto estadoProyecto;
     private String nombreEmpresa;
+    private Empresa empresa;
     private boolean correoEnviado;
 
     public ProyectTable() {
     }
 
-    public ProyectTable(int idProyecto, String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto, String fechaPublicacionProyecto, IEstadoProyecto estadoProyecto, String nombreEmpresa, boolean correoEnviado) {
+    public ProyectTable(int idProyecto, String nombreProyecto, String resumenProyecto, String objetivoProyecto, String descripcionProyecto, String maximoMesesProyecto, String presupuestoProyecto, String fechaPublicacionProyecto, IEstadoProyecto estadoProyecto, Empresa empresa, boolean correoEnviado) {
         this.idProyecto = idProyecto;
         this.nombreProyecto = nombreProyecto;
         this.resumenProyecto = resumenProyecto;
@@ -37,7 +44,7 @@ public class ProyectTable extends Subject {
         this.presupuestoProyecto = presupuestoProyecto;
         this.fechaPublicacionProyecto = fechaPublicacionProyecto;
         this.estadoProyecto = estadoProyecto;
-        this.nombreEmpresa = nombreEmpresa;
+        this.empresa = empresa;
         this.correoEnviado = correoEnviado;
     }
 
@@ -113,6 +120,14 @@ public class ProyectTable extends Subject {
         this.estadoProyecto = estadoProyecto;
     }
 
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
     public String getNombreEmpresa() {
         return nombreEmpresa;
     }
@@ -120,6 +135,8 @@ public class ProyectTable extends Subject {
     public void setNombreEmpresa(String nombreEmpresa) {
         this.nombreEmpresa = nombreEmpresa;
     }
+
+    
 
     public boolean isCorreoEnviado() {
         return correoEnviado;
@@ -141,6 +158,7 @@ public class ProyectTable extends Subject {
         proyecto.setPresupuestoProyecto(this.presupuestoProyecto);
         proyecto.setFechaPublicacionProyecto(this.fechaPublicacionProyecto);
         proyecto.setEstadoProyecto(this.estadoProyecto);
+        proyecto.setEmpresa(this.empresa);
 
         return proyecto;
     }
