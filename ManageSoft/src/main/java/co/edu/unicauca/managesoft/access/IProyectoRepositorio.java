@@ -18,6 +18,8 @@ public interface IProyectoRepositorio {
     boolean guardarProyecto(Proyecto nuevoProyecto, Empresa empresa);
     List<Proyecto> listarProyectos(String nitEmpresa);
     List<ProyectTable> listarProyectosGeneral();
+    List<ProyectTable> listarProyectosGeneralEstudiantes();
     IEstadoProyecto obtenerEstadoProyecto(String estado); 
     boolean actualizarEstadoProyecto(int idProyecto, String nuevoEstado);
+
 }

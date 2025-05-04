@@ -33,6 +33,7 @@ public class Factory {
         // Repositorios Empresa
         repositoriosEmpresa.put("ARRAYS", new EmpresaRepositorioArray());
         repositoriosEmpresa.put("NEONDB", new EmpresaRepositorioNeonDB());
+        //repositorioEmpresa.put("MICROS",  new EmpresaRepositorioMicroservicio());
 
         // Repositorios Coordinador
         repositoriosCoordinador.put("NEONDB", new CoordinadorRepositorioNeonDB());

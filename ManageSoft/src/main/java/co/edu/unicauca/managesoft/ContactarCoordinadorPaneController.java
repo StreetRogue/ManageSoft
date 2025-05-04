@@ -72,7 +72,7 @@ public class ContactarCoordinadorPaneController {
 
             boolean enviarCorreo = notificacionServicio.guardarCorreo(correo, estudiante, proyecto);
             if (enviarCorreo) {
-                //proyecto.setCorreoEnviado(true);
+                proyecto.setCorreoEnviado(true);
                 mostrarAlerta("Exito", "Correo enviado exitosamente", Alert.AlertType.CONFIRMATION, event);
                 cerrarVentana(event);
             }

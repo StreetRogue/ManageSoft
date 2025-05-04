@@ -26,8 +26,8 @@ public class NotificacionRepositorioMicroservicio implements INotificacionReposi
     public boolean enviarCorreo(Correo correo, Estudiante estudiante, ProyectTable proyecto) {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(RABBITMQ_HOST);
-        factory.setUsername("ManageSoft_Lmao");
-        factory.setPassword("elviocamacho12");
+        factory.setUsername("ManageSoft");
+        factory.setPassword("oracle");
 
         try (Connection connection = factory.newConnection(); Channel channel = connection.createChannel()) {
 
@@ -58,8 +58,8 @@ public class NotificacionRepositorioMicroservicio implements INotificacionReposi
     public boolean enviarComentario(String comentario, Coordinador coordinador, ProyectTable proyecto) {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(RABBITMQ_HOST);
-        factory.setUsername("ManageSoft_Lmao");
-        factory.setPassword("elviocamacho12");
+        factory.setUsername("ManageSoft");
+        factory.setPassword("oracle");
 
         try (Connection connection = factory.newConnection(); Channel channel = connection.createChannel()) {
 

@@ -97,7 +97,7 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
     }
 
     private List<ProyectTable> obtenerProyectosDesdeBaseDeDatos() {
-        return repositorio.getRepositorioEmpresa().getRepositorioProyecto().listarProyectosGeneral();
+        return repositorio.getRepositorioEmpresa().getRepositorioProyecto().listarProyectosGeneralEstudiantes();
     }
 
     private void configurarColumnaCorreo() {
