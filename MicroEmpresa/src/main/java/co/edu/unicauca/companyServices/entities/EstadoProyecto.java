@@ -8,12 +8,5 @@ public enum EstadoProyecto {
     EN_EJECUCION,
     CERRADO;
 
-    public boolean puedeCambiarA(EstadoProyecto nuevoEstado) {
-        return switch (this) {
-            case RECIBIDO -> nuevoEstado == ACEPTADO || nuevoEstado == RECHAZADO;
-            case ACEPTADO -> nuevoEstado == EN_EJECUCION;
-            case EN_EJECUCION -> nuevoEstado == CERRADO;
-            default -> false;
-        };
-    }
+
 }

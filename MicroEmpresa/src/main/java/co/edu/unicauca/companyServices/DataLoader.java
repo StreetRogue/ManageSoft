@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Component
 public class DataLoader {
-
+    /*
     private final EmpresaRepository empresaRepository;
     private final ProyectoRepository proyectoRepository;
 
@@ -23,9 +23,10 @@ public class DataLoader {
         this.empresaRepository = empresaRepository;
         this.proyectoRepository = proyectoRepository;
     }
-
-    @PostConstruct
+    */
+    //@PostConstruct
     public void loadInitialData() {
+        /*
         if (empresaRepository.count() == 0) {
             // Crear empresas usando constructores y setters
             Empresa empresa1 = new Empresa();
@@ -91,6 +92,12 @@ public class DataLoader {
 
             // Guardar proyectos
             proyectoRepository.saveAll(Arrays.asList(proyecto1, proyecto2, proyecto3));
+
+
+
         }
+
+         */
     }
+
 }
