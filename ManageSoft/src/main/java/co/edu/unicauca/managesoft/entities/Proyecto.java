@@ -6,6 +6,7 @@ package co.edu.unicauca.managesoft.entities;
 
 import co.edu.unicauca.managesoft.infra.Subject;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -41,9 +42,9 @@ public class Proyecto extends Subject {
         this.presupuestoProyecto = presupuestoProyecto;
 
         // Obtener fecha actual del computador y formatearla
-        Date fechaActual = new Date();
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        this.fechaPublicacionProyecto = formato.format(fechaActual);
+        LocalDate fechaActual = LocalDate.now();
+        
+        this.fechaPublicacionProyecto = fechaActual.toString();
 
         this.estadoProyecto = new EstadoRecibido();
 
@@ -59,7 +60,7 @@ public class Proyecto extends Subject {
         this.maximoMesesProyecto = maximoMesesProyecto;
 
         // Obtener fecha actual del computador y formatearla
-        Date fechaActual = new Date();
+        LocalDate fechaActual = LocalDate.now();
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         this.fechaPublicacionProyecto = formato.format(fechaActual);
 

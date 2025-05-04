@@ -73,7 +73,7 @@ public class UsuarioRepositorioMicroservicio implements IUsuarioRepositorio {
 
                     Gson gson = new Gson();
                     Usuario usuario = gson.fromJson(response.toString(), Usuario.class);
-
+                    
                     switch (usuario.getTipoUsuario()) {
                         case ESTUDIANTE:
                             return repositorioEstudiante.buscarEstudiante(usuario.getNombreUsuario(), usuario.getContrasenaUsuario());

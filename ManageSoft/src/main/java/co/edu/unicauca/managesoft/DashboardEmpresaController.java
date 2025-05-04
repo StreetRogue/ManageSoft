@@ -66,6 +66,7 @@ public class DashboardEmpresaController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboardEmpresaPane.fxml"));
             Parent nuevaVista = loader.load();
             
+            
             if (empresa == null) {
                 System.out.println("El usuario no ha sido inicializado.");
             } else {

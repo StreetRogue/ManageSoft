@@ -83,9 +83,11 @@ public class PostularProyectoPaneController implements Initializable {
 
         try {
             boolean guardar = empresa.agregarProyecto(empresa.getRepositorioProyectos(), nombreVacante, resumenVacante, objetivo, descripcionVacante, tiempoEstipulado, presupuesto,empresa);
-
+            System.out.println("pene");
             if (guardar) {
                 mostrarAlerta("Exito", "El proyecto se postulo correctamente", Alert.AlertType.CONFIRMATION);
+            }else{
+                System.out.println("no se pudo guardar el proyecto");
             }
 
         } catch (MyException e) {

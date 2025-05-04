@@ -103,9 +103,8 @@ public class UserLoginController implements Initializable {
         System.out.println("Usuario obtenido: " + usuarioInicio);
         System.out.println("Tipo de usuario: " + usuarioInicio.getClass().getSimpleName());
 
-
-
-
+        //Usuario usuarioInicio = new Estudiante("nombre", "asd", "asdasd@gmail.com", "asdasd", "estudiante1", "contra123");
+        
         if (usuarioInicio != null) {
 
             enumTipoUsuario tipoUsuario = usuarioInicio.getTipoUsuario();

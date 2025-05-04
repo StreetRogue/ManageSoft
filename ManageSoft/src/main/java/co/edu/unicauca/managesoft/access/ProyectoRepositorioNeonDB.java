@@ -230,4 +230,9 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
         }
     }
 
+    @Override
+    public List<ProyectTable> listarProyectosGeneralEstudiantes() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
