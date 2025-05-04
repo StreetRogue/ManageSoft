@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>co.edu.unicauca</groupId>
-	<artifactId>companyServices</artifactId>
+	<artifactId>MicroEmpresa</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>companyServices</name>
 	<description>es una demostracion de los microservicioes en el proyecto de software</description>
