@@ -4,7 +4,9 @@ import co.edu.unicauca.microcoordinador.access.repositories.IProyectoRepositorio
 import co.edu.unicauca.microcoordinador.entities.Coordinador;
 import co.edu.unicauca.microcoordinador.entities.EnumEstadoProyecto;
 import co.edu.unicauca.microcoordinador.entities.Proyecto;
+import co.edu.unicauca.microcoordinador.entities.TipoUsuario;
 import co.edu.unicauca.microcoordinador.infra.dto.CambioEstadoDto;
+import co.edu.unicauca.microcoordinador.infra.dto.CoordinadorDto;
 import co.edu.unicauca.microcoordinador.infra.dto.DetalleProyectoDto;
 import co.edu.unicauca.microcoordinador.infra.dto.ProyectoResumenDto;
 import co.edu.unicauca.microcoordinador.services.interfaces.ICoordinadorService;
@@ -12,6 +14,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,7 +57,7 @@ public class CoordinadorService implements ICoordinadorService {
                 proyecto.getFechaPublicacionProyecto(),
                 proyecto.getComentario(),
                 proyecto.getEmpresa().getNombreEmpresa(),
-                proyecto.getCoordinador().getNombre()
+                proyecto.getCoordinador().getNombreCoordinador()
         );
     }
 
@@ -72,8 +75,41 @@ public class CoordinadorService implements ICoordinadorService {
                 " cambió a estado: " + nuevoEstado.name());
     }
 
+    // Método nuevo: Buscar coordinador por nombre de usuario y contraseña
     @Override
-    public Coordinador guardarCoordinador(Coordinador coordinador) {
-        return coordinadorRepositorio.save(coordinador);
+    public Coordinador buscarCoordinador(String nombreUsuario, String contrasenaUsuario) {
+        return coordinadorRepositorio.findByNombreCoordinadorAndContrasenaUsuario(nombreUsuario, contrasenaUsuario)
+                .orElse(null);  // Devuelve null si no se encuentra el coordinador
     }
+
+    @Transactional
+    public Coordinador guardarCoordinadorDesdeCola(CoordinadorDto dto) {
+        // Convertir DTO a entidad Coordinador
+        System.out.println("Guardando desde el service: "+ dto.getNombreCoordinador());
+        Coordinador coordinador = new Coordinador();
+        coordinador.setIdCoordinador(dto.getIdCoordinador());
+        coordinador.setNombreCoordinador(dto.getNombreCoordinador());
+
+        coordinador.setNombreUsuario(dto.getNombreUsuario());
+        coordinador.setContrasenaUsuario(dto.getContrasenaUsuario());
+        coordinador.setTipoUsuario(TipoUsuario.COORDINADOR);
+        coordinador.setApellidoCoordinador(dto.getApellidoCoordinador());
+        coordinador.setEmailCoordinador(dto.getEmailCoordinador());
+        coordinador.setTelefonoCoordinador(dto.getTelefonoCoordinador());
+
+        // Buscar si el coordinador ya existe por email
+        return coordinadorRepositorio.findByEmailCoordinador(dto.getEmailCoordinador())  // Usar la instancia 'coordinadorRepositorio'
+                .map(existing -> {
+                    // Actualizar campos existentes
+                    existing.setNombreCoordinador(coordinador.getNombreCoordinador());
+                    existing.setApellidoCoordinador(coordinador.getApellidoCoordinador());
+                    existing.setTelefonoCoordinador(coordinador.getTelefonoCoordinador());
+                    return coordinadorRepositorio.save(existing);
+                })
+                .orElseGet(() -> {
+                    // Si no existe, guardar el nuevo coordinador
+                    return coordinadorRepositorio.save(coordinador);
+                });
+    }
+
 }

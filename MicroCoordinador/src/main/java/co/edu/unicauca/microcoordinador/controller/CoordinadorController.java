@@ -65,4 +65,23 @@ public class CoordinadorController {
         coordinadorService.cambiarEstadoProyecto(idProyecto, cambioEstadoDto);
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * Endpoint para buscar un coordinador por nombre de usuario y contraseña.
+     * Método: GET
+     * URL: /api/coordinador/buscar/{nombreUsuario}/{contrasenaUsuario}
+     *
+     * @param nombreUsuario Nombre de usuario del coordinador.
+     * @param contrasenaUsuario Contraseña del coordinador.
+     * @return El coordinador encontrado.
+     */
+    @GetMapping("/buscar/{nombreUsuario}/{contrasenaUsuario}")
+    public ResponseEntity<Coordinador> buscarCoordinadorPorNombreYContrasena(@PathVariable String nombreUsuario, @PathVariable String contrasenaUsuario) {
+        Coordinador coordinador = coordinadorService.buscarCoordinador(nombreUsuario, contrasenaUsuario);
+        if (coordinador != null) {
+            return ResponseEntity.ok(coordinador);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 }

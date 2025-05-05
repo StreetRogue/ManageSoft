@@ -11,43 +11,44 @@ import java.util.List;
 @Setter
 @Table(name = "coordinador")
 public class Coordinador {
+//
     @Id
     @Column(name = "id_coordinador")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCoordinador;
 
-    @Column(name = "codigo_simca", unique = true)
-    private String codigoSimca;
+    @Column(name = "nombreCoordinador")
+    private String nombreCoordinador;
 
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "apellidoCoordinador")
+    private String apellidoCoordinador;
 
-    @Column(name = "apellido")
-    private String apellido;
+    @Column(name = "emailCoordinador", unique = true)
+    private String emailCoordinador;
 
-    @Column(name = "email", unique = true)
-    private String email;
+    @Column(name = "telefonoCoordinador")
+    private String telefonoCoordinador;
 
-    @Column(name = "telefono")
-    private String telefono;
+    // Campos de usuario
+    @Column(nullable = false, unique = true)
+    private String nombreUsuario;
 
-    @Column(name = "contrasena")
-    private String contrasena;
+    @Column(nullable = false)
+    private String contrasenaUsuario;
+
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipoUsuario = TipoUsuario.EMPRESA;
 
     @OneToMany(mappedBy = "coordinador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Proyecto> proyectosAsignados = new ArrayList<>();
 
-    public Coordinador() {
-    }
 
-    public Coordinador(String codigoSimca, String nombre, String apellido,
-                       String email, String telefono, String contrasena) {
-        this.codigoSimca = codigoSimca;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.telefono = telefono;
-        this.contrasena = contrasena;
+
+    public Coordinador() {}
+
+    public Coordinador(String nombreCoordinador, String emailCoordinador, String telefonoCoordinador) {
+        this.nombreCoordinador = nombreCoordinador;
+        this.emailCoordinador = emailCoordinador;
+        this.telefonoCoordinador = telefonoCoordinador;
     }
 
     public void asignarProyecto(Proyecto proyecto) {

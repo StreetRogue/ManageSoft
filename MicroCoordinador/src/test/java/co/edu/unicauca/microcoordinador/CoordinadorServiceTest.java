@@ -57,8 +57,8 @@ public class CoordinadorServiceTest {
         coordinador.setIdCoordinador(idCoordinador);
         coordinador.setProyectosAsignados(List.of(proyecto1, proyecto2));
 
-        when(coordinadorRepositorio.findById(idCoordinador))
-                .thenReturn(Optional.of(coordinador));
+        //simula el comportamiento del repositorio coordinadorRepositorio
+        when(coordinadorRepositorio.findById(idCoordinador)).thenReturn(Optional.of(coordinador));
 
         // Act
         List<ProyectoResumenDto> resultado = coordinadorService.obtenerProyectosDelCoordinador(idCoordinador);
@@ -86,8 +86,8 @@ public class CoordinadorServiceTest {
 
         Coordinador coordinador = new Coordinador();
         coordinador.setIdCoordinador(5L);
-        coordinador.setNombre("Ana");
-        coordinador.setApellido("Gómez");
+        coordinador.setNombreCoordinador("Ana");
+        coordinador.setApellidoCoordinador("Gómez");
 
         Proyecto proyecto = new Proyecto();
         proyecto.setIdProyecto(idProyecto);
@@ -95,8 +95,9 @@ public class CoordinadorServiceTest {
         proyecto.setEstadoProyecto(EnumEstadoProyecto.EJECUCION);
         proyecto.setDescripcionProyecto("Plataforma educativa para colegios.");
         proyecto.setEmpresa(empresa);
-        proyecto.setCoordinador(coordinador); // ← Aquí corriges el NPE
+        proyecto.setCoordinador(coordinador);
 
+        //Usamos when de Mockito para simular el comportamiento del repositorio proyectoRepositorio
         when(proyectoRepositorio.findById(idProyecto)).thenReturn(Optional.of(proyecto));
 
         // Act
@@ -143,6 +144,5 @@ public class CoordinadorServiceTest {
         // Verificar que el mensaje fue enviado a RabbitMQ
         verify(rabbitTemplate).convertAndSend(eq("ColaNotificacionCoordinador"), anyString());
     }
-
 
 }
