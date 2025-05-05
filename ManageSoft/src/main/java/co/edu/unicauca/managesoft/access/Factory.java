@@ -33,23 +33,30 @@ public class Factory {
         // Repositorios Empresa
         repositoriosEmpresa.put("ARRAYS", new EmpresaRepositorioArray());
         repositoriosEmpresa.put("NEONDB", new EmpresaRepositorioNeonDB());
-        //repositorioEmpresa.put("MICROS",  new EmpresaRepositorioMicroservicio());
+        repositoriosEmpresa.put("MICROSERVICIO",  new EmpresaRepositorioMicroservicio());
 
         // Repositorios Coordinador
         repositoriosCoordinador.put("NEONDB", new CoordinadorRepositorioNeonDB());
+        repositoriosCoordinador.put("MICROSERVICIO", new CoordinadorRepositorioMicroservicio());
 
         // Repositorios Estudiante
         repositoriosEstudiante.put("ARRAYS", new EstudianteRepositorioArray());
         repositoriosEstudiante.put("NEONDB", new EstudianteRepositorioNeonDB());
+        repositoriosEstudiante.put("MICROSERVICIO", new EstudianteRepositorioMicroservicio());
 
         // Repositorios Usuarios
         repositoriosUsuario.put("ARRAYS", new UsuarioRepositorioArray());
         repositoriosUsuario.put("NEONDB", new UsuarioRepositorioNeonDB());
+        repositoriosUsuario.put("MICROSERVICIO", new UsuarioRepositorioMicroservicio());
 
         //Repositorios Proyectos
         repositoriosProyecto.put("NEONDB", new ProyectoRepositorioNeonDB());
+        repositoriosProyecto.put("MICROSERVICIO", new ProyectoRepositorioMicroservicio());
+        
+        
         
         repositorioCorreo.put("NEONDB", new NotificacionRepositorioNeonDB());
+        repositorioCorreo.put("MICROSERVICIO", new NotificacionRepositorioMicroservicio());
     }
 
     /**
