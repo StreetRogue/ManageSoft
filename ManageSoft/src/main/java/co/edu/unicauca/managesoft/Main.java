@@ -1,6 +1,7 @@
 package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.EmpresaRepositorioMicroservicio;
+import co.edu.unicauca.managesoft.access.EstudianteRepositorioMicroservicio;
 import co.edu.unicauca.managesoft.access.Factory;
 import co.edu.unicauca.managesoft.access.ICoordinadorRepositorio;
 import co.edu.unicauca.managesoft.access.IEmpresaRepositorio;
@@ -39,7 +40,8 @@ public class Main extends Application {
         //IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("NEONDB");
         IEmpresaRepositorio repositorioEmpresa = new EmpresaRepositorioMicroservicio();
         ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
-        IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("NEONDB");
+//        IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("NEONDB");
+        IEstudianteRepositorio repositorioEstudiante = new EstudianteRepositorioMicroservicio();
         //IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("NEONDB");
         IProyectoRepositorio repositorioProyectos = new ProyectoRepositorioMicroservicio();
         //INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("NEONDB");

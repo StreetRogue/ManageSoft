@@ -86,7 +86,7 @@ public Empresa buscarEmpresa(String nombreUsuario) {
                 os.write(jsonInput.getBytes("utf-8"));
             }
 
-            if (conn.getResponseCode() == 200) {
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
                     Empresa empresita =  gson.fromJson(reader, Empresa.class);
                     empresita.setRepositorioProyectos(repositorioProyecto);

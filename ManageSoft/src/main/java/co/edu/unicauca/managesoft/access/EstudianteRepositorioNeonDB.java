@@ -87,35 +87,6 @@ public class EstudianteRepositorioNeonDB implements IEstudianteRepositorio {
     }
 
     @Override
-    public Estudiante buscarEstudiante(String nombreUsuario) {
-        String sql = "SELECT e.codigoEstudiante, e.nombreEstudiante, e.apellidoEstudiante, e.correoEstudiante, u.nombre_usuario, u.contrasena "
-                + "FROM Estudiante e "
-                + "INNER JOIN Usuario u ON e.id_usuario = u.id "
-                + "WHERE u.nombre_usuario = ?";
-
-        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, nombreUsuario);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new Estudiante(
-                        rs.getString("nombreEstudiante"),
-                        rs.getString("apellidoEstudiante"),
-                        String.valueOf(rs.getLong("codigoEstudiante")),
-                        rs.getString("correoEstudiante"),
-                        rs.getString("nombre_usuario"),
-                        rs.getString("contrasena")
-                );
-            } else {
-                return null; // No se encuentra el estudiante
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
     public Estudiante buscarEstudiante(String nombreUsuario, String contrasenaUsuario) {
         String sql = "SELECT e.codigoEstudiante, e.nombreEstudiante, e.apellidoEstudiante, e.correoEstudiante, u.nombre_usuario, u.contrasena "
                 + "FROM Estudiante e "

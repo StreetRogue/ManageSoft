@@ -12,21 +12,32 @@ import java.util.List;
 @Setter
 @Table(name = "estudiante")
 public class Estudiante {
+    // Campos de usuario
+    @Column(name = "nombreUsuario", nullable = false, unique = true)
+    private String nombreUsuario;
+    @Column(name = "contrasenaUsuario", nullable = false)
+    private String contrasenaUsuario;
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipoUsuario;
+
     @Id
-    @Column(name = "codigoSimcaEstudiante")
+    @Column(name = "codigoSimcaEstudiante", unique = true)
     private Long codigoSimcaEstudiante;
     @Column(name = "nombreEstudiante")
     private String nombreEstudiante;
     @Column(name = "apellidoEstudiante")
     private String apellidoEstudiante;
-    @Column(name = "emailEstudiante")
+    @Column(name = "emailEstudiante", unique = true)
     private String emailEstudiante;
     @ManyToMany(mappedBy = "estudiantesPostulados")
     private List<Proyecto> proyectosPostulados;
     @ManyToMany(mappedBy = "estudiantesAceptados")
     private List<Proyecto> proyectoAceptados;
 
-    public Estudiante(Long codigoSimcaEstudiante, String nombreEstudiante, String apellidoEstudiante, String emailEstudiante) {
+    public Estudiante(String nombreUsuario, String contrasenaUsuario, Long codigoSimcaEstudiante, String nombreEstudiante, String apellidoEstudiante, String emailEstudiante) {
+        this.nombreUsuario = nombreUsuario;
+        this.contrasenaUsuario = contrasenaUsuario;
+        this.tipoUsuario = TipoUsuario.ESTUDIANTE;
         this.codigoSimcaEstudiante = codigoSimcaEstudiante;
         this.nombreEstudiante = nombreEstudiante;
         this.apellidoEstudiante = apellidoEstudiante;
@@ -34,7 +45,6 @@ public class Estudiante {
         this.proyectosPostulados = new ArrayList<>();
         this.proyectoAceptados = new ArrayList<>();
     }
-
 
     public Estudiante() {
 

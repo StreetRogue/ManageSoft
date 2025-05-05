@@ -1,6 +1,6 @@
 package co.edu.unicauca.microestudiante.entities;
 
-public enum enumEstadoProyecto {
+public enum EstadoProyecto {
     RECIBIDO,
     ACEPTADO,
     EJECUCION,
