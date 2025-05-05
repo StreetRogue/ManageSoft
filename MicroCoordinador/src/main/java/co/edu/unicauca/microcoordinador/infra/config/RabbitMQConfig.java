@@ -6,16 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.core.*;
 
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String COLA_USUARIO_COORDINADOR = "ColaUsuarioCoordinador";
+    public static final String COLA_USUARIO_COORDINADOR = "coordinadores_queue";
 
     @Bean
     public Queue ColaUsuarioCoordinador() {
-        return new Queue(COLA_USUARIO_COORDINADOR, true);
+        return new Queue(COLA_USUARIO_COORDINADOR, false);
     }
 
     @Bean
