@@ -13,7 +13,6 @@ import java.util.List;
  */
 public interface IEstudianteRepositorio {
     boolean guardar(Estudiante nuevoEstudiante);
-    Estudiante buscarEstudiante(String nombreUsario);
-    Estudiante buscarEstudiante(String nombreUsario, String contrasenaUsuario);
+    Estudiante buscarEstudiante(String nombreUsuario, String contrasenaUsuario);
     List<Estudiante> listarEstudiantes();
 }

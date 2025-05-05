@@ -35,7 +35,7 @@ public class Proyecto {
     @Column(name = "fechaPublicacionProyecto")
     private String fechaPublicacionProyecto;
     @Column(name = "estadoProyecto")
-    private enumEstadoProyecto estadoProyecto;
+    private EstadoProyecto estadoProyecto;
 
     @ManyToMany
     @JoinTable(
@@ -43,7 +43,7 @@ public class Proyecto {
             joinColumns = @JoinColumn(name = "idProyecto"),
             inverseJoinColumns = @JoinColumn(name = "codigoSimcaEstudiante")
     )
-    private List<Estudiante> estudiantesPostulados = new ArrayList<>();
+    private List<Estudiante> estudiantesPostulados;
 
     @ManyToMany
     @JoinTable(
@@ -51,5 +51,21 @@ public class Proyecto {
             joinColumns = @JoinColumn(name = "idProyecto"),
             inverseJoinColumns = @JoinColumn(name = "codigoSimcaEstudiante")
     )
-    private List<Estudiante> estudiantesAceptados = new ArrayList<>();
+    private List<Estudiante> estudiantesAceptados;
+
+    public Proyecto(Long idProyecto, String nombreProyecto, String resumenProyecto, String maximoMesesProyecto, String fechaPublicacionProyecto, String presupuestoProyecto, String descripcionProyecto, String objetivoProyecto, EstadoProyecto estadoProyecto) {
+        this.idProyecto = idProyecto;
+        this.nombreProyecto = nombreProyecto;
+        this.resumenProyecto = resumenProyecto;
+        this.maximoMesesProyecto = maximoMesesProyecto;
+        this.fechaPublicacionProyecto = fechaPublicacionProyecto;
+        this.presupuestoProyecto = presupuestoProyecto;
+        this.descripcionProyecto = descripcionProyecto;
+        this.objetivoProyecto = objetivoProyecto;
+        this.estadoProyecto = estadoProyecto;
+        this.estudiantesPostulados = new ArrayList<>();
+        this.estudiantesAceptados = new ArrayList<>();
+    }
+
+    public Proyecto() {}
 }

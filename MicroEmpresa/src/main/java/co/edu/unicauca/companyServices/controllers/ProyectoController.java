@@ -38,12 +38,10 @@ public class ProyectoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProyectoDTO> getProyecto(@PathVariable Long id) {
+    public ResponseEntity<Proyecto> getProyecto(@PathVariable Long id) {
         Proyecto proyecto = proyectoService.findById(id);
-        return ResponseEntity.ok(proyectoMapper.toProyectoDTO(proyecto));
+        return ResponseEntity.ok(proyecto);
     }
-
-
 
     @PutMapping("/{id}/estado")
     public ResponseEntity<ProyectoDTO> actualizarEstado(

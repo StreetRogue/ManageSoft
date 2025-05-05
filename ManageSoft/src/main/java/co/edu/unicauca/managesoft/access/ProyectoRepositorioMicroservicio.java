@@ -216,7 +216,7 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
         }
         return new ArrayList<>();
     }
-    
+
     @Override
     public List<ProyectTable> listarProyectosGeneralEstudiantes() {
         try {
@@ -266,8 +266,8 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
 
                         // Este campo no viene del microservicio, por ahora se deja en falso
                         proyecto.setCorreoEnviado(false);
-                        if(proyecto.getEstadoProyecto().toString().equals("ACEPTADO")){
-                           proyectos.add(proyecto); 
+                        if (proyecto.getEstadoProyecto().toString().equals("ACEPTADO")) {
+                            proyectos.add(proyecto);
                         }
                     }
 
@@ -304,27 +304,48 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
         }
     }
 
-@Override
-public boolean actualizarEstadoProyecto(int idProyecto, String nuevoEstado) {
-    try {
-        URL url = new URL(BASE_URL + "/proyectos/" + idProyecto + "/estado");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("PUT");
-        conn.setRequestProperty("Content-Type", "application/json; utf-8");
-        conn.setDoOutput(true);
+    @Override
+    public boolean actualizarEstadoProyecto(int idProyecto, String nuevoEstado) {
+        try {
+            URL url = new URL(BASE_URL + "/proyectos/" + idProyecto + "/estado");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setDoOutput(true);
 
-        // Enviar el string plano entre comillas
-        String json = "\"" + nuevoEstado + "\"";
+            // Enviar el string plano entre comillas
+            String json = "\"" + nuevoEstado + "\"";
 
-        try (OutputStream os = conn.getOutputStream()) {
-            os.write(json.getBytes(StandardCharsets.UTF_8));
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(json.getBytes(StandardCharsets.UTF_8));
+            }
+
+            return conn.getResponseCode() == 200;
+        } catch (Exception e) {
+            System.err.println("Error al actualizar estado del proyecto: " + e.getMessage());
+            return false;
         }
-
-        return conn.getResponseCode() == 200;
-    } catch (Exception e) {
-        System.err.println("Error al actualizar estado del proyecto: " + e.getMessage());
-        return false;
     }
-}
+
+    @Override
+    public Proyecto encontrarPorId(String idProyecto) {
+        try {
+            URL url = new URL(BASE_URL + "/proyectos/" + idProyecto);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                    Proyecto proyecto = gson.fromJson(reader, Proyecto.class);
+                    return proyecto;
+                }
+            }
+
+            return null;
+        } catch (Exception e) {
+            System.err.println("Error al actualizar estado del proyecto: " + e.getMessage());
+            return null;
+        }
+    }
 
 }

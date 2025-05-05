@@ -30,17 +30,6 @@ public class EstudianteRepositorioArray implements IEstudianteRepositorio {
     }
     
     @Override
-    public Estudiante buscarEstudiante(String nombreUsuario) {
-        for (Estudiante estudiante : estudiantesArray) {
-            if (estudiante.getNombreUsuario().equals(nombreUsuario)) {
-                return estudiante;
-            }
-        }
-        
-        return null;
-    }
-    
-    @Override
     public Estudiante buscarEstudiante(String nombreUsuario, String contrasenaUsuario) {
         for (Estudiante estudiante : estudiantesArray) {
             if (estudiante.getNombreUsuario().equals(nombreUsuario) && estudiante.getContrasenaUsuario().equals(contrasenaUsuario)) {

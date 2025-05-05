@@ -16,7 +16,7 @@ public class Estudiante extends Usuario {
     private String codigoSimcaEstudiante;
     private String emailEstudiante;
     private List<Proyecto> proyectosPostulados;
-    private List<Proyecto> proyectoAceptados;
+    private List<Proyecto> proyectosAceptados;
 
     public Estudiante(String nombreEstudiante, String apellidoEstudiante, String codigoSimcaEstudiante, String emailEstudiante) {
         this.nombreEstudiante = nombreEstudiante;
@@ -32,6 +32,8 @@ public class Estudiante extends Usuario {
         this.codigoSimcaEstudiante = codigoSimcaEstudiante;
         this.emailEstudiante = emailEstudiante;
     }
+    
+    public Estudiante(){}
 
     public String getNombreEstudiante() {
         return nombreEstudiante;
@@ -65,5 +67,19 @@ public class Estudiante extends Usuario {
         this.emailEstudiante = emailEstudiante;
     }
 
-    
+    public List<Proyecto> getProyectosPostulados() {
+        return proyectosPostulados;
+    }
+
+    public void setProyectosPostulados(List<Proyecto> proyectosPostulados) {
+        this.proyectosPostulados = proyectosPostulados;
+    }
+
+    public List<Proyecto> getProyectosAceptados() {
+        return proyectosAceptados;
+    }
+
+    public void setProyectosAceptados(List<Proyecto> proyectosAceptados) {
+        this.proyectosAceptados = proyectosAceptados;
+    }
 }
