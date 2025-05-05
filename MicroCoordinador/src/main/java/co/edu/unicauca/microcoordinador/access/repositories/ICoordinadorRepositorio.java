@@ -13,7 +13,7 @@ public interface ICoordinadorRepositorio extends JpaRepository<Coordinador, Long
 
     // Buscar coordinador por nombre
     //Optional<Coordinador> findByNombreCoordinador(String nombreUsuario);
-    @Query("SELECT e FROM Coordinador e WHERE e.nombreUsuario = :username AND e.contrasenaUsuario = :password")
+    @Query("SELECT e FROM Coordinador e WHERE e.nombreUsuario = :nombreUsuario AND e.contrasenaUsuario = :contrasenaUsuario")
     Optional<Coordinador> findByNombreCoordinadorAndContrasenaUsuario(String nombreUsuario, String contrasenaUsuario);
 
 

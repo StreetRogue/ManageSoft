@@ -1,5 +1,6 @@
 package co.edu.unicauca.managesoft;
 
+import co.edu.unicauca.managesoft.access.CoordinadorRepositorioMicroservicio;
 import co.edu.unicauca.managesoft.access.EmpresaRepositorioMicroservicio;
 import co.edu.unicauca.managesoft.access.EstudianteRepositorioMicroservicio;
 import co.edu.unicauca.managesoft.access.Factory;
@@ -36,16 +37,17 @@ public class Main extends Application {
 
         
         //IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
-        IUsuarioRepositorio repositorioUsuarios = new UsuarioRepositorioMicroservicio();
+        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("MICROSERVICIO");
         //IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("NEONDB");
-        IEmpresaRepositorio repositorioEmpresa = new EmpresaRepositorioMicroservicio();
-        ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
-//        IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("NEONDB");
-        IEstudianteRepositorio repositorioEstudiante = new EstudianteRepositorioMicroservicio();
+        IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("MICROSERVICIO");
+        //ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
+        ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("MICROSERVICIO");
+        //IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("NEONDB");
+        IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("MICROSERVICIO");
         //IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("NEONDB");
-        IProyectoRepositorio repositorioProyectos = new ProyectoRepositorioMicroservicio();
+        IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("MICROSERVICIO");
         //INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("NEONDB");
-        INotificacionRepositorio repositorioCorreo = new NotificacionRepositorioMicroservicio(); // Mientras tanto
+        INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("MICROSERVICIO"); 
         
         Repositorio repositorio = new Repositorio(repositorioUsuarios, repositorioEmpresa, repositorioCoordinador, repositorioEstudiante,repositorioCorreo);
         

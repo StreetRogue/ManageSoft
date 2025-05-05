@@ -6,12 +6,12 @@ import co.edu.unicauca.microcoordinador.infra.dto.DetalleProyectoDto;
 import co.edu.unicauca.microcoordinador.infra.dto.ProyectoResumenDto;
 import co.edu.unicauca.microcoordinador.services.interfaces.ICoordinadorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/coordinador")
@@ -71,13 +71,12 @@ public class CoordinadorController {
      * Método: GET
      * URL: /api/coordinador/buscar/{nombreUsuario}/{contrasenaUsuario}
      *
-     * @param nombreUsuario Nombre de usuario del coordinador.
-     * @param contrasenaUsuario Contraseña del coordinador.
-     * @return El coordinador encontrado.
      */
-    @GetMapping("/buscar/{nombreUsuario}/{contrasenaUsuario}")
-    public ResponseEntity<Coordinador> buscarCoordinadorPorNombreYContrasena(@PathVariable String nombreUsuario, @PathVariable String contrasenaUsuario) {
-        Coordinador coordinador = coordinadorService.buscarCoordinador(nombreUsuario, contrasenaUsuario);
+    @PostMapping("/buscar")
+    public ResponseEntity<Coordinador> buscarCoordinadorPorNombreYContrasena(@RequestBody Map<String, String> credenciales) {
+        String username = credenciales.get("username");
+        String password = credenciales.get("password");
+        Coordinador coordinador = coordinadorService.buscarCoordinador(username, password);
         if (coordinador != null) {
             return ResponseEntity.ok(coordinador);
         } else {
