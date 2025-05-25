@@ -43,7 +43,7 @@ public class Proyecto extends Subject {
 
         // Obtener fecha actual del computador y formatearla
         LocalDate fechaActual = LocalDate.now();
-        
+
         this.fechaPublicacionProyecto = fechaActual.toString();
 
         this.estadoProyecto = new EstadoRecibido();
@@ -158,7 +158,30 @@ public class Proyecto extends Subject {
         this.empresa = empresa;
     }
 
-    public void agregarEstudiante(Estudiante estudiante){
+    public void agregarEstudiante(Estudiante estudiante) {
         estudiantesPostulados.add(estudiante);
     }
+//
+//    public Memento saveToMemento() {
+//        return new Memento(estadoProyecto);
+//    }
+//
+//    public void restoreFromMemento(Memento m) {
+//        estadoProyecto = m.getSavedState();
+//    }
+//
+//    //Clase interna Memento (Solo guardara un state)
+//    public static class Memento {
+//
+//        private IEstadoProyecto state;
+//
+//        public Memento(IEstadoProyecto stateToSave) {
+//            this.state = stateToSave;
+//        }
+//
+//        public IEstadoProyecto getSavedState() {
+//            return state;
+//        }
+//
+//    }
 }

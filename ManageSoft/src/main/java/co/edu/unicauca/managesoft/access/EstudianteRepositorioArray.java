@@ -53,5 +53,10 @@ public class EstudianteRepositorioArray implements IEstudianteRepositorio {
         }
         return false;
     }
+
+    @Override
+    public int cantidadEstudiantes() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

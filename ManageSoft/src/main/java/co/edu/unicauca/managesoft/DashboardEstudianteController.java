@@ -61,8 +61,10 @@ public class DashboardEstudianteController implements Initializable {
     
     @FXML
     private void cargarDashboardEstudiante() {
+        DashboardEstudiantePaneController paneEstudiante = new DashboardEstudiantePaneController(estudiante);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("DashboardEstudiantePane.fxml"));
+            loader.setController(paneEstudiante);
             Parent nuevaVista = loader.load();
             
             // Ajustar la vista al tamaño del contentPane

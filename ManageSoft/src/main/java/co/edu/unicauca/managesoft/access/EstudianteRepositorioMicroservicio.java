@@ -120,8 +120,6 @@ public class EstudianteRepositorioMicroservicio implements IEstudianteRepositori
         public void setContrasenaUsuario(String contrasenaUsuario) {
             this.contrasenaUsuario = contrasenaUsuario;
         }
-        
-        
 
         public Estudiante convertirAEstudiante() {
             // Crear un objeto Estudiante a partir del DTO
@@ -136,12 +134,12 @@ public class EstudianteRepositorioMicroservicio implements IEstudianteRepositori
 
             List<Proyecto> postuladosEstudiante = new ArrayList<>();
             List<Proyecto> aceptados = new ArrayList<>();
-            
+
             // Convertir las listas de IDs de proyectos a objetos Proyecto
             for (Long proyecto : this.getProyectosPostulados()) {
                 postuladosEstudiante.add(repositorioProyecto.encontrarPorId(proyecto.toString()));
             }
-            
+
             for (Long proyecto : this.getProyectosAceptados()) {
                 aceptados.add(repositorioProyecto.encontrarPorId(proyecto.toString()));
             }
@@ -238,6 +236,11 @@ public class EstudianteRepositorioMicroservicio implements IEstudianteRepositori
             System.out.println("Error al listar empresas: " + e.getMessage());
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public int cantidadEstudiantes() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
