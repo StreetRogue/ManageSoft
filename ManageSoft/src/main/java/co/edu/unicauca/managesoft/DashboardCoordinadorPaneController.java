@@ -63,15 +63,15 @@ public class DashboardCoordinadorPaneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         
         lblCoordinadorName.setText(coordinador.getNombre());
-        lblCoordinadorApellido.setText("Gomez");
+        lblCoordinadorApellido.setText("");
 
         // Cantidad de Proyectos Evaluados
         int cantidadProyectosEvaluados = repositorio.getRepositorioEmpresa().getRepositorioProyecto().cantProyectosEvaluados();
         cantProyectosEvaluados.setText(String.valueOf(cantidadProyectosEvaluados));
         
         //Cantidad Estudiantes
-        int cantidadEstudiantes = repositorio.getRepositorioEstudiante().cantidadEstudiantes();
-        cantEstudiantes.setText(String.valueOf(cantidadEstudiantes));
+        //int cantidadEstudiantes = repositorio.getRepositorioEstudiante().cantidadEstudiantes();
+        //cantEstudiantes.setText(String.valueOf(cantidadEstudiantes));
         
         //Cantidad de proyectos rechazados
         int cantidadProyectosRechazados = repositorio.getRepositorioEmpresa().getRepositorioProyecto().cantProyectoporEstado("RECHAZADO");
@@ -85,8 +85,8 @@ public class DashboardCoordinadorPaneController implements Initializable {
         cantTiempoAceptacion.setText("10");//SETEO
         
         //Cantidad de Comentarios por Coordinador
-        int cantidadComentarios = repositorio.getRepositorioCorreo().cantidadComentarios(coordinador);
-        cantComentarios.setText(String.valueOf(cantidadComentarios));
+        //int cantidadComentarios = repositorio.getRepositorioCorreo().cantidadComentarios(coordinador);
+        //cantComentarios.setText(String.valueOf(cantidadComentarios));
 
         
         // Gráfico de barras: estados de proyectos postulados en el período académico actual (2025-1)

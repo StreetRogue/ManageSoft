@@ -348,40 +348,38 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
         }
     }
 
-    @Override
-    public int cantProyectoporEstado(String estado) {
-        try {
-            URL url = new URL(BASE_URL + "/proyectos/estado/" + estado + "/cantidad");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+@Override
+public int cantProyectoporEstado(String estado) {
+    try {
+        // Construir la URL correctamente con el parámetro 'estado'
+        URL url = new URL(BASE_URL + "/proyectos/contador?estado=" + URLEncoder.encode(estado, "UTF-8"));
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
 
-            if (conn.getResponseCode() == 200) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
-                    return Integer.parseInt(reader.readLine());
-                }
+        if (conn.getResponseCode() == 200) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                return Integer.parseInt(reader.readLine());
             }
-        } catch (Exception e) {
-            System.err.println("Error al contar proyectos por estado: " + e.getMessage());
-            e.printStackTrace();
         }
-        return 0;
+    } catch (Exception e) {
+        System.err.println("Error al contar proyectos por estado: " + e.getMessage());
+        e.printStackTrace();
     }
+    return 0;
+}
 
     @Override
     public int cantProyectosEvaluados() {
         try {
-            URL url = new URL(BASE_URL + "/proyectos/evaluados/cantidad");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-
-            if (conn.getResponseCode() == 200) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
-                    return Integer.parseInt(reader.readLine());
-                }
-            }
+           int proyectosAceptados = cantProyectoporEstado("aceptado");
+           int proyectosRechazados = cantProyectoporEstado("rechazado");
+           int proyectosEnEjecucion = cantProyectoporEstado("en_ejecucion");
+           int proyectosCerrados = cantProyectoporEstado("cerrado");
+           
+           return (proyectosAceptados+proyectosCerrados+proyectosEnEjecucion+proyectosRechazados);
         } catch (Exception e) {
-            System.err.println("Error al contar proyectos evaluados: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error " + e.getMessage());
+            
         }
         return 0;
     }
@@ -389,15 +387,10 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     @Override
     public int cantTasaAceptacion() {
         try {
-            URL url = new URL(BASE_URL + "/proyectos");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-
-            if (conn.getResponseCode() == 200) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
-                    return Integer.parseInt(reader.readLine());
-                }
-            }
+           int proyectosAceptados = cantProyectoporEstado("aceptado");
+           int proyectosRechazados = cantProyectoporEstado("rechazado");
+           
+           return(proyectosAceptados*100/(proyectosAceptados + proyectosRechazados));
         } catch (Exception e) {
             System.err.println("Error al obtener la tasa de aceptación: " + e.getMessage());
             e.printStackTrace();
