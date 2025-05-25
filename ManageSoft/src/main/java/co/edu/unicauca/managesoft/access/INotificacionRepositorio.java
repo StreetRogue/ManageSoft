@@ -17,4 +17,5 @@ import co.edu.unicauca.managesoft.entities.Proyecto;
 public interface INotificacionRepositorio {
         boolean enviarCorreo(Correo correo, Estudiante estudiante, ProyectTable proyecto);
         boolean enviarComentario(String comentario, Coordinador coordinador ,ProyectTable Proyecto);
+        int cantidadComentarios(Coordinador coordinador);
 }

@@ -198,28 +198,40 @@
 
 /* ---------- Gráficos y estadísticas ---------- */
 .chart {
-    -fx-background-color: #1E2126; /* Fondo del gráfico */
+    -fx-background-color: #1E2126; /* Fondo oscuro */
     -fx-padding: 10px;
     -fx-background-radius: 10px;
 }
 
+.chart-plot-background {
+    -fx-background-color: #1E2126; /* Asegura el fondo del área de gráficos */
+}
+
 /* Colores personalizados para las barras del gráfico */
 .default-color0.chart-bar {
-    -fx-bar-fill: #3B82F6; /* Azul para proyectos aceptados */
+    -fx-bar-fill: #3B82F6; /* Azul para "Recibidos" */
 }
 .default-color1.chart-bar {
-    -fx-bar-fill: #EAB308; /* Amarillo para proyectos rechazados */
+    -fx-bar-fill: #FBBF24; /* Naranja claro para "Aceptados" */
+}
+.default-color2.chart-bar {
+    -fx-bar-fill: #10B981; /* Verde para "Rechazados" */
+}
+.default-color3.chart-bar {
+    -fx-bar-fill: #6B21A8; /* Morado para "Cerrados" */
 }
 
 /* Estilos de las líneas de la gráfica */
-.chart-vertical-grid-lines,
+.chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
 .chart-horizontal-grid-lines {
-    -fx-stroke: rgba(255, 255, 255, 0.5); /* Líneas en color blanco con opacidad */
+    -fx-stroke: rgba(255, 255, 255, 0.5); /* Líneas blancas con opacidad */
 }
 
 /* Estilo de los textos en los ejes */
 .axis {
-    -fx-tick-label-fill: rgba(255, 255, 255, 0.7); /* Color de las etiquetas de los ejes */
+    -fx-tick-label-fill: rgba(255, 255, 255, 0.7);
     -fx-font-size: 14px;
 }
 

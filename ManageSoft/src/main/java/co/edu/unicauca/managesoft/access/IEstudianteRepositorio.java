@@ -15,4 +15,5 @@ public interface IEstudianteRepositorio {
     boolean guardar(Estudiante nuevoEstudiante);
     Estudiante buscarEstudiante(String nombreUsuario, String contrasenaUsuario);
     List<Estudiante> listarEstudiantes();
+    int cantidadEstudiantes(); 
 }

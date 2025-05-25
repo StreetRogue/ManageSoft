@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.unicauca.managesoft.DashboardEstudiantePaneController">
+<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="1080.0" prefWidth="1202.0" style="-fx-background-color: #16191C;">
          <children>
@@ -37,12 +33,12 @@
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="lblCoordinadorName" fill="#ffffffe5" layoutX="99.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}">
+                  <Text fx:id="lblEstudianteName" fill="#ffffffe5" layoutX="99.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}">
                      <font>
                         <Font name="Segoe UI Light" size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="lblCoordinadorApellido" fill="#ffffffe5" layoutX="196.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{lastname}">
+                  <Text fx:id="lblEstudianteApellido" fill="#ffffffe5" layoutX="196.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{lastname}">
                      <font>
                         <Font name="Segoe UI Light" size="16.0" />
                      </font>
@@ -59,7 +55,7 @@
             </BarChart>
             <AnchorPane layoutX="469.0" layoutY="174.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantProyectosDisponibles" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -79,7 +75,7 @@
             <Line endX="536.800048828125" layoutX="570.0" layoutY="451.0" startX="-100.0" stroke="WHITE" />
             <AnchorPane layoutX="686.0" layoutY="174.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantProyectosCompletados" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -98,7 +94,7 @@
             </AnchorPane>
             <AnchorPane layoutX="910.0" layoutY="174.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantTasaAceptacion" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -122,7 +118,7 @@
             </AnchorPane>
             <AnchorPane layoutX="470.0" layoutY="313.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantPostulacionesRechazadas" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -141,7 +137,7 @@
             </AnchorPane>
             <AnchorPane layoutX="687.0" layoutY="313.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantPostulaciones" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -165,7 +161,7 @@
             </AnchorPane>
             <AnchorPane layoutX="911.0" layoutY="313.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantEstadoProyecto" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>

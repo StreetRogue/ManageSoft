@@ -83,4 +83,9 @@ public class NotificacionRepositorioMicroservicio implements INotificacionReposi
             return false;
         }
     }
+
+    @Override
+    public int cantidadComentarios(Coordinador coordinador) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

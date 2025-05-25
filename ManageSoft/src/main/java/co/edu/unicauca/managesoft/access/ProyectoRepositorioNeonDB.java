@@ -232,14 +232,75 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
 
     @Override
     public List<ProyectTable> listarProyectosGeneralEstudiantes() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        System.out.println("Buscando proyectos disponibles para estudiantes...");
+
+        String sql = "SELECT p.id, "
+                + "p.nombre AS nombre_proyecto, "
+                + "p.estado, "
+                + "p.presupuesto, "
+                + "p.tiempo_maximo_meses, "
+                + "p.resumen, "
+                + "p.objetivos, "
+                + "p.descripcion, "
+                + "p.fecha, "
+                + "e.nit AS nit_empresa, "
+                + "e.nombre AS nombre_empresa, "
+                + "e.sector, "
+                + "e.email, "
+                + "e.telefono_contacto, "
+                + "e.nombre_contacto, "
+                + "e.apellido_contacto, "
+                + "e.cargo_contacto "
+                + "FROM Proyecto p "
+                + "JOIN Empresa e ON p.nit_empresa = e.nit "
+                + "WHERE p.estado = 'ACEPTADO' "
+                + "ORDER BY p.nombre ASC";
+
+        List<ProyectTable> proyectos = new ArrayList<>();
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                ProyectTable proyecto = new ProyectTable();
+                proyecto.setIdProyecto(rs.getInt("id"));
+                proyecto.setNombreProyecto(rs.getString("nombre_proyecto"));
+                proyecto.setResumenProyecto(rs.getString("resumen"));
+                proyecto.setObjetivoProyecto(rs.getString("objetivos"));
+                proyecto.setDescripcionProyecto(rs.getString("descripcion"));
+                proyecto.setMaximoMesesProyecto(String.valueOf(rs.getInt("tiempo_maximo_meses")));
+                proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
+                proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
+                proyecto.setNombreEmpresa(rs.getString("nombre_empresa"));
+
+                // Crear y setear objeto Empresa
+                Empresa empresa = new Empresa();
+                empresa.setNitEmpresa(rs.getString("nit_empresa"));
+                empresa.setNombreEmpresa(rs.getString("nombre_empresa"));
+                empresa.setSectorEmpresa(rs.getString("sector"));
+                empresa.setEmailEmpresa(rs.getString("email"));
+                empresa.setContactoEmpresa(rs.getString("telefono_contacto"));
+                empresa.setNombreContactoEmpresa(rs.getString("nombre_contacto"));
+                empresa.setApellidoContactoEmpresa(rs.getString("apellido_contacto"));
+                empresa.setCargoContactoEmpresa(rs.getString("cargo_contacto"));
+
+                proyecto.setEmpresa(empresa);
+
+                // Estado del proyecto
+                String estado = rs.getString("estado");
+                IEstadoProyecto estadoProyecto = obtenerEstadoProyecto(estado);
+                proyecto.setEstadoProyecto(estadoProyecto);
+
+                proyectos.add(proyecto);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al listar proyectos disponibles para estudiantes: " + e.getMessage());
+        }
+
+        return proyectos;
     }
 
     @Override
     public Proyecto encontrarPorId(String idProyecto) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    
 
 }

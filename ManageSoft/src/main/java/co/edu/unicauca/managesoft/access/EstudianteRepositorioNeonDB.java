@@ -158,4 +158,22 @@ public class EstudianteRepositorioNeonDB implements IEstudianteRepositorio {
         }
     }
 
+    @Override
+    public int cantidadEstudiantes() {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM Estudiante";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt(1); // Obtener el conteo desde la primera columna
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Puedes personalizar el manejo de errores si lo deseas
+        }
+
+        return total;
+    }
+
 }

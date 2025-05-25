@@ -62,8 +62,10 @@ public class DashboardEmpresaController implements Initializable {
      */
     @FXML
     private void cargarDashboardPane() {
+        DashboardEmpresaPaneController paneEmpresa = new DashboardEmpresaPaneController(empresa);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboardEmpresaPane.fxml"));
+            loader.setController(paneEmpresa);
             Parent nuevaVista = loader.load();
             
             

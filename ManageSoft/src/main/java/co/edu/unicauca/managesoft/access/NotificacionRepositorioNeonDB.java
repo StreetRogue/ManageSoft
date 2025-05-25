@@ -115,4 +115,27 @@ public class NotificacionRepositorioNeonDB implements INotificacionRepositorio {
 
         return emailEmpresa;
     }
+
+    @Override
+    public int cantidadComentarios(Coordinador coordinador) {
+        int total = 0; 
+        String emailCoordinador = coordinador.getEmail();
+        String sql = "SELECT COUNT(*) FROM Comentario WHERE email_coordinador = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, emailCoordinador); 
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getInt(1); 
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+
+        return total;
+    }
+
 }

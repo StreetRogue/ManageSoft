@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.unicauca.managesoft.DashboardCoordinadorPaneController">
+<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="1080.0" prefWidth="1202.0" style="-fx-background-color: #16191C;">
          <children>
@@ -64,7 +60,7 @@
             </BarChart>
             <AnchorPane layoutX="469.0" layoutY="174.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantProyectosEvaluados" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -84,7 +80,7 @@
             <Line endX="536.800048828125" layoutX="570.0" layoutY="451.0" startX="-100.0" stroke="WHITE" />
             <AnchorPane layoutX="686.0" layoutY="174.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantEstudiantes" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -103,7 +99,7 @@
             </AnchorPane>
             <AnchorPane layoutX="910.0" layoutY="174.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="tasaProyectosAceptados" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -113,21 +109,16 @@
                         <Font name="Segoe UI Bold" size="12.0" />
                      </font>
                   </Text>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="128.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="142.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@resources/iconStats.png" />
                      </image>
                   </ImageView>
-                  <Text fill="#3b82f6" layoutX="68.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AVG">
-                     <font>
-                        <Font name="Segoe UI Bold" size="12.0" />
-                     </font>
-                  </Text>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="470.0" layoutY="313.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantProyectosRechazados" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -146,7 +137,7 @@
             </AnchorPane>
             <AnchorPane layoutX="687.0" layoutY="313.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantTiempoAceptacion" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -170,7 +161,7 @@
             </AnchorPane>
             <AnchorPane layoutX="911.0" layoutY="313.0" prefHeight="120.0" prefWidth="205.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;">
                <children>
-                  <Text fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
+                  <Text fx:id="cantComentarios" fill="#3b82f6" layoutX="29.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#">
                      <font>
                         <Font name="Segoe UI Bold" size="50.0" />
                      </font>
@@ -180,6 +171,11 @@
                         <Font name="Segoe UI Bold" size="14.0" />
                      </font>
                   </Text>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="136.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@resources/iconTimeCompany.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>
