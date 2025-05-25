@@ -65,41 +65,51 @@ public class DashboardCoordinadorPaneController implements Initializable {
         lblCoordinadorName.setText(coordinador.getNombre());
         lblCoordinadorApellido.setText("Gomez");
 
-        // Estadísticas ficticias
-        cantProyectosEvaluados.setText("8");
+        // Cantidad de Proyectos Evaluados
+        int cantidadProyectosEvaluados = repositorio.getRepositorioEmpresa().getRepositorioProyecto().cantProyectosEvaluados();
+        cantProyectosEvaluados.setText(String.valueOf(cantidadProyectosEvaluados));
         
         //Cantidad Estudiantes
         int cantidadEstudiantes = repositorio.getRepositorioEstudiante().cantidadEstudiantes();
         cantEstudiantes.setText(String.valueOf(cantidadEstudiantes));
         
-        cantProyectosRechazados.setText("3");
+        //Cantidad de proyectos rechazados
+        int cantidadProyectosRechazados = repositorio.getRepositorioEmpresa().getRepositorioProyecto().cantProyectoporEstado("RECHAZADO");
+        cantProyectosRechazados.setText(String.valueOf(cantidadProyectosRechazados));
         
-        tasaProyectosAceptados.setText("20%");
-        
-        cantTiempoAceptacion.setText("5");
+        //Tasa Proyectos Aceptados
+        int tasaProyectosAceptadosAux = repositorio.getRepositorioEmpresa().getRepositorioProyecto().cantTasaAceptacion();
+        tasaProyectosAceptados.setText(String.valueOf(tasaProyectosAceptadosAux)+"%");
+
+        //Cantidad de Tiempo de Aceptacion
+        cantTiempoAceptacion.setText("10");//SETEO
         
         //Cantidad de Comentarios por Coordinador
         int cantidadComentarios = repositorio.getRepositorioCorreo().cantidadComentarios(coordinador);
         cantComentarios.setText(String.valueOf(cantidadComentarios));
 
+        
         // Gráfico de barras: estados de proyectos postulados en el período académico actual (2025-1)
+        int cantidadProyectosRecibidos = repositorio.getRepositorioEmpresa().getRepositorioProyecto().cantProyectoporEstado("RECIBIDO");
+        int cantidadProyectosAceptados = repositorio.getRepositorioEmpresa().getRepositorioProyecto().cantProyectoporEstado("ACEPTADO");
+        int cantidadProyectosCerrados = repositorio.getRepositorioEmpresa().getRepositorioProyecto().cantProyectoporEstado("CERRADO");
         gphBarChart.getData().clear();
 
         XYChart.Series<String, Number> recibidos = new XYChart.Series<>();
         recibidos.setName("Recibidos");
-        recibidos.getData().add(new XYChart.Data<>("2025.1", 10));
+        recibidos.getData().add(new XYChart.Data<>("2025.1", cantidadProyectosRecibidos));
 
         XYChart.Series<String, Number> aceptados = new XYChart.Series<>();
         aceptados.setName("Aceptados");
-        aceptados.getData().add(new XYChart.Data<>("2025.1", 12));
+        aceptados.getData().add(new XYChart.Data<>("2025.1", cantidadProyectosAceptados));
 
         XYChart.Series<String, Number> rechazados = new XYChart.Series<>();
         rechazados.setName("Rechazados");
-        rechazados.getData().add(new XYChart.Data<>("2025.1", 30));
+        rechazados.getData().add(new XYChart.Data<>("2025.1", cantidadProyectosRechazados));
 
         XYChart.Series<String, Number> cerrados = new XYChart.Series<>();
         cerrados.setName("Cerrados");
-        cerrados.getData().add(new XYChart.Data<>("2025.1", 20));
+        cerrados.getData().add(new XYChart.Data<>("2025.1", cantidadProyectosCerrados));
 
         gphBarChart.getData().addAll(recibidos, aceptados, rechazados, cerrados);
 
