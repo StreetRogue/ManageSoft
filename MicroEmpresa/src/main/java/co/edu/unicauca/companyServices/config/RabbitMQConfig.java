@@ -16,19 +16,20 @@ public class RabbitMQConfig {
 
 
     private static final String EMPRESAS_COLA_QUEUE = "empresas_queue";
-    private static final String PROYECTOS_QUEUE = "proyectos.queue";
+    public static final String COLA_PROYECTOS = "proyectos_queue";
 
 
 
     @Bean
     public Queue proyectosQueue() {
-        return new Queue(PROYECTOS_QUEUE, true); // Cola durable
+        return new Queue(COLA_PROYECTOS, true); // Cola durable
     }
 
     @Bean
     public Queue empresasQueue() {
         return new Queue(EMPRESAS_COLA_QUEUE, false);
     }
+
 
 
     // Configuración común

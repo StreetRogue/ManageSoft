@@ -12,4 +12,5 @@ import java.util.List;
 public interface ProyectoRepository extends JpaRepository<Proyecto, Long> {
     List<Proyecto> findByEmpresaNitEmpresa(String nitEmpresa);
     List<Proyecto> findByEstadoProyecto(EstadoProyecto estado);
+    long countByEstadoProyecto(EstadoProyecto estadoProyecto);
 }

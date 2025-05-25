@@ -5,8 +5,6 @@ import co.edu.unicauca.companyServices.entities.Empresa;
 import co.edu.unicauca.companyServices.entities.Proyecto;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
 @Component
 public class ProyectoMapper {
 
@@ -25,7 +23,23 @@ public class ProyectoMapper {
 
         return dto;
     }
-
+    /*
+    public ProyectoEstudianteDTO toProyectoEstudianteDTO(Proyecto proyecto) {
+        ProyectoEstudianteDTO dto = new ProyectoEstudianteDTO();
+        dto.setIdProyecto(proyecto.getIdProyecto());
+        dto.setNombreProyecto(proyecto.getNombreProyecto());
+        dto.setResumenProyecto(proyecto.getResumenProyecto());
+        dto.setObjetivoProyecto(proyecto.getObjetivoProyecto());
+        dto.setDescripcionProyecto(proyecto.getDescripcionProyecto());
+        dto.setMaximoMesesProyecto(proyecto.getMaximoMesesProyecto());
+        dto.setPresupuestoProyecto(proyecto.getPresupuestoProyecto());
+        dto.setFechaPublicacionProyecto(proyecto.getFechaPublicacionProyecto().toString());
+        dto.setEstadoProyecto(proyecto.getEstadoProyecto());
+        dto.setEstudiantesPostulados(proyecto.getEstudiantesPostulados().stream().map(Estudiante::getCodigoSimcaEstudiante).collect(Collectors.toList()) );
+        dto.setEstudiantesAceptados(proyecto.getEstudiantesAceptados().stream().map(Estudiante::getCodigoSimcaEstudiante).collect(Collectors.toList()) );
+        return dto;
+    }
+    */
 
     public EmpresaBasicDTO toEmpresaBasicDTO(Empresa empresa) {
         EmpresaBasicDTO dto = new EmpresaBasicDTO();
