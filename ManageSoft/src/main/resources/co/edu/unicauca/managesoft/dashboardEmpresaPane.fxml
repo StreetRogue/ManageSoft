@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="1080.0" prefWidth="1202.0" style="-fx-background-color: #16191C;">
          <children>
@@ -18,7 +22,7 @@
             <Line endX="952.2999877929688" layoutX="160.0" layoutY="132.0" startX="-100.0" stroke="WHITE" AnchorPane.leftAnchor="59.5" />
             <AnchorPane layoutX="83.0" layoutY="174.0" prefHeight="277.0" prefWidth="365.0" style="-fx-background-color: #1E2126; -fx-background-radius: 30;" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="855.0">
                <children>
-                  <Text fill="#ffffffe5" layoutX="140.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido">
+                  <Text fill="#ffffffe5" layoutX="143.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido">
                      <font>
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>
@@ -28,29 +32,29 @@
                         <Image url="@resources/vectorUser.png" />
                      </image>
                   </ImageView>
-                  <Text fill="#ffffffe5" layoutX="108.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Empresa:" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="194.63437499999986">
+                  <Text fill="#ffffffe5" layoutX="74.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Empresa:" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="229.09843749999982">
                      <font>
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="lblCompanyName" fill="#ffffffe5" layoutX="197.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}" AnchorPane.leftAnchor="197.0" AnchorPane.rightAnchor="115.98593749999986">
+                  <Text fx:id="lblCompanyName" fill="#ffffffe5" layoutX="164.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}">
                      <font>
-                        <Font name="Segoe UI Bold" size="16.0" />
+                        <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                   </Text>
-                  <Text fill="#ffffffe5" layoutX="76.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Representante:">
+                  <Text fill="#ffffffe5" layoutX="58.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Representante:">
                      <font>
                         <Font name="Segoe UI Light" size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="lblRepreName" fill="#ffffffe5" layoutX="181.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}">
+                  <Text fx:id="lblRepreName" fill="#ffffffe5" layoutX="168.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}">
                      <font>
-                        <Font name="Segoe UI Light" size="16.0" />
+                        <Font name="Segoe UI Light" size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="lblLastNameRepre" fill="#ffffffe5" layoutX="231.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{lastname}">
+                  <Text fx:id="lblLastNameRepre" fill="#ffffffe5" layoutX="222.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{lastname}">
                      <font>
-                        <Font name="Segoe UI Light" size="16.0" />
+                        <Font name="Segoe UI Light" size="18.0" />
                      </font>
                   </Text>
                </children>
