@@ -303,4 +303,72 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public int cantProyectoporEstado(String estado) {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM Proyecto WHERE estado = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, estado); // Asigna el valor del estado recibido al parámetro
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getInt(1); // Obtiene el resultado del conteo
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Manejo simple del error
+        }
+
+        return total;
+    }
+
+    @Override
+    public int cantProyectosEvaluados() {
+        int total = 0;
+        String sql = "SELECT COUNT(*) FROM Proyecto WHERE estado = 'ACEPTADO' OR estado = 'RECHAZADO'";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    @Override
+    public int cantTasaAceptacion() {
+        int aceptados = 0;
+        int rechazados = 0;
+        int tasa = 0;
+
+        String sqlAceptados = "SELECT COUNT(*) FROM Proyecto WHERE estado = 'ACEPTADO'";
+        String sqlRechazados = "SELECT COUNT(*) FROM Proyecto WHERE estado = 'RECHAZADO'";
+
+        try (Connection conn = conectar(); PreparedStatement stmtAceptados = conn.prepareStatement(sqlAceptados); PreparedStatement stmtRechazados = conn.prepareStatement(sqlRechazados); ResultSet rsAceptados = stmtAceptados.executeQuery(); ResultSet rsRechazados = stmtRechazados.executeQuery()) {
+
+            if (rsAceptados.next()) {
+                aceptados = rsAceptados.getInt(1);
+            }
+
+            if (rsRechazados.next()) {
+                rechazados = rsRechazados.getInt(1);
+            }
+
+            int total = aceptados + rechazados;
+            if (total > 0) {
+                tasa = (aceptados * 100) / total; // División entera sin decimales
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tasa;
+    }
+
 }

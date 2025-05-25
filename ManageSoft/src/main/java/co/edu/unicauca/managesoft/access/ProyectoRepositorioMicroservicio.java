@@ -348,4 +348,61 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
         }
     }
 
+    @Override
+    public int cantProyectoporEstado(String estado) {
+        try {
+            URL url = new URL(BASE_URL + "/proyectos/estado/" + estado + "/cantidad");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            if (conn.getResponseCode() == 200) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                    return Integer.parseInt(reader.readLine());
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al contar proyectos por estado: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int cantProyectosEvaluados() {
+        try {
+            URL url = new URL(BASE_URL + "/proyectos/evaluados/cantidad");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            if (conn.getResponseCode() == 200) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                    return Integer.parseInt(reader.readLine());
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al contar proyectos evaluados: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int cantTasaAceptacion() {
+        try {
+            URL url = new URL(BASE_URL + "/proyectos");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            if (conn.getResponseCode() == 200) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                    return Integer.parseInt(reader.readLine());
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al obtener la tasa de aceptación: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

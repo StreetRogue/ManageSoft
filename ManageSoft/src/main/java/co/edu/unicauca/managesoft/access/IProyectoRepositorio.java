@@ -22,5 +22,8 @@ public interface IProyectoRepositorio {
     IEstadoProyecto obtenerEstadoProyecto(String estado);
     Proyecto encontrarPorId(String proyectos);
     boolean actualizarEstadoProyecto(int idProyecto, String nuevoEstado);
+    int cantProyectoporEstado(String estado);
+    int cantProyectosEvaluados();
+    int cantTasaAceptacion();
 
 }
