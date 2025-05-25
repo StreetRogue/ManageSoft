@@ -6,6 +6,8 @@ package co.edu.unicauca.managesoft.access;
 
 import co.edu.unicauca.managesoft.entities.Coordinador;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -31,7 +33,7 @@ public class CoordinadorRepositorioMicroservicio implements ICoordinadorReposito
     @Override
     public Coordinador buscarCoordinador(String nombreUsuario, String contrasenaUsuario) {
         try {
-            URL url = new URL(baseUrl); // No concatenes usuario/contraseña en la URL
+            URL url = new URL(baseUrl); // Usa la URL real que necesites
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -47,17 +49,36 @@ public class CoordinadorRepositorioMicroservicio implements ICoordinadorReposito
             }
 
             if (conn.getResponseCode() == 200) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-                    Coordinador coordinador = gson.fromJson(reader, Coordinador.class);
-                    return coordinador;
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+
+                    JsonObject obj = JsonParser.parseString(response.toString()).getAsJsonObject();
+
+                    String nombre = (obj.has("nombreCoordinador") ? obj.get("nombreCoordinador").getAsString() : "")
+                            + " "
+                            + (obj.has("apellidoCoordinador") ? obj.get("apellidoCoordinador").getAsString() : "");
+                    String email = obj.has("emailCoordinador") ? obj.get("emailCoordinador").getAsString() : "";
+                    String telefono = obj.has("telefonoCoordinador") ? obj.get("telefonoCoordinador").getAsString() : "";
+                    String nombreUsr = obj.has("nombreUsuario") ? obj.get("nombreUsuario").getAsString() : "";
+                    String contrasenaUsr = obj.has("contrasenaUsuario") ? obj.get("contrasenaUsuario").getAsString() : "";
+
+                    return new Coordinador(nombreUsr, contrasenaUsr, nombre, email, telefono);
                 }
             } else {
-                System.out.println("Respuesta del servidor: " + conn.getResponseCode());
+                System.err.println("Error: Código de respuesta " + conn.getResponseCode());
             }
-
         } catch (Exception e) {
-            System.out.println("Error al buscar coordinador por usuario y contraseña: " + e.getMessage());
+            System.err.println("Error al deserializar Coordinador: " + e.getMessage());
+            e.printStackTrace();
         }
+
         return null;
     }
+    
+    
+   
 }
