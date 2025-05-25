@@ -23,6 +23,9 @@ public class EmpresaService {
     @Autowired
 
     private final ProyectoRepository proyectoRepository;
+
+
+    private final RabbitMQProducerService rabbitProducer;
     private final ProyectoMapper proyectoMapper;
 
     public Empresa registrarEmpresa(Empresa empresa) {
@@ -61,6 +64,7 @@ public class EmpresaService {
                 .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 
         proyecto.setEmpresa(empresa);
+        //rabbitProducer.enviarProyecto(proyecto);
         return proyectoRepository.save(proyecto);
     }
 
@@ -95,6 +99,8 @@ public class EmpresaService {
         empresa.setNombreUsuario(empresaDTO.getNombreUsuario());
         empresa.setContrasenaUsuario(empresaDTO.getContrasenaUsuario());
         empresa.setTipoUsuario(TipoUsuario.EMPRESA);
+
+
 
         // Guardar o actualizar
         return empresaRepository.findById(empresaDTO.getNitEmpresa())

@@ -1,14 +1,13 @@
 package co.edu.unicauca.companyServices.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "proyectos")
@@ -43,6 +42,7 @@ public class Proyecto {
     @JoinColumn(name = "nitEmpresa", referencedColumnName = "nitEmpresa")
     private Empresa empresa;
 
+
     // Constructor sin empresa para facilitar creación
     public Proyecto(String nombre, String descripcion, String duracionMeses, String presupuesto) {
         this.nombreProyecto = nombre;
@@ -50,4 +50,6 @@ public class Proyecto {
         this.maximoMesesProyecto = duracionMeses;
         this.presupuestoProyecto = presupuesto;
     }
+
+
 }

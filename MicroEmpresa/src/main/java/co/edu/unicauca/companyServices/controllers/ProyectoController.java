@@ -68,4 +68,15 @@ public class ProyectoController {
     }
 }
 */
+
+    @GetMapping("/contador")
+    public ResponseEntity<?> contarPorEstado(@RequestParam String estado) {
+        try {
+            EstadoProyecto estadoEnum = EstadoProyecto.valueOf(estado.toUpperCase());
+            long cantidad = proyectoService.contarProyectosPorEstado(estadoEnum);
+            return ResponseEntity.ok(cantidad);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Estado no válido. Usa uno de: RECIBIDO, ACEPTADO, RECHAZADO, EN_EJECUCION, CERRADO");
+        }
+    }
 }

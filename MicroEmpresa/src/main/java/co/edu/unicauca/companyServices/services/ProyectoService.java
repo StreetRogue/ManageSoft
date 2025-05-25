@@ -19,7 +19,8 @@ public class ProyectoService {
 
     @Autowired
     private ProyectoRepository proyectoRepository;
-    private final RabbitMQProducerService rabbitProducer;
+
+    @Autowired
     private final ProyectoMapper proyectoMapper;
 
     public List<Proyecto> listarProyectos() {
@@ -46,6 +47,10 @@ public class ProyectoService {
         }
 
         return proyectoActualizado;
+    }
+
+    public long contarProyectosPorEstado(EstadoProyecto estadoProyecto) {
+        return proyectoRepository.countByEstadoProyecto(estadoProyecto);
     }
 }
 
