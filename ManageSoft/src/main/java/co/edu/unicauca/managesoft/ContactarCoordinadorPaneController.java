@@ -1,12 +1,14 @@
 package co.edu.unicauca.managesoft;
 
 import co.edu.unicauca.managesoft.access.INotificacionRepositorio;
+import co.edu.unicauca.managesoft.access.IProyectoRepositorio;
 import co.edu.unicauca.managesoft.entities.Correo;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.infra.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.MyException;
 import co.edu.unicauca.managesoft.services.NotificacionServices;
+import co.edu.unicauca.managesoft.services.ProyectoServices;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,14 +24,17 @@ public class ContactarCoordinadorPaneController {
      * Initializes the controller class.
      */
     private NotificacionServices notificacionServicio;
+    private ProyectoServices proyectoServices;
     private Estudiante estudiante;
     private ProyectTable proyecto;
     private INotificacionRepositorio repositorioNotificacion;
-    private boolean correoEnviado = false;
+    private IProyectoRepositorio repositorioProyecto;
 
-    public ContactarCoordinadorPaneController(INotificacionRepositorio repositorioNotificacion, Estudiante estudiante, ProyectTable proyecto) {
+    public ContactarCoordinadorPaneController(INotificacionRepositorio repositorioNotificacion,IProyectoRepositorio repositorioProyecto, Estudiante estudiante, ProyectTable proyecto) {
         this.repositorioNotificacion = repositorioNotificacion;
+        this.repositorioProyecto = repositorioProyecto;
         this.notificacionServicio = new NotificacionServices(this.repositorioNotificacion);
+        this.proyectoServices = new ProyectoServices(this.repositorioProyecto);
         this.estudiante = estudiante;
         this.proyecto = proyecto;
     }
@@ -67,10 +72,11 @@ public class ContactarCoordinadorPaneController {
         System.out.println("Motivo: " + motivo);
 
         Correo correo = new Correo(emailDestinatario, asunto, motivo);
-
+        Proyecto proyectoAux = proyectoServices.encontrarPorId(String.valueOf(proyecto.getIdProyecto()));
+        
         try {
 
-            boolean enviarCorreo = notificacionServicio.guardarCorreo(correo, estudiante, proyecto);
+            boolean enviarCorreo = notificacionServicio.guardarCorreo(correo, estudiante, proyectoAux);
             if (enviarCorreo) {
                 proyecto.setCorreoEnviado(true);
                 mostrarAlerta("Exito", "Correo enviado exitosamente", Alert.AlertType.CONFIRMATION, event);

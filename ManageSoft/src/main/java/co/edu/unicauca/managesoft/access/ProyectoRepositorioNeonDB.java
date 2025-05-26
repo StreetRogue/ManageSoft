@@ -18,6 +18,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +52,8 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
             stmt.setString(4, nuevoProyecto.getDescripcionProyecto());
             stmt.setInt(5, Integer.parseInt(nuevoProyecto.getMaximoMesesProyecto()));
             stmt.setFloat(6, Float.parseFloat((nuevoProyecto.getPresupuestoProyecto())));
-            stmt.setString(7, nuevoProyecto.getEstadoProyecto().obtenerEstado()); // Por ejemplo, 'RECIBIDO' si no se ha establecido otro
-            stmt.setString(8, empresa.getNitEmpresa()); // Aquí debes pasar el id de la empresa asociada
+            stmt.setString(7, nuevoProyecto.getEstadoProyecto().obtenerEstado());
+            stmt.setString(8, empresa.getNitEmpresa());
 
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas > 0) {
@@ -63,11 +69,57 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
         }
     }
 
+//    @Override
+//    public List<Proyecto> listarProyectos(String nitEmpresa) {
+//        System.out.println("Buscando proyectos para la empresa con NIT: " + nitEmpresa);
+//
+//        // Modificamos la consulta para incluir el campo 'id'
+//        String sql = "SELECT id, nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto, fecha, estado "
+//                + "FROM Proyecto WHERE nit_empresa = ? ORDER BY nombre ASC;";
+//
+//        List<Proyecto> proyectos = new ArrayList<>();
+//
+//        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+//            stmt.setString(1, nitEmpresa);
+//
+//            try (ResultSet rs = stmt.executeQuery()) {
+//                while (rs.next()) {
+//                    Proyecto proyecto = new Proyecto();
+//
+//                    // Asignar el id del proyecto
+//                    proyecto.setIdProyecto(rs.getInt("id"));
+//                    proyecto.setNombreProyecto(rs.getString("nombre"));
+//                    proyecto.setResumenProyecto(rs.getString("resumen"));
+//                    proyecto.setObjetivoProyecto(rs.getString("objetivos"));
+//                    proyecto.setDescripcionProyecto(rs.getString("descripcion"));
+//                    proyecto.setMaximoMesesProyecto(String.valueOf(rs.getInt("tiempo_maximo_meses")));
+//                    proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
+//                    proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
+//
+//                    // Recuperar el estado del proyecto
+//                    String estado = rs.getString("estado");
+//                    IEstadoProyecto estadoProyecto = obtenerEstadoProyecto(estado);
+//                    proyecto.setEstadoProyecto(estadoProyecto);
+//
+//                    proyectos.add(proyecto);
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        // Aquí imprimimos los proyectos obtenidos, después de que se hayan añadido a la lista
+//        System.out.println("Proyectos obtenidos de la BD:");
+//        for (Proyecto p : proyectos) {
+//            System.out.println("ID: " + p.getIdProyecto() + ", Nombre: " + p.getNombreProyecto() + ", Estado: " + p.getEstadoProyecto());
+//        }
+//
+//        return proyectos;
+//    }
     @Override
     public List<Proyecto> listarProyectos(String nitEmpresa) {
         System.out.println("Buscando proyectos para la empresa con NIT: " + nitEmpresa);
 
-        // Modificamos la consulta para incluir el campo 'id'
         String sql = "SELECT id, nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto, fecha, estado "
                 + "FROM Proyecto WHERE nit_empresa = ? ORDER BY nombre ASC;";
 
@@ -80,7 +132,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                 while (rs.next()) {
                     Proyecto proyecto = new Proyecto();
 
-                    // Asignar el id del proyecto
+                    // Asignar datos básicos
                     proyecto.setIdProyecto(rs.getInt("id"));
                     proyecto.setNombreProyecto(rs.getString("nombre"));
                     proyecto.setResumenProyecto(rs.getString("resumen"));
@@ -90,10 +142,13 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
                     proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
                     proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
 
-                    // Recuperar el estado del proyecto
+                    // Recuperar y asignar estado actual
                     String estado = rs.getString("estado");
                     IEstadoProyecto estadoProyecto = obtenerEstadoProyecto(estado);
                     proyecto.setEstadoProyecto(estadoProyecto);
+
+                    // Cargar historial de estados (Mementos) para este proyecto
+                    cargarHistorialProyecto(proyecto, conn);
 
                     proyectos.add(proyecto);
                 }
@@ -102,7 +157,6 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
             e.printStackTrace();
         }
 
-        // Aquí imprimimos los proyectos obtenidos, después de que se hayan añadido a la lista
         System.out.println("Proyectos obtenidos de la BD:");
         for (Proyecto p : proyectos) {
             System.out.println("ID: " + p.getIdProyecto() + ", Nombre: " + p.getNombreProyecto() + ", Estado: " + p.getEstadoProyecto());
@@ -207,23 +261,31 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     }
 
     @Override
-    public boolean actualizarEstadoProyecto(int idProyecto, String nuevoEstado) {
-        String sql = "UPDATE Proyecto SET estado = ? WHERE id = ?";
+    public boolean actualizarEstadoProyecto(Proyecto proyecto, String nuevoEstado) {
+        String sqlUpdate = "UPDATE Proyecto SET estado = ? WHERE id = ?";
+        String sqlInsertHistorial = "INSERT INTO HistorialProyecto (idProyecto, estado) VALUES (?, ?)";
 
-        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (
+                Connection conn = conectar(); PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate); PreparedStatement stmtHistorial = conn.prepareStatement(sqlInsertHistorial)) {
             conn.setAutoCommit(false);
 
-            stmt.setString(1, nuevoEstado);
-            stmt.setInt(2, idProyecto);
+            stmtUpdate.setString(1, nuevoEstado);
+            stmtUpdate.setInt(2, proyecto.getIdProyecto());
 
-            int filasAfectadas = stmt.executeUpdate();
+            int filasAfectadas = stmtUpdate.executeUpdate();
+
             if (filasAfectadas > 0) {
+                stmtHistorial.setInt(1, proyecto.getIdProyecto());
+                stmtHistorial.setString(2, nuevoEstado);
+
+                stmtHistorial.executeUpdate();
                 conn.commit();
                 return true;
             } else {
                 conn.rollback();
                 return false;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -299,25 +361,105 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     }
 
     @Override
-    public Proyecto encontrarPorId(String idProyecto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Proyecto encontrarPorId(String idProyectoStr) {
+        Proyecto proyecto = new Proyecto();
+        int idProyecto = Integer.parseInt(idProyectoStr);
+
+        // Consulta modificada para incluir datos de la empresa
+        String sql = "SELECT p.id, p.nombre, p.resumen, p.objetivos, p.descripcion, "
+                + "p.tiempo_maximo_meses, p.presupuesto, p.fecha, p.estado, p.nit_empresa, "
+                + "e.nombre AS nombre_empresa, e.sector, e.email, e.telefono_contacto, "
+                + "e.nombre_contacto, e.apellido_contacto, e.cargo_contacto "
+                + "FROM Proyecto p "
+                + "LEFT JOIN Empresa e ON p.nit_empresa = e.nit "
+                + "WHERE p.id = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idProyecto);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Datos básicos del proyecto
+                    proyecto.setIdProyecto(rs.getInt("id"));
+                    proyecto.setNombreProyecto(rs.getString("nombre"));
+                    proyecto.setResumenProyecto(rs.getString("resumen"));
+                    proyecto.setObjetivoProyecto(rs.getString("objetivos"));
+                    proyecto.setDescripcionProyecto(rs.getString("descripcion"));
+                    proyecto.setMaximoMesesProyecto(String.valueOf(rs.getInt("tiempo_maximo_meses")));
+                    proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
+                    proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
+
+                    // Estado del proyecto
+                    String estadoStr = rs.getString("estado");
+                    IEstadoProyecto estadoProyecto = obtenerEstadoProyecto(estadoStr);
+                    proyecto.setEstadoProyecto(estadoProyecto);
+
+                    // Datos de la empresa (si existe relación)
+                    String nitEmpresa = rs.getString("nit_empresa");
+                    if (nitEmpresa != null) {
+                        Empresa empresa = new Empresa();
+                        empresa.setNitEmpresa(nitEmpresa);
+                        empresa.setNombreEmpresa(rs.getString("nombre_empresa"));
+                        empresa.setSectorEmpresa(rs.getString("sector"));
+                        empresa.setEmailEmpresa(rs.getString("email"));
+                        empresa.setContactoEmpresa(rs.getString("telefono_contacto"));
+                        empresa.setNombreContactoEmpresa(rs.getString("nombre_contacto"));
+                        empresa.setApellidoContactoEmpresa(rs.getString("apellido_contacto"));
+                        empresa.setCargoContactoEmpresa(rs.getString("cargo_contacto"));
+
+                        proyecto.setEmpresa(empresa);
+                    }
+                } else {
+                    return null;
+                }
+            }
+
+            // Cargar historial de mementos
+            cargarHistorialProyecto(proyecto, conn);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return proyecto;
     }
 
     @Override
-    public int cantProyectoporEstado(String estado) {
+    public int cantProyectoporEstado(String estado, String periodoAcademico) {
         int total = 0;
-        String sql = "SELECT COUNT(*) FROM Proyecto WHERE estado = ?";
+        String sql = "SELECT COUNT(*) FROM Proyecto WHERE estado = ? AND fecha BETWEEN ? AND ?";
+
+        // Convertir "2025-1" a rango de fechas (inicio y fin)
+        String[] partes = periodoAcademico.split("-");
+        int anio = Integer.parseInt(partes[0]);
+        int semestre = Integer.parseInt(partes[1]);
+
+        LocalDate inicio;
+        LocalDate fin;
+
+        if (semestre == 1) {
+            inicio = LocalDate.of(anio, 2, 1);
+            fin = LocalDate.of(anio, 6, 30);
+        } else {
+            inicio = LocalDate.of(anio, 7, 1);
+            fin = LocalDate.of(anio, 11, 20);
+        }
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, estado); // Asigna el valor del estado recibido al parámetro
+            stmt.setString(1, estado);
+            stmt.setDate(2, java.sql.Date.valueOf(inicio));
+            stmt.setDate(3, java.sql.Date.valueOf(fin));
+
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                total = rs.getInt(1); // Obtiene el resultado del conteo
+                total = rs.getInt(1);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Manejo simple del error
+            e.printStackTrace();
         }
 
         return total;
@@ -369,6 +511,24 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
         }
 
         return tasa;
+    }
+
+    //Memento
+    private void cargarHistorialProyecto(Proyecto proyecto, Connection conn) {
+        String sql = "SELECT estado FROM HistorialProyecto WHERE idProyecto = ? ORDER BY idProyecto ASC"; // Asumiendo que 'id' es autoincremental y mantiene el orden
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, proyecto.getIdProyecto());
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String estadoStr = rs.getString("estado");
+                    IEstadoProyecto estado = obtenerEstadoProyecto(estadoStr);
+                    proyecto.getCaretaker().addMemento(proyecto.saveToMemento(estado));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

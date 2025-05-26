@@ -10,6 +10,7 @@
     import co.edu.unicauca.managesoft.infra.ProyectTable;
     import co.edu.unicauca.managesoft.entities.Proyecto;
     import co.edu.unicauca.managesoft.infra.IObserver;
+import co.edu.unicauca.managesoft.services.ProyectoServices;
     import java.io.IOException;
     import java.util.List;
     import javafx.collections.FXCollections;
@@ -38,9 +39,11 @@
 
         private Repositorio repositorio;
         private Coordinador coordinador;
+        private ProyectoServices proyectoServices;
 
         public ListaProyectoCoordinadorPaneController(Coordinador coordinador) {
             this.coordinador = coordinador;
+            this.proyectoServices = new ProyectoServices(this.repositorio.getRepositorioEmpresa().getRepositorioProyecto());
         }
 
         public void setRepositorio(Repositorio repositorio) {
@@ -100,7 +103,7 @@
         }
 
         private List<ProyectTable> obtenerProyectosDesdeBaseDeDatos() {
-            return repositorio.getRepositorioEmpresa().getRepositorioProyecto().listarProyectosGeneral();
+            return proyectoServices.listarProyectosGeneral();
         }
 
         private void configurarColumnaEstado() {

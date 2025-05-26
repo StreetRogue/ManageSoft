@@ -27,7 +27,6 @@ import java.io.IOException;
 /**
  * JavaFX Main
  */
-
 public class Main extends Application {
 
     private static Scene scene;
@@ -35,36 +34,34 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        
-//      //_______________________________________________________________________________________________________________________
+        //_______________________________________________________________________________________________________________________
         //REPOSITORIOS MICROSERVICIO
-      IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("MICROSERVICIO");
-      IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("MICROSERVICIO");
-      ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("MICROSERVICIO");
-      IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("MICROSERVICIO");
-      IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("MICROSERVICIO");
-      INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("MICROSERVICIO"); 
+//      IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("MICROSERVICIO");
+//      IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("MICROSERVICIO");
+//      ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("MICROSERVICIO");
+//      IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("MICROSERVICIO");
+//      IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("MICROSERVICIO");
+//      INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("MICROSERVICIO"); 
         //_______________________________________________________________________________________________________________________
         //REPOSITORIOS NEON
-//        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
-//        IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("NEONDB");
-//        ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
-//        IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("NEONDB");
-//        IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("NEONDB");
-//        INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("NEONDB");
+        IUsuarioRepositorio repositorioUsuarios = Factory.getInstancia().getRepositorioUsuario("NEONDB");
+        IEmpresaRepositorio repositorioEmpresa = Factory.getInstancia().getRepositorioEmpresa("NEONDB");
+        ICoordinadorRepositorio repositorioCoordinador = Factory.getInstancia().getRepositorioCoordinador("NEONDB");
+        IEstudianteRepositorio repositorioEstudiante = Factory.getInstancia().getRepositorioEstudiante("NEONDB");
+        IProyectoRepositorio repositorioProyectos = Factory.getInstancia().getRepositorioProyecto("NEONDB");
+        INotificacionRepositorio repositorioCorreo = Factory.getInstancia().getNotificacionRepositorio("NEONDB");
         //_______________________________________________________________________________________________________________________
-        
-        
-        Repositorio repositorio = new Repositorio(repositorioUsuarios, repositorioEmpresa, repositorioCoordinador, repositorioEstudiante,repositorioCorreo);
-        
+
+        Repositorio repositorio = new Repositorio(repositorioUsuarios, repositorioEmpresa, repositorioCoordinador, repositorioEstudiante, repositorioCorreo);
+
         repositorioUsuarios.setRepositorioEmpresa(repositorioEmpresa);
         repositorioUsuarios.setRepositorioCoordinador(repositorioCoordinador);
         repositorioUsuarios.setRepositorioEstudiante(repositorioEstudiante);
         repositorioEmpresa.setRepositorioProyecto(repositorioProyectos);
         repositorioUsuarios.setRepositorioCorreo(repositorioCorreo);
-        
+
         LogInServices loginServices = new LogInServices(repositorioUsuarios);
-        
+
         // Crear una instancia del controlador personalizado
         UserLoginController userLoginController = new UserLoginController(repositorio, loginServices);
 
@@ -103,6 +100,19 @@ public class Main extends Application {
         Coordinador
         Usuario: coord1
         Contraseña: contrasegura1
-        */
+         */
+
+        //DATOS DE PARA INICIAR SESION- Microservicio
+        /*
+        ESTUDIANTE:
+        Usuario: estudiante1
+        Contraseña: contra123 - clave123
+        EMPRESA:
+        Usuario: empresa1
+        Contraseña: clave123
+        Coordinador
+        Usuario: coord1
+        Contraseña: clavesita123
+         */
     }
 }

@@ -15,7 +15,7 @@ import co.edu.unicauca.managesoft.entities.Proyecto;
  * @author juane
  */
 public interface INotificacionRepositorio {
-        boolean enviarCorreo(Correo correo, Estudiante estudiante, ProyectTable proyecto);
-        boolean enviarComentario(String comentario, Coordinador coordinador ,ProyectTable Proyecto);
+        boolean enviarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto);
+        boolean enviarComentario(String comentario, Coordinador coordinador ,Proyecto Proyecto);
         int cantidadComentarios(Coordinador coordinador);
 }

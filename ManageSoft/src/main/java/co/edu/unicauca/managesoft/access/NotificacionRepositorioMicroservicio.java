@@ -11,6 +11,7 @@ package co.edu.unicauca.managesoft.access;
 import co.edu.unicauca.managesoft.entities.Coordinador;
 import co.edu.unicauca.managesoft.entities.Correo;
 import co.edu.unicauca.managesoft.entities.Estudiante;
+import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.ProyectTable;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -23,7 +24,7 @@ public class NotificacionRepositorioMicroservicio implements INotificacionReposi
     private static final String QUEUE_NAMEC = "cola.comentario";
 
     @Override
-    public boolean enviarCorreo(Correo correo, Estudiante estudiante, ProyectTable proyecto) {
+    public boolean enviarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto) {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(RABBITMQ_HOST);
         factory.setUsername("ManageSoft");
@@ -55,7 +56,7 @@ public class NotificacionRepositorioMicroservicio implements INotificacionReposi
     }
 
     @Override
-    public boolean enviarComentario(String comentario, Coordinador coordinador, ProyectTable proyecto) {
+    public boolean enviarComentario(String comentario, Coordinador coordinador, Proyecto proyecto) {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(RABBITMQ_HOST);
         factory.setUsername("ManageSoft");

@@ -21,8 +21,8 @@ public interface IProyectoRepositorio {
     List<ProyectTable> listarProyectosGeneralEstudiantes();
     IEstadoProyecto obtenerEstadoProyecto(String estado);
     Proyecto encontrarPorId(String proyectos);
-    boolean actualizarEstadoProyecto(int idProyecto, String nuevoEstado);
-    int cantProyectoporEstado(String estado);
+    boolean actualizarEstadoProyecto(Proyecto idProyecto, String nuevoEstado);
+    int cantProyectoporEstado(String estado, String periodoAcedemico);
     int cantProyectosEvaluados();
     int cantTasaAceptacion();
 
