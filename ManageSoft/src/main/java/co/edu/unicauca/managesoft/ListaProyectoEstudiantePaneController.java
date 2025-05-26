@@ -7,6 +7,7 @@ import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.infra.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.IObserver;
+import co.edu.unicauca.managesoft.services.ProyectoServices;
 import java.io.IOException;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -35,9 +36,11 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
 
     private Repositorio repositorio;
     private Estudiante estudiante;
+    private ProyectoServices proyectoServices;
 
     public ListaProyectoEstudiantePaneController(Estudiante estudiante) {
         this.estudiante = estudiante;
+        this.proyectoServices = new ProyectoServices(repositorio.getRepositorioEmpresa().getRepositorioProyecto());
     }
 
     public void setRepositorio(Repositorio repositorio) {
@@ -97,7 +100,7 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
     }
 
     private List<ProyectTable> obtenerProyectosDesdeBaseDeDatos() {
-        return repositorio.getRepositorioEmpresa().getRepositorioProyecto().listarProyectosGeneralEstudiantes();
+        return proyectoServices.listarProyectosGeneralEstudiantes();
     }
 
     private void configurarColumnaCorreo() {
@@ -133,7 +136,7 @@ public class ListaProyectoEstudiantePaneController implements IObserver {
 
     private void abrirVistaContactarCoordinador(ProyectTable proyecto, Estudiante estudiante) {
         try {
-            ContactarCoordinadorPaneController controller = new ContactarCoordinadorPaneController(repositorio.getRepositorioCorreo(), estudiante, proyecto);
+            ContactarCoordinadorPaneController controller = new ContactarCoordinadorPaneController(repositorio.getRepositorioCorreo(),repositorio.getRepositorioEmpresa().getRepositorioProyecto(), estudiante, proyecto);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("contactarCoordinadorPane.fxml"));
             loader.setController(controller);
             Parent root = loader.load();

@@ -94,66 +94,6 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
         return new ArrayList<>();
     }
 
-    /*
-    @Override
-    public List<ProyectTable> listarProyectosGeneral() {
-        try {
-            URL url = new URL(BASE_URL + "/proyectos");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-
-            if (conn.getResponseCode() == 200) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
-                    JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
-                    List<ProyectTable> proyectos = new ArrayList<>();
-
-                    for (JsonElement elem : jsonArray) {
-                        JsonObject obj = elem.getAsJsonObject();
-                        ProyectTable proyecto = new ProyectTable();
-
-                        proyecto.setIdProyecto(obj.get("id").getAsInt());
-                        proyecto.setNombreProyecto(obj.get("nombre").getAsString());
-                        proyecto.setResumenProyecto(obj.get("resumen").getAsString());
-                        proyecto.setObjetivoProyecto(obj.get("objetivo").getAsString());
-                        proyecto.setDescripcionProyecto(obj.get("descripcion").getAsString());
-                        proyecto.setMaximoMesesProyecto(obj.get("duracionMeses").getAsString());
-                        proyecto.setPresupuestoProyecto(obj.get("presupuesto").getAsString());
-                        proyecto.setFechaPublicacionProyecto(obj.get("fechaPublicacion").getAsString());
-
-                        // Empresa
-                        JsonObject empresaJson = obj.getAsJsonObject("empresa");
-                        Empresa empresa = new Empresa();
-                        empresa.setNitEmpresa(empresaJson.get("nitEmpresa").getAsString());
-                        empresa.setNombreEmpresa(empresaJson.get("nombreEmpresa").getAsString());
-                        empresa.setEmailEmpresa(empresaJson.get("emailEmpresa").getAsString());
-                        empresa.setSectorEmpresa(empresaJson.get("sectorEmpresa").getAsString());
-                        empresa.setContactoEmpresa(empresaJson.get("telefonoContactoEmpresa").getAsString());
-                        empresa.setNombreContactoEmpresa(empresaJson.get("nombreContactoEmpresa").getAsString());
-                        empresa.setApellidoContactoEmpresa(empresaJson.get("apellidoContactoEmpresa").getAsString());
-                        empresa.setCargoContactoEmpresa(empresaJson.get("cargoContactoEmpresa").getAsString());
-
-                        proyecto.setEmpresa(empresa);
-
-                        // Estado
-                        String estado = obj.get("estado").getAsString();
-                        IEstadoProyecto estadoProyecto = obtenerEstadoProyecto(estado);
-                        proyecto.setEstadoProyecto(estadoProyecto);
-
-                        // El campo correoEnviado no está en el microservicio, puedes dejarlo como false o buscar otra lógica
-                        proyecto.setCorreoEnviado(false);
-
-                        proyectos.add(proyecto);
-                    }
-
-                    return proyectos;
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Error al listar proyectos general: " + e.getMessage());
-        }
-        return new ArrayList<>();
-    }
-     */
     @Override
     public List<ProyectTable> listarProyectosGeneral() {
         try {
@@ -305,9 +245,9 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     }
 
     @Override
-    public boolean actualizarEstadoProyecto(int idProyecto, String nuevoEstado) {
+    public boolean actualizarEstadoProyecto(Proyecto proyecto, String nuevoEstado) {
         try {
-            URL url = new URL(BASE_URL + "/proyectos/" + idProyecto + "/estado");
+            URL url = new URL(BASE_URL + "/proyectos/" + proyecto.getIdProyecto() + "/estado");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("PUT");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -327,7 +267,7 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
         }
     }
 
-    @Override
+    @Override // Este ahora tambien tiene q devolver el historial
     public Proyecto encontrarPorId(String idProyecto) {
         try {
             URL url = new URL(BASE_URL + "/proyectos/" + idProyecto);
@@ -348,53 +288,53 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
         }
     }
 
-@Override
-public int cantProyectoporEstado(String estado) {
-    try {
-        // Construir la URL correctamente con el parámetro 'estado'
-        URL url = new URL(BASE_URL + "/proyectos/contador?estado=" + URLEncoder.encode(estado, "UTF-8"));
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-
-        if (conn.getResponseCode() == 200) {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
-                return Integer.parseInt(reader.readLine());
-            }
-        }
-    } catch (Exception e) {
-        System.err.println("Error al contar proyectos por estado: " + e.getMessage());
-        e.printStackTrace();
-    }
-    return 0;
-}
-
     @Override
-    public int cantProyectosEvaluados() {
+    public int cantProyectoporEstado(String estado, String periodoAcademico) {
         try {
-           int proyectosAceptados = cantProyectoporEstado("aceptado");
-           int proyectosRechazados = cantProyectoporEstado("rechazado");
-           int proyectosEnEjecucion = cantProyectoporEstado("en_ejecucion");
-           int proyectosCerrados = cantProyectoporEstado("cerrado");
-           
-           return (proyectosAceptados+proyectosCerrados+proyectosEnEjecucion+proyectosRechazados);
+            // Construir la URL correctamente con el parámetro 'estado'
+            URL url = new URL(BASE_URL + "/proyectos/contador?estado=" + URLEncoder.encode(estado, "UTF-8"));
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            if (conn.getResponseCode() == 200) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                    return Integer.parseInt(reader.readLine());
+                }
+            }
         } catch (Exception e) {
-            System.err.println("Error " + e.getMessage());
-            
+            System.err.println("Error al contar proyectos por estado: " + e.getMessage());
+            e.printStackTrace();
         }
         return 0;
     }
 
     @Override
+    public int cantProyectosEvaluados() {
+//        try {
+//           int proyectosAceptados = cantProyectoporEstado("aceptado");
+//           int proyectosRechazados = cantProyectoporEstado("rechazado");
+//           int proyectosEnEjecucion = cantProyectoporEstado("en_ejecucion");
+//           int proyectosCerrados = cantProyectoporEstado("cerrado");
+//           
+//           return (proyectosAceptados+proyectosCerrados+proyectosEnEjecucion+proyectosRechazados);
+//        } catch (Exception e) {
+//            System.err.println("Error " + e.getMessage());
+//            
+//        }
+        return 0;
+    }
+
+    @Override
     public int cantTasaAceptacion() {
-        try {
-           int proyectosAceptados = cantProyectoporEstado("aceptado");
-           int proyectosRechazados = cantProyectoporEstado("rechazado");
-           
-           return(proyectosAceptados*100/(proyectosAceptados + proyectosRechazados));
-        } catch (Exception e) {
-            System.err.println("Error al obtener la tasa de aceptación: " + e.getMessage());
-            e.printStackTrace();
-        }
+//        try {
+//           int proyectosAceptados = cantProyectoporEstado("aceptado");
+//           int proyectosRechazados = cantProyectoporEstado("rechazado");
+//           
+//           return(proyectosAceptados*100/(proyectosAceptados + proyectosRechazados));
+//        } catch (Exception e) {
+//            System.err.println("Error al obtener la tasa de aceptación: " + e.getMessage());
+//            e.printStackTrace();
+//        }
         return 0;
     }
 

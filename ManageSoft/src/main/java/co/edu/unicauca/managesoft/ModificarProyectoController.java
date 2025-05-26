@@ -12,6 +12,7 @@ import co.edu.unicauca.managesoft.entities.IEstadoProyecto;
 import co.edu.unicauca.managesoft.infra.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.services.NotificacionServices;
+import co.edu.unicauca.managesoft.services.ProyectoServices;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +45,7 @@ public class ModificarProyectoController implements Initializable {
     private Coordinador coordinador;
     private ProyectTable proyecto;
     private NotificacionServices notificacionServicio;
+    private ProyectoServices proyectoServices;
 
     public ModificarProyectoController(IProyectoRepositorio repositorioProyecto, INotificacionRepositorio repositorioCorreo, Coordinador coordinador, ProyectTable proyecto) {
         this.repositorioProyecto = repositorioProyecto;
@@ -51,6 +53,7 @@ public class ModificarProyectoController implements Initializable {
         this.coordinador = coordinador;
         this.proyecto = proyecto;
         this.notificacionServicio = new NotificacionServices(this.repositorioCorreo);
+        this.proyectoServices = new ProyectoServices(this.repositorioProyecto);
     }
 
     @FXML
@@ -67,6 +70,14 @@ public class ModificarProyectoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Verificar si el memento funciona
+        Proyecto proyectAux = proyectoServices.encontrarPorId(String.valueOf(proyecto.getIdProyecto()));
+        System.out.println("----Historial----");
+        System.out.println(" id Proyecto: " + proyectAux.getIdProyecto());
+        System.out.println("Proyecto: " + proyectAux.getNombreProyecto());
+        for (int i = 0; i < proyectAux.getCaretaker().getHistorial().size(); i++) {
+            System.out.println("Estado: " + proyectAux.getCaretaker().getHistorial().get(i).toString());
+        }
         List<IEstadoProyecto> estados = Arrays.asList(
                 new EstadoRecibido(),
                 new EstadoAceptado(),
@@ -112,19 +123,18 @@ public class ModificarProyectoController implements Initializable {
             return;
         }
 
-        // Usar el método cambiarEstado del estado actual para actualizar el estado del proyecto
-        Proyecto proyectAux = proyecto.toProyecto();
+        //Nueva Version con Memento
+        Proyecto proyectAux = proyectoServices.encontrarPorId(String.valueOf(proyecto.getIdProyecto()));
         proyectAux.getEstadoProyecto().cambiarEstado(proyectAux, nuevoEstado);
 
         // Actualizar el estado en la base de datos
-        boolean actualizado = repositorioProyecto.actualizarEstadoProyecto(proyecto.getIdProyecto(), nuevoEstado.obtenerEstado());
-        
-        
+        boolean actualizado = proyectoServices.actualizarEstadoProyecto(proyectAux, nuevoEstado.obtenerEstado());
+
         if (actualizado) {
             mostrarAlerta("Éxito", "Estado actualizado correctamente", Alert.AlertType.INFORMATION, event);
 
             // Llamar al método enviarComentario del servicio de notificación
-            boolean comentarioEnviado = notificacionServicio.enviarComentario(comentario, coordinador, proyecto);
+            boolean comentarioEnviado = notificacionServicio.enviarComentario(comentario, coordinador, proyectAux);
 
             if (comentarioEnviado) {
                 mostrarAlerta("Comentario", "Comentario enviado correctamente", Alert.AlertType.INFORMATION, event);

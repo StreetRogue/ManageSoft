@@ -23,12 +23,16 @@ public class NotificacionServices {
         this.repositorio = repositorio;
     }
 
-    public boolean guardarCorreo(Correo correo, Estudiante estudiante, ProyectTable proyecto) {
+    public boolean guardarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto) {
         return repositorio.enviarCorreo(correo, estudiante, proyecto);
     }
     
-    public boolean enviarComentario(String comentario, Coordinador coordinador, ProyectTable proyecto){
+    public boolean enviarComentario(String comentario, Coordinador coordinador, Proyecto proyecto){
         return repositorio.enviarComentario(comentario, coordinador, proyecto);
+    }
+    
+    public int cantidadComentarios(Coordinador coordinador){
+        return repositorio.cantidadComentarios(coordinador);
     }
 
 }

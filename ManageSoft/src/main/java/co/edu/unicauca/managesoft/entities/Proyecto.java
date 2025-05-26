@@ -4,9 +4,11 @@
  */
 package co.edu.unicauca.managesoft.entities;
 
+import co.edu.unicauca.managesoft.infra.CareTakerProyecto;
 import co.edu.unicauca.managesoft.infra.Subject;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +28,10 @@ public class Proyecto extends Subject {
     private String fechaPublicacionProyecto;
     private IEstadoProyecto estadoProyecto;
     private List<Estudiante> estudiantesPostulados;
-    private List<Estudiante> estudiantesAceptados;
+    //private List<Estudiante> estudiantesAceptados;
     private Empresa empresa;
+    //Preguntarle al cucho 
+    private CareTakerProyecto caretaker = new CareTakerProyecto();
 
     public Proyecto() {
     }
@@ -158,30 +162,46 @@ public class Proyecto extends Subject {
         this.empresa = empresa;
     }
 
+    public CareTakerProyecto getCaretaker() {
+        return caretaker;
+    }
+
     public void agregarEstudiante(Estudiante estudiante) {
         estudiantesPostulados.add(estudiante);
     }
-//
-//    public Memento saveToMemento() {
-//        return new Memento(estadoProyecto);
-//    }
-//
-//    public void restoreFromMemento(Memento m) {
-//        estadoProyecto = m.getSavedState();
-//    }
-//
-//    //Clase interna Memento (Solo guardara un state)
-//    public static class Memento {
-//
-//        private IEstadoProyecto state;
-//
-//        public Memento(IEstadoProyecto stateToSave) {
-//            this.state = stateToSave;
-//        }
-//
-//        public IEstadoProyecto getSavedState() {
-//            return state;
-//        }
-//
-//    }
+
+    public Memento saveToMemento(IEstadoProyecto estado) {
+        String fechaCambioActual = LocalDateTime.now().toString();
+        return new Memento(estado, fechaCambioActual);
+    }
+
+    public void restoreFromMemento(Memento m) {
+        estadoProyecto = m.getSavedState();
+    }
+
+    //Clase interna Memento - Patron de Diseño
+    public static class Memento {
+
+        private IEstadoProyecto state;
+        private String fechaCambio;
+
+        public Memento(IEstadoProyecto stateToSave, String fechaCambio) {
+            this.state = stateToSave;
+            this.fechaCambio = fechaCambio;
+        }
+
+        public IEstadoProyecto getSavedState() {
+            return state;
+        }
+
+        public String getFechaCambio() {
+            return fechaCambio;
+        }
+
+        @Override
+        public String toString() {
+            return state.obtenerEstado();
+        }
+
+    }
 }
