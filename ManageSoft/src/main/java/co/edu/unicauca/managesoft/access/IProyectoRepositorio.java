@@ -23,8 +23,8 @@ public interface IProyectoRepositorio {
     Proyecto encontrarPorId(String proyectos);
     boolean actualizarEstadoProyecto(Proyecto idProyecto, String nuevoEstado);
     int cantProyectoporEstado(String estado, String periodoAcedemico);
-    int cantProyectosEvaluados();
-    int cantTasaAceptacion();
+    int cantProyectosEvaluados(String periodoAcademico);
+    int cantTasaAceptacion(String periodoAcademico);
     int avgProyectoDiasEnAceptar();
 
 }

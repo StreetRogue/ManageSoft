@@ -41,16 +41,16 @@ public class ProyectoServices {
         return repositorio.actualizarEstadoProyecto(proyecto, nuevoEstado);
     }
     
-    public int cantProyectosEvaluados(){
-        return repositorio.cantProyectosEvaluados();
+    public int cantProyectosEvaluados(String periodoAcademico){
+        return repositorio.cantProyectosEvaluados(periodoAcademico);
     }
     
     public int cantProyectoporEstado(String estado, String periodoAcademico){
         return repositorio.cantProyectoporEstado(estado, periodoAcademico);
     }
     
-    public int cantTasaAceptacion(){
-        return repositorio.cantTasaAceptacion();
+    public int cantTasaAceptacion(String periodoAcademico){
+        return repositorio.cantTasaAceptacion(periodoAcademico);
     }
 
     public int avgTiempoAceptacion(){
