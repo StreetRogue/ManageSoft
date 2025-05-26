@@ -25,5 +25,6 @@ public interface IProyectoRepositorio {
     int cantProyectoporEstado(String estado, String periodoAcedemico);
     int cantProyectosEvaluados();
     int cantTasaAceptacion();
+    int avgProyectoDiasEnAceptar();
 
 }

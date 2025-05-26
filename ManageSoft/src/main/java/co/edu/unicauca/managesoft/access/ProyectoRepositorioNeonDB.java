@@ -13,12 +13,8 @@ import co.edu.unicauca.managesoft.entities.EstadoRecibido;
 import co.edu.unicauca.managesoft.entities.IEstadoProyecto;
 import co.edu.unicauca.managesoft.infra.ProyectTable;
 import co.edu.unicauca.managesoft.entities.Proyecto;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -69,53 +65,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
         }
     }
 
-//    @Override
-//    public List<Proyecto> listarProyectos(String nitEmpresa) {
-//        System.out.println("Buscando proyectos para la empresa con NIT: " + nitEmpresa);
-//
-//        // Modificamos la consulta para incluir el campo 'id'
-//        String sql = "SELECT id, nombre, resumen, objetivos, descripcion, tiempo_maximo_meses, presupuesto, fecha, estado "
-//                + "FROM Proyecto WHERE nit_empresa = ? ORDER BY nombre ASC;";
-//
-//        List<Proyecto> proyectos = new ArrayList<>();
-//
-//        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-//            stmt.setString(1, nitEmpresa);
-//
-//            try (ResultSet rs = stmt.executeQuery()) {
-//                while (rs.next()) {
-//                    Proyecto proyecto = new Proyecto();
-//
-//                    // Asignar el id del proyecto
-//                    proyecto.setIdProyecto(rs.getInt("id"));
-//                    proyecto.setNombreProyecto(rs.getString("nombre"));
-//                    proyecto.setResumenProyecto(rs.getString("resumen"));
-//                    proyecto.setObjetivoProyecto(rs.getString("objetivos"));
-//                    proyecto.setDescripcionProyecto(rs.getString("descripcion"));
-//                    proyecto.setMaximoMesesProyecto(String.valueOf(rs.getInt("tiempo_maximo_meses")));
-//                    proyecto.setPresupuestoProyecto(String.valueOf(rs.getFloat("presupuesto")));
-//                    proyecto.setFechaPublicacionProyecto(rs.getString("fecha"));
-//
-//                    // Recuperar el estado del proyecto
-//                    String estado = rs.getString("estado");
-//                    IEstadoProyecto estadoProyecto = obtenerEstadoProyecto(estado);
-//                    proyecto.setEstadoProyecto(estadoProyecto);
-//
-//                    proyectos.add(proyecto);
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        // Aquí imprimimos los proyectos obtenidos, después de que se hayan añadido a la lista
-//        System.out.println("Proyectos obtenidos de la BD:");
-//        for (Proyecto p : proyectos) {
-//            System.out.println("ID: " + p.getIdProyecto() + ", Nombre: " + p.getNombreProyecto() + ", Estado: " + p.getEstadoProyecto());
-//        }
-//
-//        return proyectos;
-//    }
+
     @Override
     public List<Proyecto> listarProyectos(String nitEmpresa) {
         System.out.println("Buscando proyectos para la empresa con NIT: " + nitEmpresa);
@@ -512,6 +462,33 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
 
         return tasa;
     }
+
+    @Override
+    public int avgProyectoDiasEnAceptar() {
+        String sql = "SELECT AVG(EXTRACT(DAY FROM ("
+                + "SELECT hp.fechaCambio FROM HistorialProyecto hp "
+                + "WHERE hp.idProyecto = p.id AND hp.estado = 'ACEPTADO' "
+                + "ORDER BY hp.fechaCambio ASC LIMIT 1"
+                + ") - p.fecha::timestamp))::integer "
+                + "FROM Proyecto p "
+                + "WHERE p.id IN ("
+                + "SELECT DISTINCT idProyecto FROM HistorialProyecto "
+                + "WHERE estado = 'ACEPTADO')";
+
+        try (Connection conn = conectar();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = ((java.sql.Statement) stmt).executeQuery(sql)) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 
     //Memento
     private void cargarHistorialProyecto(Proyecto proyecto, Connection conn) {
