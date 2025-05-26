@@ -76,7 +76,7 @@ public class Main extends Application {
 
     static void setRoot(String fxml, Object controller) throws IOException {
         Parent root = loadFXML(fxml, controller); // Llamar al método con un controlador
-        scene.setRoot(root); // Establecer el nuevo root
+        scene.setRoot(root); // Establecer el nuevo rootoord
     }
 
     private static Parent loadFXML(String fxml, Object controller) throws IOException {

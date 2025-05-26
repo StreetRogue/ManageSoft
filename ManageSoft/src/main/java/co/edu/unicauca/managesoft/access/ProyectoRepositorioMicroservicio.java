@@ -338,4 +338,9 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
         return 0;
     }
 
+    @Override
+    public int avgProyectoDiasEnAceptar() {
+        return 0;
+    }
+
 }

@@ -339,6 +339,48 @@
     -fx-prompt-text-fill: white;  /* Texto en blanco si está vacío */
 }
 
+/*CBO para el Periodo Academico*/
+
+#cboPeriodoAcademico {
+    -fx-background-color: #272c33;  /* Fondo oscuro */
+    -fx-border-color: transparent;  /* Sin bordes */
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI";
+}
+
+/* Color del texto en el ComboBox cuando está cerrado */
+#cboPeriodoAcademico .list-cell {
+    -fx-text-fill: white;  /* Texto blanco */
+}
+
+/* Color del texto del elemento seleccionado */
+#cboPeriodoAcademico .combo-box-popup .list-view .list-cell {
+    -fx-text-fill: white;  /* Texto blanco */
+    -fx-background-color: #1E2126; /* Fondo oscuro */
+}
+
+/* Color del texto cuando pasas el mouse sobre las opciones */
+#cboPeriodoAcademico .combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #333333; /* Color más oscuro */
+}
+
+/* Flecha del ComboBox */
+#cboPeriodoAcademico .arrow-button {
+    -fx-background-color: #272c33; /* Mismo color que el fondo */
+}
+
+/* Color de la flecha dentro del botón */
+#cboPeriodoAcademico .arrow-button .arrow {
+    -fx-background-color: white;  /* Flecha blanca */
+}
+
+/* Color del texto cuando no hay selección */
+#cboPeriodoAcademico:empty .list-cell {
+    -fx-prompt-text-fill: white;  /* Texto en blanco si está vacío */
+}
+
 
 
 #txtPresupuestoVacante {

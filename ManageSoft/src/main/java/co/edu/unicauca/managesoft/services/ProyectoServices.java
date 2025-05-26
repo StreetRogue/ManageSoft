@@ -52,4 +52,9 @@ public class ProyectoServices {
     public int cantTasaAceptacion(){
         return repositorio.cantTasaAceptacion();
     }
+
+    public int avgTiempoAceptacion(){
+        return repositorio.avgProyectoDiasEnAceptar();
+    }
+
 }

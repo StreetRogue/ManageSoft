@@ -30,7 +30,7 @@ public class Proyecto extends Subject {
     private List<Estudiante> estudiantesPostulados;
     //private List<Estudiante> estudiantesAceptados;
     private Empresa empresa;
-    //Preguntarle al cucho 
+
     private CareTakerProyecto caretaker = new CareTakerProyecto();
 
     public Proyecto() {
