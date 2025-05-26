@@ -28,14 +28,11 @@ public class DashboardCoordinadorPaneController implements Initializable {
     private ProyectoServices proyectoServices;
     private NotificacionServices notificationServices;
 
-    public DashboardCoordinadorPaneController(Coordinador coordinador) {
+    public DashboardCoordinadorPaneController(Coordinador coordinador, Repositorio repositorio) {
         this.coordinador = coordinador;
+        this.repositorio = repositorio;
         this.proyectoServices = new ProyectoServices(repositorio.getRepositorioEmpresa().getRepositorioProyecto());
         this.notificationServices = new NotificacionServices(repositorio.getRepositorioCorreo());
-    }
-
-    public void setRepositorio(Repositorio repositorio) {
-        this.repositorio = repositorio;
     }
 
     @FXML

@@ -63,7 +63,7 @@ public class DashboardCoordinadorController implements Initializable {
 
     @FXML
     private void cargarDashboardPane() {
-        DashboardCoordinadorPaneController paneCoordinador = new DashboardCoordinadorPaneController(coordinador);
+        DashboardCoordinadorPaneController paneCoordinador = new DashboardCoordinadorPaneController(coordinador, repositorio);
         try {
 
             System.out.println("Nombre: " + coordinador.getNombreUsuario());
