@@ -416,7 +416,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     }
 
     @Override
-    public int cantProyectosEvaluados() {
+    public int cantProyectosEvaluados(String periodoAcademico) {
         int total = 0;
         String sql = "SELECT COUNT(*) FROM Proyecto WHERE estado = 'ACEPTADO' OR estado = 'RECHAZADO'";
 
@@ -433,7 +433,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     }
 
     @Override
-    public int cantTasaAceptacion() {
+    public int cantTasaAceptacion(String periodoAcademico) {
         int aceptados = 0;
         int rechazados = 0;
         int tasa = 0;

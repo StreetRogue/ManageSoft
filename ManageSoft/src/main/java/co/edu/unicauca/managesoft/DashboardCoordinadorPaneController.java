@@ -89,27 +89,27 @@ public class DashboardCoordinadorPaneController implements Initializable {
 
     private void cargarDatosDashboard(String periodoAcademico) {
         // Cantidad de Proyectos Evaluados (total, no depende del período)
-        int cantidadProyectosEvaluados = proyectoServices.cantProyectosEvaluados();
+        int cantidadProyectosEvaluados = proyectoServices.cantProyectosEvaluados(periodoAcademico);
         cantProyectosEvaluados.setText(String.valueOf(cantidadProyectosEvaluados));
 
-        // Cantidad Estudiantes (total, no depende del período)
-        int cantidadEstudiantes = repositorio.getRepositorioEstudiante().cantidadEstudiantes();
-        cantEstudiantes.setText(String.valueOf(cantidadEstudiantes));
+//        // Cantidad Estudiantes (total, no depende del período)
+//        int cantidadEstudiantes = repositorio.getRepositorioEstudiante().cantidadEstudiantes();
+//        cantEstudiantes.setText(String.valueOf(cantidadEstudiantes));
 
         // Proyectos rechazados (depende del período)
         int cantidadProyectosRechazados = proyectoServices.cantProyectoporEstado("RECHAZADO", periodoAcademico);
         cantProyectosRechazados.setText(String.valueOf(cantidadProyectosRechazados));
 
         // Tasa Proyectos Aceptados (total o por período, según tu lógica)
-        int tasaProyectosAceptadosAux = proyectoServices.cantTasaAceptacion();
+        int tasaProyectosAceptadosAux = proyectoServices.cantTasaAceptacion(periodoAcademico);
         tasaProyectosAceptados.setText(tasaProyectosAceptadosAux + "%");
 
         // Tiempo promedio de aceptación (ajusta según tu lógica real)
         cantTiempoAceptacion.setText(String.valueOf(proyectoServices.avgTiempoAceptacion()));
 
-        // Cantidad de Comentarios por Coordinador
-        int cantidadComentarios = notificationServices.cantidadComentarios(coordinador);
-        cantComentarios.setText(String.valueOf(cantidadComentarios));
+//        // Cantidad de Comentarios por Coordinador
+//        int cantidadComentarios = notificationServices.cantidadComentarios(coordinador);
+//        cantComentarios.setText(String.valueOf(cantidadComentarios));
 
         // Actualizar gráfico
         actualizarGraficoEstadosProyectos(periodoAcademico);

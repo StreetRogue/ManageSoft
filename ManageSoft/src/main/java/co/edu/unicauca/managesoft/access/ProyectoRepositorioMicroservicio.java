@@ -291,8 +291,12 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     @Override
     public int cantProyectoporEstado(String estado, String periodoAcademico) {
         try {
-            // Construir la URL correctamente con el parámetro 'estado'
-            URL url = new URL(BASE_URL + "/proyectos/contador?estado=" + URLEncoder.encode(estado, "UTF-8"));
+            // Construir la URL con ambos parámetros correctamente codificados
+            String urlStr = BASE_URL + "/proyectos/contador2?estado="
+                    + URLEncoder.encode(estado, "UTF-8")
+                    + "&periodo=" + URLEncoder.encode(periodoAcademico, "UTF-8");
+
+            URL url = new URL(urlStr);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
@@ -300,6 +304,8 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
                     return Integer.parseInt(reader.readLine());
                 }
+            } else {
+                System.err.println("Respuesta HTTP inesperada: " + conn.getResponseCode());
             }
         } catch (Exception e) {
             System.err.println("Error al contar proyectos por estado: " + e.getMessage());
@@ -309,38 +315,62 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     }
 
     @Override
-    public int cantProyectosEvaluados() {
-//        try {
-//           int proyectosAceptados = cantProyectoporEstado("aceptado");
-//           int proyectosRechazados = cantProyectoporEstado("rechazado");
-//           int proyectosEnEjecucion = cantProyectoporEstado("en_ejecucion");
-//           int proyectosCerrados = cantProyectoporEstado("cerrado");
-//           
-//           return (proyectosAceptados+proyectosCerrados+proyectosEnEjecucion+proyectosRechazados);
-//        } catch (Exception e) {
-//            System.err.println("Error " + e.getMessage());
-//            
-//        }
+    public int cantProyectosEvaluados(String periodoAcademico) {
+        try {
+           int proyectosAceptados = cantProyectoporEstado("aceptado",periodoAcademico );
+           int proyectosRechazados = cantProyectoporEstado("rechazado",periodoAcademico);
+           int proyectosEnEjecucion = cantProyectoporEstado("en_ejecucion",periodoAcademico);
+           int proyectosCerrados = cantProyectoporEstado("cerrado",periodoAcademico);
+           
+           return (proyectosAceptados+proyectosCerrados+proyectosEnEjecucion+proyectosRechazados);
+        } catch (Exception e) {
+            System.err.println("Error " + e.getMessage());
+            
+        }
         return 0;
     }
 
     @Override
-    public int cantTasaAceptacion() {
-//        try {
-//           int proyectosAceptados = cantProyectoporEstado("aceptado");
-//           int proyectosRechazados = cantProyectoporEstado("rechazado");
-//           
-//           return(proyectosAceptados*100/(proyectosAceptados + proyectosRechazados));
-//        } catch (Exception e) {
-//            System.err.println("Error al obtener la tasa de aceptación: " + e.getMessage());
-//            e.printStackTrace();
-//        }
+    public int cantTasaAceptacion(String periodoAcademico) {
+        try {
+           int proyectosAceptados = cantProyectoporEstado("aceptado",periodoAcademico);
+           int proyectosRechazados = cantProyectoporEstado("rechazado",periodoAcademico);
+           if (proyectosAceptados == 0 && proyectosRechazados == 0){
+               return 0;
+           }
+           
+           return(proyectosAceptados*100/(proyectosAceptados + proyectosRechazados));
+        } catch (Exception e) {
+            System.err.println("Error al obtener la tasa de aceptación: " + e.getMessage());
+            e.printStackTrace();
+        }
         return 0;
     }
 
-    @Override
-    public int avgProyectoDiasEnAceptar() {
-        return 0;
+@Override
+public int avgProyectoDiasEnAceptar() {
+    try {
+        String urlStr = BASE_URL + "/proyectos/estadisticas/promedio-aceptacion";
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        int responseCode = conn.getResponseCode();
+        if (responseCode == 200) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
+                String line = reader.readLine();
+                if (line != null && !line.isEmpty()) {
+                    return Integer.parseInt(line.trim());
+                }
+            }
+        } else {
+            System.err.println("Respuesta HTTP inesperada: " + responseCode);
+        }
+    } catch (Exception e) {
+        System.err.println("Error al obtener promedio de días en aceptar: " + e.getMessage());
+        e.printStackTrace();
     }
+    return 0;
+}
 
 }

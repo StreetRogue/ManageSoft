@@ -1,12 +1,14 @@
 package co.edu.unicauca.companyServices.controllers;
 
 
+import co.edu.unicauca.companyServices.dtos.HistorialProyectoDTO;
 import co.edu.unicauca.companyServices.dtos.ProyectoDTO;
 import co.edu.unicauca.companyServices.entities.Empresa;
 import co.edu.unicauca.companyServices.entities.EstadoProyecto;
 import co.edu.unicauca.companyServices.entities.Proyecto;
 import co.edu.unicauca.companyServices.mappers.ProyectoMapper;
 import co.edu.unicauca.companyServices.services.EmpresaService;
+import co.edu.unicauca.companyServices.services.HistorialProyectoService;
 import co.edu.unicauca.companyServices.services.ProyectoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,9 @@ public class ProyectoController {
 
     @Autowired
     private ProyectoMapper proyectoMapper;
+
+    @Autowired
+    private HistorialProyectoService historialService;
 
 
     @GetMapping
@@ -78,5 +83,28 @@ public class ProyectoController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Estado no válido. Usa uno de: RECIBIDO, ACEPTADO, RECHAZADO, EN_EJECUCION, CERRADO");
         }
+    }
+
+    @GetMapping("/contador2")
+    public ResponseEntity<?> contarPorEstadoYPeriodo(@RequestParam String estado,
+                                                     @RequestParam String periodo) {
+        try {
+            long cantidad = proyectoService.contarPorEstadoYPeriodo(estado, periodo);
+            return ResponseEntity.ok(cantidad);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/historial")
+    public ResponseEntity<List<HistorialProyectoDTO>> obtenerHistorial(@PathVariable Long id) {
+        List<HistorialProyectoDTO> historial = historialService.obtenerHistorialPorProyecto(id);
+        return ResponseEntity.ok(historial);
+    }
+
+    @GetMapping("/estadisticas/promedio-aceptacion")
+    public ResponseEntity<Integer> promedioDiasAceptacion() {
+        Integer promedio = proyectoService.obtenerPromedioDiasAceptacion();
+        return ResponseEntity.ok(promedio != null ? promedio : 0);
     }
 }
