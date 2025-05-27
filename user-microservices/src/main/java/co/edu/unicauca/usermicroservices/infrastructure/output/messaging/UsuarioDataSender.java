@@ -1,8 +1,7 @@
-package co.edu.unicauca.usermicroservices.messaging;
+package co.edu.unicauca.usermicroservices.infrastructure.output.messaging;
 
-import co.edu.unicauca.usermicroservices.entities.Usuario;
-import co.edu.unicauca.usermicroservices.services.UsuarioService;
-import co.edu.unicauca.usermicroservices.messaging.MessageSender;
+import co.edu.unicauca.usermicroservices.domain.model.Usuario;
+import co.edu.unicauca.usermicroservices.aplication.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

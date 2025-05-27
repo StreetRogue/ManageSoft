@@ -1,4 +1,4 @@
-package co.edu.unicauca.usermicroservices.entities;
+package co.edu.unicauca.usermicroservices.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +12,7 @@ import lombok.*;
 
 @Entity
 @DiscriminatorValue("COORDINADOR")
-public class Coordinador  extends Usuario{
+public class Coordinador  extends Usuario {
 
 
     @Column(unique = true, nullable = false)

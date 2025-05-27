@@ -1,6 +1,6 @@
 package co.edu.unicauca.usermicroservices.serializers;
 
-import co.edu.unicauca.usermicroservices.entities.*;
+import co.edu.unicauca.usermicroservices.domain.model.*;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;

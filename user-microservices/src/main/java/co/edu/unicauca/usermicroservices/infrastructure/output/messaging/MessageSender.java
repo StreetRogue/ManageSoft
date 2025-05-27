@@ -1,7 +1,7 @@
-package co.edu.unicauca.usermicroservices.messaging;
+package co.edu.unicauca.usermicroservices.infrastructure.output.messaging;
 
-import co.edu.unicauca.usermicroservices.entities.Usuario;
-import co.edu.unicauca.usermicroservices.entities.enumTipoUsuario;
+import co.edu.unicauca.usermicroservices.domain.model.Usuario;
+import co.edu.unicauca.usermicroservices.domain.model.enumTipoUsuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
 import org.springframework.stereotype.Service;

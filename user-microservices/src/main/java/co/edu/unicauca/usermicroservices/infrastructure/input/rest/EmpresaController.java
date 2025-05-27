@@ -1,7 +1,7 @@
-package co.edu.unicauca.usermicroservices.controllers;
+package co.edu.unicauca.usermicroservices.infrastructure.input.rest;
 
-import co.edu.unicauca.usermicroservices.entities.Empresa;
-import co.edu.unicauca.usermicroservices.services.EmpresaService;
+import co.edu.unicauca.usermicroservices.domain.model.Empresa;
+import co.edu.unicauca.usermicroservices.aplication.services.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

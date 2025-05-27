@@ -1,4 +1,4 @@
-package co.edu.unicauca.usermicroservices.entities;
+package co.edu.unicauca.usermicroservices.domain.model;
 
 import co.edu.unicauca.usermicroservices.serializers.UsuarioDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
