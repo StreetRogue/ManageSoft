@@ -20,4 +20,7 @@ public interface IEstudianteRepositorio extends JpaRepository<Estudiante, Long> 
 
     @Query("SELECT e FROM Estudiante e WHERE e.nombreUsuario = :nombreUsuario AND e.contrasenaUsuario = :contrasena")
     Optional<Estudiante> findByUsernameAndPassword(String nombreUsuario, String contrasena);
+
+    @Query("SELECT COUNT(e) FROM Estudiante e")
+    Integer contarEstudiantes();
 }

@@ -72,6 +72,9 @@ public class ModificarProyectoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //Verificar si el memento funciona
         Proyecto proyectAux = proyectoServices.encontrarPorId(String.valueOf(proyecto.getIdProyecto()));
+        System.out.println(proyectAux.getNombreProyecto());
+        System.out.println(proyectAux.getEmpresa().getNombreEmpresa());
+        System.out.println(proyectAux.getEmpresa().getEmailEmpresa());
         System.out.println("----Historial----");
         System.out.println(" id Proyecto: " + proyectAux.getIdProyecto());
         System.out.println("Proyecto: " + proyectAux.getNombreProyecto());

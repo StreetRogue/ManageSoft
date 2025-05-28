@@ -53,8 +53,8 @@ public class ProyectoServices {
         return repositorio.cantTasaAceptacion(periodoAcademico);
     }
 
-    public int avgTiempoAceptacion(){
-        return repositorio.avgProyectoDiasEnAceptar();
+    public int avgTiempoAceptacion(String periodoAcademico){
+        return repositorio.avgProyectoDiasEnAceptar(periodoAcademico);
     }
 
 }

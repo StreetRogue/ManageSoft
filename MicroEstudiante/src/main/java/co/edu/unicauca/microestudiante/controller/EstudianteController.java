@@ -56,4 +56,11 @@ public class EstudianteController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
+
+    @GetMapping("/total")
+    public ResponseEntity<Integer> contarEstudiantes() {
+        Integer total = estudianteService.contarEstudiantes();
+        return ResponseEntity.ok(total != null ? total : 0);
+
+    }
 }

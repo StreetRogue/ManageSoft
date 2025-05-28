@@ -15,8 +15,7 @@ public class UsuarioDeserializer extends JsonDeserializer<Usuario> {
 
         // Obtener el tipo de usuario con verificación de null
         String tipoUsuario = getNodeText(node, "tipoUsuario");
-        System.out.println("Tipo de usuario deserializado: " + tipoUsuario);
-        System.out.println("Cuerpo del JSON recibido desde el deserializer: " + node.toString());
+      
 
         // Convertir el tipo de usuario a enum
         enumTipoUsuario tipoUsuarioEnum = enumTipoUsuario.valueOf(tipoUsuario);

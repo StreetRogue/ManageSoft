@@ -464,7 +464,7 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
     }
 
     @Override
-    public int avgProyectoDiasEnAceptar() {
+    public int avgProyectoDiasEnAceptar(String periodoAcademico) {
         String sql = "SELECT AVG(EXTRACT(DAY FROM ("
                 + "SELECT hp.fechaCambio FROM HistorialProyecto hp "
                 + "WHERE hp.idProyecto = p.id AND hp.estado = 'ACEPTADO' "
@@ -491,21 +491,21 @@ public class ProyectoRepositorioNeonDB implements IProyectoRepositorio {
 
 
     //Memento
-    private void cargarHistorialProyecto(Proyecto proyecto, Connection conn) {
-        String sql = "SELECT estado FROM HistorialProyecto WHERE idProyecto = ? ORDER BY idProyecto ASC"; // Asumiendo que 'id' es autoincremental y mantiene el orden
+        private void cargarHistorialProyecto(Proyecto proyecto, Connection conn) {
+            String sql = "SELECT estado FROM HistorialProyecto WHERE idProyecto = ? ORDER BY idProyecto ASC"; // Asumiendo que 'id' es autoincremental y mantiene el orden
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, proyecto.getIdProyecto());
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    String estadoStr = rs.getString("estado");
-                    IEstadoProyecto estado = obtenerEstadoProyecto(estadoStr);
-                    proyecto.getCaretaker().addMemento(proyecto.saveToMemento(estado));
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, proyecto.getIdProyecto());
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        String estadoStr = rs.getString("estado");
+                        IEstadoProyecto estado = obtenerEstadoProyecto(estadoStr);
+                        proyecto.getCaretaker().addMemento(proyecto.saveToMemento(estado));
+                    }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-    }
 
 }

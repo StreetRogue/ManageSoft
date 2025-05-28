@@ -3,6 +3,7 @@ package co.edu.unicauca.companyServices.controllers;
 
 import co.edu.unicauca.companyServices.dtos.HistorialProyectoDTO;
 import co.edu.unicauca.companyServices.dtos.ProyectoDTO;
+import co.edu.unicauca.companyServices.dtos.ProyectoDetalleDTO;
 import co.edu.unicauca.companyServices.entities.Empresa;
 import co.edu.unicauca.companyServices.entities.EstadoProyecto;
 import co.edu.unicauca.companyServices.entities.Proyecto;
@@ -46,6 +47,11 @@ public class ProyectoController {
     public ResponseEntity<Proyecto> getProyecto(@PathVariable Long id) {
         Proyecto proyecto = proyectoService.findById(id);
         return ResponseEntity.ok(proyecto);
+    }
+    @GetMapping("/{id}/def")
+    public ResponseEntity<ProyectoDetalleDTO> getProyectodef(@PathVariable Long id) {
+        ProyectoDetalleDTO dto = proyectoService.obtenerDetalleProyecto(id);
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping("/{id}/estado")
@@ -103,8 +109,8 @@ public class ProyectoController {
     }
 
     @GetMapping("/estadisticas/promedio-aceptacion")
-    public ResponseEntity<Integer> promedioDiasAceptacion() {
-        Integer promedio = proyectoService.obtenerPromedioDiasAceptacion();
+    public ResponseEntity<Integer> promedioDiasAceptacion(@RequestParam String periodo) {
+        Integer promedio = proyectoService.obtenerPromedioDiasAceptacion(periodo);
         return ResponseEntity.ok(promedio != null ? promedio : 0);
     }
 }

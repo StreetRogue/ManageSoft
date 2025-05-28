@@ -32,4 +32,8 @@ public class ComentarioService {
     public List<Comentario> mostrarComentarios() {
         return comentarioRepository.findAll();
     }
+
+    public int contarComentariosPorEmailCoordinador(String email) {
+        return comentarioRepository.countByEmailCoordinador(email);
+    }
 }
