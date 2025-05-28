@@ -42,6 +42,9 @@ public class Proyecto {
     @JoinColumn(name = "nitEmpresa", referencedColumnName = "nitEmpresa")
     private Empresa empresa;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<HistorialProyecto> historial = new ArrayList<>();
 
     // Constructor sin empresa para facilitar creación
     public Proyecto(String nombre, String descripcion, String duracionMeses, String presupuesto) {

@@ -1,6 +1,7 @@
 package co.edu.unicauca.companyServices.services;
 
 import co.edu.unicauca.companyServices.dtos.ProyectoDTO;
+import co.edu.unicauca.companyServices.dtos.ProyectoDetalleDTO;
 import co.edu.unicauca.companyServices.entities.Empresa;
 import co.edu.unicauca.companyServices.entities.EstadoProyecto;
 import co.edu.unicauca.companyServices.entities.HistorialProyecto;
@@ -112,8 +113,61 @@ public class ProyectoService {
         return proyectoRepository.contarPorEstadoYPeriodo(estadoEnum, inicio, fin);
     }
 
-    public Integer obtenerPromedioDiasAceptacion() {
-        return proyectoRepository.promedioDiasAceptado();
+    public Integer obtenerPromedioDiasAceptacion(String periodo) {
+        LocalDate inicio;
+        LocalDate fin;
+
+        if (periodo.endsWith("-1")) {
+            inicio = LocalDate.parse(periodo.substring(0, 4) + "-01-01");
+            fin = LocalDate.parse(periodo.substring(0, 4) + "-06-30");
+        } else if (periodo.endsWith("-2")) {
+            inicio = LocalDate.parse(periodo.substring(0, 4) + "-07-01");
+            fin = LocalDate.parse(periodo.substring(0, 4) + "-12-31");
+        } else {
+            throw new IllegalArgumentException("Formato de periodo inválido: " + periodo);
+        }
+
+        return proyectoRepository.promedioDiasAceptado(inicio, fin);
+    }
+
+    public ProyectoDetalleDTO obtenerDetalleProyecto(Long id) {
+        Proyecto proyecto = proyectoRepository.findWithEmpresaAndHistorialByIdProyecto(id)
+                .orElseThrow(() -> new RuntimeException("Proyecto no encontrado con ID: " + id));
+
+        ProyectoDetalleDTO dto = new ProyectoDetalleDTO();
+        dto.setIdProyecto(proyecto.getIdProyecto());
+        dto.setNombreProyecto(proyecto.getNombreProyecto());
+        dto.setResumenProyecto(proyecto.getResumenProyecto());
+        dto.setObjetivoProyecto(proyecto.getObjetivoProyecto());
+        dto.setDescripcionProyecto(proyecto.getDescripcionProyecto());
+        dto.setMaximoMesesProyecto(proyecto.getMaximoMesesProyecto());
+        dto.setPresupuestoProyecto(proyecto.getPresupuestoProyecto());
+        dto.setFechaPublicacionProyecto(proyecto.getFechaPublicacionProyecto());
+        dto.setEstadoProyecto(proyecto.getEstadoProyecto());
+
+        // Empresa
+        Empresa empresa = proyecto.getEmpresa();
+        if (empresa != null) {
+            ProyectoDetalleDTO.EmpresaDTO empresaDTO = new ProyectoDetalleDTO.EmpresaDTO(
+                    empresa.getNitEmpresa(),
+                    empresa.getNombreEmpresa(),
+                    empresa.getEmailEmpresa(),
+                    empresa.getSectorEmpresa(),
+                    empresa.getContactoEmpresa(),
+                    empresa.getNombreContactoEmpresa(),
+                    empresa.getApellidoContactoEmpresa(),
+                    empresa.getCargoContactoEmpresa()
+            );
+            dto.setEmpresa(empresaDTO);
+        }
+
+        // Historial
+        List<ProyectoDetalleDTO.HistorialDTO> historialDTOs = proyecto.getHistorial().stream()
+                .map(h -> new ProyectoDetalleDTO.HistorialDTO(h.getEstado()))
+                .toList();
+        dto.setHistorial(historialDTOs);
+
+        return dto;
     }
 }
 

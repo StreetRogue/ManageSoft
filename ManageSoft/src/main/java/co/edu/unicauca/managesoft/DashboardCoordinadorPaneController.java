@@ -93,8 +93,8 @@ public class DashboardCoordinadorPaneController implements Initializable {
         cantProyectosEvaluados.setText(String.valueOf(cantidadProyectosEvaluados));
 
 //        // Cantidad Estudiantes (total, no depende del período)
-//        int cantidadEstudiantes = repositorio.getRepositorioEstudiante().cantidadEstudiantes();
-//        cantEstudiantes.setText(String.valueOf(cantidadEstudiantes));
+        int cantidadEstudiantes = repositorio.getRepositorioEstudiante().cantidadEstudiantes();
+        cantEstudiantes.setText(String.valueOf(cantidadEstudiantes));
 
         // Proyectos rechazados (depende del período)
         int cantidadProyectosRechazados = proyectoServices.cantProyectoporEstado("RECHAZADO", periodoAcademico);
@@ -105,11 +105,11 @@ public class DashboardCoordinadorPaneController implements Initializable {
         tasaProyectosAceptados.setText(tasaProyectosAceptadosAux + "%");
 
         // Tiempo promedio de aceptación (ajusta según tu lógica real)
-        cantTiempoAceptacion.setText(String.valueOf(proyectoServices.avgTiempoAceptacion()));
+        cantTiempoAceptacion.setText(String.valueOf(proyectoServices.avgTiempoAceptacion(periodoAcademico)));
 
-//        // Cantidad de Comentarios por Coordinador
-//        int cantidadComentarios = notificationServices.cantidadComentarios(coordinador);
-//        cantComentarios.setText(String.valueOf(cantidadComentarios));
+////        // Cantidad de Comentarios por Coordinador
+        int cantidadComentarios = notificationServices.cantidadComentarios(coordinador);
+        cantComentarios.setText(String.valueOf(cantidadComentarios));
 
         // Actualizar gráfico
         actualizarGraficoEstadosProyectos(periodoAcademico);

@@ -240,7 +240,28 @@ public class EstudianteRepositorioMicroservicio implements IEstudianteRepositori
 
     @Override
     public int cantidadEstudiantes() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+           try {
+        String urlStr = (baseUrl + "/total");
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        int responseCode = conn.getResponseCode();
+        if (responseCode == 200) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
+                String line = reader.readLine();
+                if (line != null && !line.isEmpty()) {
+                    return  Integer.parseInt(line.trim());
+                }
+            }
+        } else {
+            System.err.println("Respuesta HTTP inesperada: " + responseCode);
+        }
+    } catch (Exception e) {
+        System.err.println("Error al obtener total de estudiantes: " + e.getMessage());
+        e.printStackTrace();
+    }
+    return 0;
     }
 
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/comentarios")
+@RequestMapping("/api/comentarios")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class ComentarioController {
@@ -27,5 +27,11 @@ public class ComentarioController {
     @GetMapping
     public ResponseEntity<List<Comentario>> obtenerComentarios() {
         return ResponseEntity.ok(service.mostrarComentarios());
+    }
+
+    @GetMapping("/contador")
+    public ResponseEntity<Integer> contarPorEmailCoordinador(@RequestParam String email) {
+        int total = service.contarComentariosPorEmailCoordinador(email);
+        return ResponseEntity.ok(total);
     }
 }

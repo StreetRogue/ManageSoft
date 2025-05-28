@@ -21,7 +21,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue ColaProyectosAceptados() {
-        return new Queue(COLA_PROYECTOS, false);
+        return new Queue(COLA_PROYECTOS, true);
     }
 
     @Bean

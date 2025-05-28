@@ -122,4 +122,8 @@ public class EstudianteService {
         estudianteDto.setProyectosAceptados(estudiante.getProyectoAceptados().stream().map(Proyecto::getIdProyecto).collect(Collectors.toList()));
         return estudianteDto;
     }
+
+    public Integer contarEstudiantes() {
+        return estudianteRepositorio.contarEstudiantes();
+    }
 }

@@ -17,11 +17,19 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 public class NotificacionRepositorioMicroservicio implements INotificacionRepositorio {
 
     private static final String RABBITMQ_HOST = "localhost"; // Dirección del servidor RabbitMQ
     private static final String QUEUE_NAME = "cola.notificacion"; // Nombre de la cola
     private static final String QUEUE_NAMEC = "cola.comentario";
+    private static final String BASE_URL = "http://localhost:8082/api";
 
     @Override
     public boolean enviarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto) {
@@ -85,8 +93,33 @@ public class NotificacionRepositorioMicroservicio implements INotificacionReposi
         }
     }
 
-    @Override
-    public int cantidadComentarios(Coordinador coordinador) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+@Override
+public int cantidadComentarios(Coordinador coordinador) {
+    try {
+        String email = URLEncoder.encode(coordinador.getEmail(), "UTF-8");
+        String urlStr = BASE_URL + "/comentarios/contador?email=" + email;
+
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        if (conn.getResponseCode() == 200) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                String line = reader.readLine();
+                if (line != null && !line.isEmpty()) {
+                    return Integer.parseInt(line.trim());
+                }
+            }
+        } else {
+            System.err.println("Respuesta HTTP inesperada: " + conn.getResponseCode());
+        }
+
+    } catch (Exception e) {
+        System.err.println("Error al obtener cantidad de comentarios: " + e.getMessage());
+        e.printStackTrace();
     }
+
+    return 0;
+}
+
 }

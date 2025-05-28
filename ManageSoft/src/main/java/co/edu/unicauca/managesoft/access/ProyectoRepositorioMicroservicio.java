@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
@@ -20,6 +21,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
 
@@ -267,25 +269,122 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
         }
     }
 
-    @Override // Este ahora tambien tiene q devolver el historial
-    public Proyecto encontrarPorId(String idProyecto) {
+    @Override
+    public Proyecto encontrarPorId(String idProyectoStr) {
         try {
-            URL url = new URL(BASE_URL + "/proyectos/" + idProyecto);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            Long idProyecto = Long.parseLong(idProyectoStr);
+            String endpoint = BASE_URL + "/proyectos/" + idProyecto + "/def";
+            System.out.println("Consultando: " + endpoint); // Debug URL
 
-            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-                    Proyecto proyecto = gson.fromJson(reader, Proyecto.class);
-                    return proyecto;
+            URL url = new URL(endpoint);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Accept", "application/json");
+
+            int responseCode = con.getResponseCode();
+            System.out.println("Código HTTP: " + responseCode); // Debug status
+
+            if (responseCode != 200) {
+                // Leer mensaje de error si existe
+                try (BufferedReader errorReader = new BufferedReader(
+                        new InputStreamReader(con.getErrorStream()))) {
+                    String error = errorReader.lines().collect(Collectors.joining());
+                    System.out.println("Error del servidor: " + error);
+                }
+                return null;
+            }
+
+            // Leer respuesta
+            String jsonResponse;
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()))) {
+                jsonResponse = reader.lines().collect(Collectors.joining());
+                System.out.println("JSON recibido: " + jsonResponse); // Debug JSON
+            }
+
+            // Parsear JSON
+            JsonObject json = JsonParser.parseString(jsonResponse).getAsJsonObject();
+
+            // Crear objeto Proyecto
+            Proyecto proyecto = new Proyecto();
+
+            // Mapear campos básicos (con verificaciones)
+            proyecto.setIdProyecto(json.get("idProyecto").getAsInt());
+            proyecto.setNombreProyecto(json.get("nombreProyecto").getAsString());
+
+            // Campos opcionales con valores por defecto
+            proyecto.setResumenProyecto(json.has("resumenProyecto") && !json.get("resumenProyecto").isJsonNull()
+                    ? json.get("resumenProyecto").getAsString() : "");
+            proyecto.setObjetivoProyecto(json.has("objetivoProyecto") && !json.get("objetivoProyecto").isJsonNull()
+                    ? json.get("objetivoProyecto").getAsString() : "");
+            proyecto.setDescripcionProyecto(json.has("descripcionProyecto") && !json.get("descripcionProyecto").isJsonNull()
+                    ? json.get("descripcionProyecto").getAsString() : "");
+
+            // Campos numéricos como strings
+            proyecto.setMaximoMesesProyecto(json.has("maximoMesesProyecto") && !json.get("maximoMesesProyecto").isJsonNull()
+                    ? json.get("maximoMesesProyecto").getAsString() : "0");
+            proyecto.setPresupuestoProyecto(json.has("presupuestoProyecto") && !json.get("presupuestoProyecto").isJsonNull()
+                    ? json.get("presupuestoProyecto").getAsString() : "0.0");
+
+            // Fecha
+            proyecto.setFechaPublicacionProyecto(json.has("fechaPublicacionProyecto") && !json.get("fechaPublicacionProyecto").isJsonNull()
+                    ? json.get("fechaPublicacionProyecto").getAsString() : "");
+
+            // Estado
+            String estadoStr = json.get("estadoProyecto").getAsString();
+            IEstadoProyecto estadoProyecto = obtenerEstadoProyecto(estadoStr);
+            proyecto.setEstadoProyecto(estadoProyecto);
+
+            // Empresa
+            if (json.has("empresa") && !json.get("empresa").isJsonNull()) {
+                JsonObject empresaJson = json.getAsJsonObject("empresa");
+                Empresa empresa = new Empresa();
+
+                empresa.setNitEmpresa(empresaJson.get("nitEmpresa").getAsString());
+                empresa.setNombreEmpresa(empresaJson.get("nombreEmpresa").getAsString());
+                empresa.setEmailEmpresa(empresaJson.get("emailEmpresa").getAsString());
+
+                // Campos opcionales de empresa
+                empresa.setSectorEmpresa(empresaJson.has("sectorEmpresa") && !empresaJson.get("sectorEmpresa").isJsonNull()
+                        ? empresaJson.get("sectorEmpresa").getAsString() : "");
+                empresa.setContactoEmpresa(empresaJson.has("contactoEmpresa") && !empresaJson.get("contactoEmpresa").isJsonNull()
+                        ? empresaJson.get("contactoEmpresa").getAsString() : "");
+                empresa.setNombreContactoEmpresa(empresaJson.has("nombreContactoEmpresa") && !empresaJson.get("nombreContactoEmpresa").isJsonNull()
+                        ? empresaJson.get("nombreContactoEmpresa").getAsString() : "");
+                empresa.setApellidoContactoEmpresa(empresaJson.has("apellidoContactoEmpresa") && !empresaJson.get("apellidoContactoEmpresa").isJsonNull()
+                        ? empresaJson.get("apellidoContactoEmpresa").getAsString() : "");
+                empresa.setCargoContactoEmpresa(empresaJson.has("cargoContactoEmpresa") && !empresaJson.get("cargoContactoEmpresa").isJsonNull()
+                        ? empresaJson.get("cargoContactoEmpresa").getAsString() : "");
+
+                proyecto.setEmpresa(empresa);
+            }
+
+            // Historial de estados
+            if (json.has("historial") && json.get("historial").isJsonArray()) {
+                JsonArray historialArray = json.getAsJsonArray("historial");
+                for (JsonElement element : historialArray) {
+                    JsonObject estadoObj = element.getAsJsonObject();
+                    if (estadoObj.has("estado")) {
+                        String estadoHistorial = estadoObj.get("estado").getAsString();
+                        IEstadoProyecto estado = obtenerEstadoProyecto(estadoHistorial);
+                        proyecto.getCaretaker().addMemento(proyecto.saveToMemento(estado));
+                    }
                 }
             }
 
-            return null;
+            return proyecto;
+
+        } catch (NumberFormatException e) {
+            System.err.println("Error: ID de proyecto no es un número válido");
+        } catch (IOException e) {
+            System.err.println("Error de conexión: " + e.getMessage());
+        } catch (JsonParseException e) {
+            System.err.println("Error parseando JSON: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error al actualizar estado del proyecto: " + e.getMessage());
-            return null;
+            System.err.println("Error inesperado: " + e.getMessage());
+            e.printStackTrace();
         }
+        return null;
     }
 
     @Override
@@ -317,15 +416,15 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     @Override
     public int cantProyectosEvaluados(String periodoAcademico) {
         try {
-           int proyectosAceptados = cantProyectoporEstado("aceptado",periodoAcademico );
-           int proyectosRechazados = cantProyectoporEstado("rechazado",periodoAcademico);
-           int proyectosEnEjecucion = cantProyectoporEstado("en_ejecucion",periodoAcademico);
-           int proyectosCerrados = cantProyectoporEstado("cerrado",periodoAcademico);
-           
-           return (proyectosAceptados+proyectosCerrados+proyectosEnEjecucion+proyectosRechazados);
+            int proyectosAceptados = cantProyectoporEstado("aceptado", periodoAcademico);
+            int proyectosRechazados = cantProyectoporEstado("rechazado", periodoAcademico);
+            int proyectosEnEjecucion = cantProyectoporEstado("en_ejecucion", periodoAcademico);
+            int proyectosCerrados = cantProyectoporEstado("cerrado", periodoAcademico);
+
+            return (proyectosAceptados + proyectosCerrados + proyectosEnEjecucion + proyectosRechazados);
         } catch (Exception e) {
             System.err.println("Error " + e.getMessage());
-            
+
         }
         return 0;
     }
@@ -333,13 +432,13 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     @Override
     public int cantTasaAceptacion(String periodoAcademico) {
         try {
-           int proyectosAceptados = cantProyectoporEstado("aceptado",periodoAcademico);
-           int proyectosRechazados = cantProyectoporEstado("rechazado",periodoAcademico);
-           if (proyectosAceptados == 0 && proyectosRechazados == 0){
-               return 0;
-           }
-           
-           return(proyectosAceptados*100/(proyectosAceptados + proyectosRechazados));
+            int proyectosAceptados = cantProyectoporEstado("aceptado", periodoAcademico);
+            int proyectosRechazados = cantProyectoporEstado("rechazado", periodoAcademico);
+            if (proyectosAceptados == 0 && proyectosRechazados == 0) {
+                return 0;
+            }
+
+            return (proyectosAceptados * 100 / (proyectosAceptados + proyectosRechazados));
         } catch (Exception e) {
             System.err.println("Error al obtener la tasa de aceptación: " + e.getMessage());
             e.printStackTrace();
@@ -348,9 +447,9 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     }
 
 @Override
-public int avgProyectoDiasEnAceptar() {
+public int avgProyectoDiasEnAceptar(String periodoAcademico) {
     try {
-        String urlStr = BASE_URL + "/proyectos/estadisticas/promedio-aceptacion";
+        String urlStr = BASE_URL + "/proyectos/estadisticas/promedio-aceptacion?periodo=" + URLEncoder.encode(periodoAcademico, "UTF-8");
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -372,5 +471,6 @@ public int avgProyectoDiasEnAceptar() {
     }
     return 0;
 }
+
 
 }
