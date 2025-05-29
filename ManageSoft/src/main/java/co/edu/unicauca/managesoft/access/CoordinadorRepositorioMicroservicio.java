@@ -5,6 +5,8 @@
 package co.edu.unicauca.managesoft.access;
 
 import co.edu.unicauca.managesoft.entities.Coordinador;
+import co.edu.unicauca.managesoft.infra.TokenGenerator;
+import co.edu.unicauca.managesoft.infra.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -22,7 +24,7 @@ import java.util.Map;
  */
 public class CoordinadorRepositorioMicroservicio implements ICoordinadorRepositorio {
 
-    private final String baseUrl = "http://localhost:8083/api/coordinador/buscar";
+    private final String baseUrl = "http://localhost:8086/api/coordinador/buscar";
     private final Gson gson = new Gson();
 
     @Override
@@ -33,10 +35,17 @@ public class CoordinadorRepositorioMicroservicio implements ICoordinadorReposito
     @Override
     public Coordinador buscarCoordinador(String nombreUsuario, String contrasenaUsuario) {
         try {
+            
+            
+            String jwtToken = TokenGenerator.obtenerToken(nombreUsuario, contrasenaUsuario);
+            TokenManager.setToken(jwtToken);
+            
+            
             URL url = new URL(baseUrl); // Usa la URL real que necesites
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
             conn.setDoOutput(true);
 
             Map<String, String> datos = new HashMap<>();

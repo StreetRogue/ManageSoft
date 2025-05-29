@@ -31,6 +31,9 @@ public class Usuario {
     @Column(name = "tipo_usuario")
     private enumTipoUsuario tipoUsuario;
 
+    private String token;
+
+
 
 
 

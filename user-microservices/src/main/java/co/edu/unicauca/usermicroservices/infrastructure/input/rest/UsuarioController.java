@@ -9,6 +9,8 @@ import co.edu.unicauca.usermicroservices.infrastructure.output.messaging.Message
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/usuarios")
 @CrossOrigin(origins = "*")
@@ -42,7 +44,16 @@ public class UsuarioController {
 
     // Endpoint para login de usuario
     @PostMapping("/login")
-    public Usuario login(@RequestBody LoginRequest loginRequest) {
-        return usuarioService.login(loginRequest.getNombreUsuario(), loginRequest.getContrasena());
+    public Usuario login(@RequestBody Map<String, String> credenciales) {
+
+        System.out.println("Credenciales recibidas: " + credenciales);
+
+
+        String username = credenciales.get("nombreUsuario");
+        String password = credenciales.get("contrasena");
+
+        return usuarioService.login(username, password);
     }
+
+
 }

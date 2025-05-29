@@ -35,9 +35,12 @@ public class EstudianteController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(estudianteService.buscarEstudiante(username, password));
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
+
+
 
     @GetMapping("/listar")
     public ResponseEntity<?> ListarEstudianteCreatedEvent() throws Exception {

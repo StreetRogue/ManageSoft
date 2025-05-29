@@ -1,0 +1,66 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      default-filters:
+        - AddRequestHeader=Authorization, 'Bearer #{T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getCredentials()}'
+      routes:
+        - id: user-microservice
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/usuarios/**
+
+        - id: notification-microservice
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/notificaciones/**
+
+        - id: estudiante-microservice
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/estudiante/**
+
+        - id: empresa-microservice
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/empresas/**
+
+        - id: coordinador-microservice
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/coordinador/**
+
+        - id: empresa-microservice
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/proyectos/**
+
+        - id: notification-microservice
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/comentarios/**
+
+        - id: empresas-microservice
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/comentariosEmpresa/**
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/ManageSoft
+
+# Opcional: logueo para debug
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web.reactive: DEBUG
+    co.edu.unicauca.apigateway: TRACE
+    org.springframework.web.filter: DEBUG
+    org.springframework.security.web.csrf: DEBUG

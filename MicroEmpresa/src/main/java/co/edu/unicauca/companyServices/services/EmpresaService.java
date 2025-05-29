@@ -59,12 +59,10 @@ public class EmpresaService {
 
     @Transactional
     public Proyecto crearProyecto(String nitEmpresa, Proyecto proyecto) {
-        System.out.println("hola ");
         Empresa empresa = empresaRepository.findById(nitEmpresa)
                 .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 
         proyecto.setEmpresa(empresa);
-        //rabbitProducer.enviarProyecto(proyecto);
         return proyectoRepository.save(proyecto);
     }
 

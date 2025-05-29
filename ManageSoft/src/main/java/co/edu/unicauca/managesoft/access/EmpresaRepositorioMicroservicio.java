@@ -1,6 +1,8 @@
 package co.edu.unicauca.managesoft.access;
 
 import co.edu.unicauca.managesoft.entities.Empresa;
+import co.edu.unicauca.managesoft.infra.TokenGenerator;
+import co.edu.unicauca.managesoft.infra.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -18,13 +20,17 @@ import java.util.Map;
 
 public class EmpresaRepositorioMicroservicio implements IEmpresaRepositorio {
 
-    private final String baseUrl = "http://localhost:8082/api/empresas";
+    private final String baseUrl = "http://localhost:8086/api/empresas";
     private final Gson gson = new Gson();
     private IProyectoRepositorio repositorioProyecto;
+
+    
 
     @Override
     public boolean guardar(Empresa nuevaEmpresa) {
         try {
+            
+
             URL url = new URL(baseUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
@@ -46,6 +52,8 @@ public class EmpresaRepositorioMicroservicio implements IEmpresaRepositorio {
 
  @Override
 public Empresa buscarEmpresa(String nombreUsuario) {
+    
+    
     try {
         // Construyes la URL con el username como path variable
         URL url = new URL(baseUrl + "/login/user/" + URLEncoder.encode(nombreUsuario, "UTF-8"));
@@ -70,11 +78,17 @@ public Empresa buscarEmpresa(String nombreUsuario) {
 
     @Override
     public Empresa buscarEmpresa(String nombreUsuario, String contrasenaUsuario) {
+        
         try {
+            
+            String jwtToken = TokenGenerator.obtenerToken(nombreUsuario, contrasenaUsuario);
+            TokenManager.setToken(jwtToken);
+            
             URL url = new URL(baseUrl + "/login");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
             conn.setDoOutput(true);
 
             Map<String, String> datos = new HashMap<>();
@@ -90,6 +104,9 @@ public Empresa buscarEmpresa(String nombreUsuario) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
                     Empresa empresita =  gson.fromJson(reader, Empresa.class);
                     empresita.setRepositorioProyectos(repositorioProyecto);
+                    
+                      
+                    
                     return empresita;
                 }
             }
@@ -103,10 +120,15 @@ public Empresa buscarEmpresa(String nombreUsuario) {
     @Override
     public List<Empresa> listarEmpresas() {
         try {
+            
+            String token = TokenManager.getToken();
+            
             URL url = new URL(baseUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+            
+            
             if (conn.getResponseCode() == 200) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
                     // Usamos un TypeToken para poder deserializar el array de empresas
