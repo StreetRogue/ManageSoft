@@ -2,21 +2,27 @@ package co.edu.unicauca.managesoft.access;
 
 import co.edu.unicauca.managesoft.entities.*;
 import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
-import com.google.gson.Gson;
+import com.google.gson.*;
+import co.edu.unicauca.managesoft.infra.TokenGenerator;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UsuarioRepositorioMicroservicio implements IUsuarioRepositorio {
 
-    private static final String URL_MICROSERVICIO = "http://localhost:8081/api/usuarios/";
+    private static final String URL_MICROSERVICIO = "http://localhost:8086/api/usuarios/";
 
     private static IEmpresaRepositorio repositorioEmpresa;
     private static ICoordinadorRepositorio repositorioCoordinador;
     private static IEstudianteRepositorio repositorioEstudiante;
     private static IProyectoRepositorio repositorioProyecto;
     private static INotificacionRepositorio repositorioCorreo;
+    private final Gson gson = new Gson();
 
     @Override
     public boolean registrarUsuario(Usuario nuevoUsuario) {
@@ -49,6 +55,8 @@ public class UsuarioRepositorioMicroservicio implements IUsuarioRepositorio {
     public Usuario iniciarSesion(String nombreUsuario, String contrasenaUsuario) {
         String urlStr = URL_MICROSERVICIO + "login";
         try {
+            
+            
             URL url = new URL(urlStr);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
@@ -73,6 +81,11 @@ public class UsuarioRepositorioMicroservicio implements IUsuarioRepositorio {
 
                     Gson gson = new Gson();
                     Usuario usuario = gson.fromJson(response.toString(), Usuario.class);
+                    System.out.println("Usuario: " + usuario.getNombreUsuario());
+                    System.out.println("Contrasenia: " + usuario.getContrasenaUsuario());
+                    
+                    
+                    
                     
                     switch (usuario.getTipoUsuario()) {
                         case ESTUDIANTE:
@@ -93,6 +106,7 @@ public class UsuarioRepositorioMicroservicio implements IUsuarioRepositorio {
             return null;
         }
     }
+
 
     @Override
     public void setRepositorioEmpresa(IEmpresaRepositorio repositorioEmpresa) {

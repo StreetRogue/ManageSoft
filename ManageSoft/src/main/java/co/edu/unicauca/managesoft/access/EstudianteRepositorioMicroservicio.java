@@ -8,6 +8,8 @@ import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
+import co.edu.unicauca.managesoft.infra.TokenGenerator;
+import co.edu.unicauca.managesoft.infra.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -29,7 +31,7 @@ import java.util.Map;
  */
 public class EstudianteRepositorioMicroservicio implements IEstudianteRepositorio {
 
-    private final String baseUrl = "http://localhost:8084/api/estudiante";
+    private final String baseUrl = "http://localhost:8086/api/estudiante";
     private final Gson gson = new Gson();
     private IProyectoRepositorio repositorioProyecto;
 
@@ -175,6 +177,10 @@ public class EstudianteRepositorioMicroservicio implements IEstudianteRepositori
     @Override
     public Estudiante buscarEstudiante(String nombreUsuario, String contrasenaUsuario) {
         try {
+
+            String jwtToken = TokenGenerator.obtenerToken(nombreUsuario, contrasenaUsuario);
+            TokenManager.setToken(jwtToken);
+
             // Crear la URL del servicio
             URL url = new URL(baseUrl + "/login");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -182,6 +188,7 @@ public class EstudianteRepositorioMicroservicio implements IEstudianteRepositori
             // Configurar la conexión
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
             conn.setDoOutput(true);
 
             // Crear los datos de solicitud como JSON
@@ -213,9 +220,13 @@ public class EstudianteRepositorioMicroservicio implements IEstudianteRepositori
     @Override
     public List<Estudiante> listarEstudiantes() {
         try {
+
+            String token = TokenManager.getToken();
+
             URL url = new URL(baseUrl + "/listar");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
 
             if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
@@ -240,28 +251,32 @@ public class EstudianteRepositorioMicroservicio implements IEstudianteRepositori
 
     @Override
     public int cantidadEstudiantes() {
-           try {
-        String urlStr = (baseUrl + "/total");
-        URL url = new URL(urlStr);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
+        try {
+            
+            String token = TokenManager.getToken();
+            
+            String urlStr = (baseUrl + "/total");
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
 
-        int responseCode = conn.getResponseCode();
-        if (responseCode == 200) {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
-                String line = reader.readLine();
-                if (line != null && !line.isEmpty()) {
-                    return  Integer.parseInt(line.trim());
+            int responseCode = conn.getResponseCode();
+            if (responseCode == 200) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
+                    String line = reader.readLine();
+                    if (line != null && !line.isEmpty()) {
+                        return Integer.parseInt(line.trim());
+                    }
                 }
+            } else {
+                System.err.println("Respuesta HTTP inesperada: " + responseCode);
             }
-        } else {
-            System.err.println("Respuesta HTTP inesperada: " + responseCode);
+        } catch (Exception e) {
+            System.err.println("Error al obtener total de estudiantes: " + e.getMessage());
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        System.err.println("Error al obtener total de estudiantes: " + e.getMessage());
-        e.printStackTrace();
-    }
-    return 0;
+        return 0;
     }
 
 }

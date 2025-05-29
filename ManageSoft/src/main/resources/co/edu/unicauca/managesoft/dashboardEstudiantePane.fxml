@@ -37,12 +37,12 @@
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>
                   </Text>
-                  <Text fx:id="lblEstudianteName" fill="#ffffffe5" layoutX="114.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}">
+                  <Text fx:id="lblEstudianteName" fill="#ffffffe5" layoutX="104.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{name}">
                      <font>
                         <Font name="Segoe UI Light" size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="lblEstudianteApellido" fill="#ffffffe5" layoutX="182.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{lastname}">
+                  <Text fx:id="lblEstudianteApellido" fill="#ffffffe5" layoutX="192.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{lastname}">
                      <font>
                         <Font name="Segoe UI Light" size="18.0" />
                      </font>

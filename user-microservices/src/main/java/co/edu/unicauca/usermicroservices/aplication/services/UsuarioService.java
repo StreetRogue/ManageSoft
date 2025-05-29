@@ -12,6 +12,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepositoryPort usuarioRepository;
 
+    @Autowired
+    private KeycloackService keycloakAdminService;
+
     public Iterable<Usuario> findAllUsers() {
         return usuarioRepository.findAll();
     }
@@ -24,6 +27,10 @@ public class UsuarioService {
         if (usuario.getTipoUsuario() != null) {
             enumTipoUsuario tipoUsuarioEnum = enumTipoUsuario.valueOf(String.valueOf(usuario.getTipoUsuario()));
             usuario.setTipoUsuario(tipoUsuarioEnum);
+
+
+            keycloakAdminService.createUserInKeycloak(usuario);
+
             switch (tipoUsuarioEnum) {  // Usamos el enum en lugar del String
                 case ESTUDIANTE:
                     return usuarioRepository.save((Estudiante) usuario);  // Guardamos como Estudiante
@@ -34,7 +41,10 @@ public class UsuarioService {
                 default:
                     throw new IllegalArgumentException("Tipo de usuario desconocido");
             }
+
         }
+        keycloakAdminService.createUserInKeycloak(usuario);
+
         return null;
     }
 

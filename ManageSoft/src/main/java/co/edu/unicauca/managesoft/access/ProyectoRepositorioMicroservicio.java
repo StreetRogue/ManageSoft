@@ -3,6 +3,8 @@ package co.edu.unicauca.managesoft.access;
 import co.edu.unicauca.managesoft.entities.*;
 import co.edu.unicauca.managesoft.infra.EstadoProyectoDeserializer;
 import co.edu.unicauca.managesoft.infra.ProyectTable;
+import co.edu.unicauca.managesoft.infra.TokenGenerator;
+import co.edu.unicauca.managesoft.infra.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -25,9 +27,11 @@ import java.util.stream.Collectors;
 
 public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
 
-    private static final String BASE_URL = "http://localhost:8082/api";
+    private static final String BASE_URL = "http://localhost:8086/api";
     private final Gson gson = new GsonBuilder().registerTypeAdapter(IEstadoProyecto.class, new EstadoProyectoDeserializer())
             .create();
+    
+    
 
     @Override
     public boolean guardarProyecto(Proyecto nuevoProyecto, Empresa empresa) {
@@ -46,10 +50,14 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
                 + "}";
 
         try {
+
+            String token = TokenManager.getToken();
+
             // Crear la URL y la conexión HTTP
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
+            connection.setRequestProperty("Authorization", "Bearer " + token);
             connection.setConnectTimeout(5000); // Timeout de conexión
             connection.setReadTimeout(5000); // Timeout de lectura
             connection.setDoOutput(true); // Indica que se enviarán datos
@@ -79,9 +87,13 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     @Override
     public List<Proyecto> listarProyectos(String nitEmpresa) {
         try {
+
+            String token = TokenManager.getToken();
+
             URL url = new URL(BASE_URL + "/empresas/" + URLEncoder.encode(nitEmpresa, "UTF-8") + "/proyectos");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
 
             if (conn.getResponseCode() == 200) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
@@ -99,9 +111,13 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     @Override
     public List<ProyectTable> listarProyectosGeneral() {
         try {
+
+            String token = TokenManager.getToken();
+
             URL url = new URL(BASE_URL + "/proyectos");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
 
             if (conn.getResponseCode() == 200) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
@@ -162,9 +178,13 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     @Override
     public List<ProyectTable> listarProyectosGeneralEstudiantes() {
         try {
+
+            String token = TokenManager.getToken();
+
             URL url = new URL(BASE_URL + "/proyectos");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
 
             if (conn.getResponseCode() == 200) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
@@ -230,6 +250,7 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
 
     @Override
     public IEstadoProyecto obtenerEstadoProyecto(String estado) {
+
         switch (estado) {
             case "RECIBIDO":
                 return new EstadoRecibido();
@@ -249,11 +270,15 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     @Override
     public boolean actualizarEstadoProyecto(Proyecto proyecto, String nuevoEstado) {
         try {
+
+            String token = TokenManager.getToken();
+
             URL url = new URL(BASE_URL + "/proyectos/" + proyecto.getIdProyecto() + "/estado");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("PUT");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setDoOutput(true);
+            conn.setRequestProperty("Authorization", "Bearer " + token);
 
             // Enviar el string plano entre comillas
             String json = "\"" + nuevoEstado + "\"";
@@ -272,6 +297,9 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     @Override
     public Proyecto encontrarPorId(String idProyectoStr) {
         try {
+
+            String token = TokenManager.getToken();
+
             Long idProyecto = Long.parseLong(idProyectoStr);
             String endpoint = BASE_URL + "/proyectos/" + idProyecto + "/def";
             System.out.println("Consultando: " + endpoint); // Debug URL
@@ -280,6 +308,7 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json");
+            con.setRequestProperty("Authorization", "Bearer " + token);
 
             int responseCode = con.getResponseCode();
             System.out.println("Código HTTP: " + responseCode); // Debug status
@@ -390,6 +419,9 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
     @Override
     public int cantProyectoporEstado(String estado, String periodoAcademico) {
         try {
+
+            String token = TokenManager.getToken();
+
             // Construir la URL con ambos parámetros correctamente codificados
             String urlStr = BASE_URL + "/proyectos/contador2?estado="
                     + URLEncoder.encode(estado, "UTF-8")
@@ -398,6 +430,7 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
             URL url = new URL(urlStr);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
 
             if (conn.getResponseCode() == 200) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
@@ -446,31 +479,34 @@ public class ProyectoRepositorioMicroservicio implements IProyectoRepositorio {
         return 0;
     }
 
-@Override
-public int avgProyectoDiasEnAceptar(String periodoAcademico) {
-    try {
-        String urlStr = BASE_URL + "/proyectos/estadisticas/promedio-aceptacion?periodo=" + URLEncoder.encode(periodoAcademico, "UTF-8");
-        URL url = new URL(urlStr);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
+    @Override
+    public int avgProyectoDiasEnAceptar(String periodoAcademico) {
+        try {
+            
+            String token = TokenManager.getToken();
+            
+            String urlStr = BASE_URL + "/proyectos/estadisticas/promedio-aceptacion?periodo=" + URLEncoder.encode(periodoAcademico, "UTF-8");
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
 
-        int responseCode = conn.getResponseCode();
-        if (responseCode == 200) {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
-                String line = reader.readLine();
-                if (line != null && !line.isEmpty()) {
-                    return Integer.parseInt(line.trim());
+            int responseCode = conn.getResponseCode();
+            if (responseCode == 200) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
+                    String line = reader.readLine();
+                    if (line != null && !line.isEmpty()) {
+                        return Integer.parseInt(line.trim());
+                    }
                 }
+            } else {
+                System.err.println("Respuesta HTTP inesperada: " + responseCode);
             }
-        } else {
-            System.err.println("Respuesta HTTP inesperada: " + responseCode);
+        } catch (Exception e) {
+            System.err.println("Error al obtener promedio de días en aceptar: " + e.getMessage());
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        System.err.println("Error al obtener promedio de días en aceptar: " + e.getMessage());
-        e.printStackTrace();
+        return 0;
     }
-    return 0;
-}
-
 
 }

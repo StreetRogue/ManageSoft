@@ -14,6 +14,7 @@ import java.util.List;
 public interface IEstudianteRepositorio {
     boolean guardar(Estudiante nuevoEstudiante);
     Estudiante buscarEstudiante(String nombreUsuario, String contrasenaUsuario);
+//     Estudiante buscarEstudianteConToken(String token);
     List<Estudiante> listarEstudiantes();
     int cantidadEstudiantes(); 
 }

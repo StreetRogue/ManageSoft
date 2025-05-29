@@ -9,7 +9,7 @@
     import org.springframework.web.bind.annotation.*;
 
     @RestController
-    @RequestMapping("api/comentarios")
+    @RequestMapping("/api/comentarios")
     @RequiredArgsConstructor
     public class ComentarioController {
 

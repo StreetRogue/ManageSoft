@@ -12,6 +12,7 @@ public class Usuario {
     private String nombreUsuario;
     private String contrasenaUsuario;
     private enumTipoUsuario tipoUsuario;
+    private String token;
     
     public Usuario() {}
 
@@ -23,6 +24,14 @@ public class Usuario {
 
     public String getNombreUsuario() {
         return nombreUsuario;
+    }
+    
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public void setNombreUsuario(String nombreUsuario) {

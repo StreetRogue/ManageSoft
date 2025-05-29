@@ -43,6 +43,7 @@ public class Proyecto {
     private Empresa empresa;
 
     @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<HistorialProyecto> historial = new ArrayList<>();
 

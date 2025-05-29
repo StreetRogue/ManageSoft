@@ -13,6 +13,8 @@ import co.edu.unicauca.managesoft.entities.Correo;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Proyecto;
 import co.edu.unicauca.managesoft.infra.ProyectTable;
+import co.edu.unicauca.managesoft.infra.TokenGenerator;
+import co.edu.unicauca.managesoft.infra.TokenManager;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -29,7 +31,7 @@ public class NotificacionRepositorioMicroservicio implements INotificacionReposi
     private static final String RABBITMQ_HOST = "localhost"; // Dirección del servidor RabbitMQ
     private static final String QUEUE_NAME = "cola.notificacion"; // Nombre de la cola
     private static final String QUEUE_NAMEC = "cola.comentario";
-    private static final String BASE_URL = "http://localhost:8082/api";
+    private static final String BASE_URL = "http://localhost:8086/api";
 
     @Override
     public boolean enviarCorreo(Correo correo, Estudiante estudiante, Proyecto proyecto) {
@@ -96,12 +98,18 @@ public class NotificacionRepositorioMicroservicio implements INotificacionReposi
 @Override
 public int cantidadComentarios(Coordinador coordinador) {
     try {
+        
+         
+         String token = TokenManager.getToken();
+        
         String email = URLEncoder.encode(coordinador.getEmail(), "UTF-8");
-        String urlStr = BASE_URL + "/comentarios/contador?email=" + email;
+        String urlStr = BASE_URL + "/comentariosEmpresa/contador?email=" + email;
 
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
+        conn.setRequestProperty("Authorization", "Bearer " + token);
+        
 
         if (conn.getResponseCode() == 200) {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
@@ -112,6 +120,7 @@ public int cantidadComentarios(Coordinador coordinador) {
             }
         } else {
             System.err.println("Respuesta HTTP inesperada: " + conn.getResponseCode());
+            System.out.println("ERROR NOTIFIACION REPOSITORIO");
         }
 
     } catch (Exception e) {
