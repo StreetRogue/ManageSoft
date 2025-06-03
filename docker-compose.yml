@@ -1,0 +1,121 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.4
+    container_name: keycloak
+    environment:
+      KC_HOSTNAME: keycloak
+      KC_BOOTSTRAP_ADMIN_USERNAME: ManageSoft
+      KC_BOOTSTRAP_ADMIN_PASSWORD: oracle
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/ManageSoft-realm.json
+    volumes:
+      - ./export:/opt/keycloak/data/import
+    ports:
+      - "8080:8080"
+    command: ["start-dev", "--import-realm"]
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ManageSoft
+      RABBITMQ_DEFAULT_PASS: oracle
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8086:8086"
+    depends_on:
+      - keycloak
+      - rabbitmq
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  user-microservices:
+    build: ./user-microservices
+    ports:
+      - "8081:8081"
+    depends_on:
+      - keycloak
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ep-twilight-rice-a5meykz5-pooler.us-east-2.aws.neon.tech:5432/microserviceUserDB?sslmode=require
+      SPRING_DATASOURCE_USERNAME: neondb_owner
+      SPRING_DATASOURCE_PASSWORD: npg_J9zkqVtWupl1
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: ManageSoft
+      SPRING_RABBITMQ_PASSWORD: oracle
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/ManageSoft
+
+  empresa-microservices:
+    build: ./MicroEmpresa
+    ports:
+      - "8082:8082"
+    depends_on:
+      - keycloak
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ep-twilight-rice-a5meykz5-pooler.us-east-2.aws.neon.tech:5432/microEmpresaDB?sslmode=require
+      SPRING_DATASOURCE_USERNAME: neondb_owner
+      SPRING_DATASOURCE_PASSWORD: npg_J9zkqVtWupl1
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: ManageSoft
+      SPRING_RABBITMQ_PASSWORD: oracle
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/ManageSoft
+
+  estudiante-microservices:
+    build: ./MicroEstudiante
+    ports:
+      - "8084:8084"
+    depends_on:
+      - keycloak
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ep-twilight-rice-a5meykz5-pooler.us-east-2.aws.neon.tech:5432/microEstudianteDB?sslmode=require
+      SPRING_DATASOURCE_USERNAME: neondb_owner
+      SPRING_DATASOURCE_PASSWORD: npg_J9zkqVtWupl1
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: ManageSoft
+      SPRING_RABBITMQ_PASSWORD: oracle
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/ManageSoft
+
+  coordinador-microservices:
+    build: ./MicroCoordinador
+    ports:
+      - "8083:8083"
+    depends_on:
+      - keycloak
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ep-twilight-rice-a5meykz5-pooler.us-east-2.aws.neon.tech:5432/microCoordinadorDB?sslmode=require
+      SPRING_DATASOURCE_USERNAME: neondb_owner
+      SPRING_DATASOURCE_PASSWORD: npg_J9zkqVtWupl1
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: ManageSoft
+      SPRING_RABBITMQ_PASSWORD: oracle
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/ManageSoft
+
+  notification-microservices:
+    build: ./MicroNotification
+    ports:
+      - "8085:8085"
+    depends_on:
+      - keycloak
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ep-twilight-rice-a5meykz5-pooler.us-east-2.aws.neon.tech:5432/microNotificationDB?sslmode=require
+      SPRING_DATASOURCE_USERNAME: neondb_owner
+      SPRING_DATASOURCE_PASSWORD: npg_J9zkqVtWupl1
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: ManageSoft
+      SPRING_RABBITMQ_PASSWORD: oracle
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/ManageSoft

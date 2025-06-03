@@ -33,7 +33,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.rabbitmq</groupId>
             <artifactId>amqp-client</artifactId>
@@ -128,6 +132,32 @@
                 </configuration>
             </plugin>
 
+            <!-- Plugin para empaquetar el JAR con todas las dependencias -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>assemble-all</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifestEntries>
+                                    <Main-Class>co.edu.unicauca.managesoft.Main</Main-Class> <!-- Asegúrate de usar la clase principal correcta -->
+                                </manifestEntries>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Plugin para generar una imagen ejecutable con jlink -->
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -150,8 +180,8 @@
                     <compress>2</compress>
                     <output>${project.build.directory}/app</output>
                 </configuration>
-
             </plugin>
+
         </plugins>
     </build>
 
