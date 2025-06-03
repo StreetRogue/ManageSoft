@@ -55,8 +55,6 @@ public class UsuarioRepositorioMicroservicio implements IUsuarioRepositorio {
     public Usuario iniciarSesion(String nombreUsuario, String contrasenaUsuario) {
         String urlStr = URL_MICROSERVICIO + "login";
         try {
-            
-            
             URL url = new URL(urlStr);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
@@ -79,14 +77,21 @@ public class UsuarioRepositorioMicroservicio implements IUsuarioRepositorio {
                         response.append(inputLine);
                     }
 
+                    System.out.println("Respuesta del microservicio: " + response.toString());
+
                     Gson gson = new Gson();
                     Usuario usuario = gson.fromJson(response.toString(), Usuario.class);
-                    System.out.println("Usuario: " + usuario.getNombreUsuario());
-                    System.out.println("Contrasenia: " + usuario.getContrasenaUsuario());
-                    
-                    
-                    
-                    
+
+                    if (usuario == null) {
+                        System.out.println("El objeto Usuario es null.");
+                        return null;
+                    }
+
+                    if (usuario.getTipoUsuario() == null) {
+                        System.out.println("El tipo de usuario es null.");
+                        return null;
+                    }
+
                     switch (usuario.getTipoUsuario()) {
                         case ESTUDIANTE:
                             return repositorioEstudiante.buscarEstudiante(usuario.getNombreUsuario(), usuario.getContrasenaUsuario());
@@ -95,18 +100,20 @@ public class UsuarioRepositorioMicroservicio implements IUsuarioRepositorio {
                         case EMPRESA:
                             return repositorioEmpresa.buscarEmpresa(usuario.getNombreUsuario(), usuario.getContrasenaUsuario());
                         default:
+                            System.out.println("Tipo de usuario no reconocido.");
                             return null;
                     }
                 }
             } else {
+                System.out.println("Código de respuesta del servidor: " + responseCode);
                 return null;
             }
         } catch (Exception e) {
+            System.out.println("Error en iniciarSesion:");
             e.printStackTrace();
             return null;
         }
     }
-
 
     @Override
     public void setRepositorioEmpresa(IEmpresaRepositorio repositorioEmpresa) {

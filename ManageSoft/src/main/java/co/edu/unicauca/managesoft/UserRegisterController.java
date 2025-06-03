@@ -202,8 +202,8 @@ public class UserRegisterController implements Initializable {
             // Llamar al repositorio para registrar el usuario (microservicio)
             //IUsuarioRepositorio usuarioRepositorio = new UsuarioRepositorioMicroservicio();
             
-            boolean usuarioGuardado = repositorio.getRepositorioUsuario().registrarUsuario(usuarioRegistrado);
-
+            //boolean usuarioGuardado = repositorio.getRepositorioUsuario().registrarUsuario(usuarioRegistrado);
+            boolean usuarioGuardado = loginServices.registrarUsuario(usuarioRegistrado);
             if (usuarioGuardado) {
                 System.out.println("Usuario registrado con éxito:");
                 System.out.println("Nombre de usuario: " + nombreUsuario);

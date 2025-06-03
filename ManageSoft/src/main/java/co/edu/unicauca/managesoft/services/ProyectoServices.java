@@ -22,6 +22,8 @@ public class ProyectoServices {
     }
     
     public boolean guardarProyecto(Proyecto nuevoProyecto, Empresa empresa){
+        ProyectoValidation validacionProyecto = new ProyectoValidation(nuevoProyecto);
+        validacionProyecto.validarCamposProyecto();
         return repositorio.guardarProyecto(nuevoProyecto, empresa);
     }
     

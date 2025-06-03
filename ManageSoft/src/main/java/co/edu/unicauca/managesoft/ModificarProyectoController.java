@@ -126,6 +126,11 @@ public class ModificarProyectoController implements Initializable {
             return;
         }
 
+        if (comentario.isBlank()) {
+            mostrarAlerta("Error", "Ingrese el comentario", Alert.AlertType.ERROR, event);
+            return;
+        }
+        
         //Nueva Version con Memento
         Proyecto proyectAux = proyectoServices.encontrarPorId(String.valueOf(proyecto.getIdProyecto()));
         proyectAux.getEstadoProyecto().cambiarEstado(proyectAux, nuevoEstado);

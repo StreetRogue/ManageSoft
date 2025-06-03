@@ -26,6 +26,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
 public class NotificacionRepositorioMicroservicio implements INotificacionRepositorio {
 
     private static final String RABBITMQ_HOST = "localhost"; // Dirección del servidor RabbitMQ
@@ -95,40 +96,38 @@ public class NotificacionRepositorioMicroservicio implements INotificacionReposi
         }
     }
 
-@Override
-public int cantidadComentarios(Coordinador coordinador) {
-    try {
-        
-         
-         String token = TokenManager.getToken();
-        
-        String email = URLEncoder.encode(coordinador.getEmail(), "UTF-8");
-        String urlStr = BASE_URL + "/comentariosEmpresa/contador?email=" + email;
+    @Override
+    public int cantidadComentarios(Coordinador coordinador) {
+        try {
 
-        URL url = new URL(urlStr);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", "Bearer " + token);
-        
+            String token = TokenManager.getToken();
 
-        if (conn.getResponseCode() == 200) {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
-                String line = reader.readLine();
-                if (line != null && !line.isEmpty()) {
-                    return Integer.parseInt(line.trim());
+            String email = URLEncoder.encode(coordinador.getEmail(), "UTF-8");
+            String urlStr = BASE_URL + "/comentariosEmpresa/contador?email=" + email;
+
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            if (conn.getResponseCode() == 200) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                    String line = reader.readLine();
+                    if (line != null && !line.isEmpty()) {
+                        return Integer.parseInt(line.trim());
+                    }
                 }
+            } else {
+                System.err.println("Respuesta HTTP inesperada: " + conn.getResponseCode());
+                System.out.println("ERROR NOTIFIACION REPOSITORIO");
             }
-        } else {
-            System.err.println("Respuesta HTTP inesperada: " + conn.getResponseCode());
-            System.out.println("ERROR NOTIFIACION REPOSITORIO");
+
+        } catch (Exception e) {
+            System.err.println("Error al obtener cantidad de comentarios: " + e.getMessage());
+            e.printStackTrace();
         }
 
-    } catch (Exception e) {
-        System.err.println("Error al obtener cantidad de comentarios: " + e.getMessage());
-        e.printStackTrace();
+        return 0;
     }
-
-    return 0;
-}
 
 }
