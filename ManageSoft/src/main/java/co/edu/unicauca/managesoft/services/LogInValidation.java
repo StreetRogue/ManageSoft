@@ -27,6 +27,12 @@ public class LogInValidation {
         }
     }
     
+    public void validarUsuario() throws MyException {
+        if(usuario == null){
+            throw new MyException("Usuario y/o Contraseña Invalidos");
+        }
+    }
+    
     public void camposEmpresa() throws MyException {
         Empresa empresaRegistrada = ((Empresa) usuario);
         

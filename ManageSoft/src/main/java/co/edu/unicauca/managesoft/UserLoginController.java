@@ -8,6 +8,7 @@ import co.edu.unicauca.managesoft.entities.Empresa;
 import co.edu.unicauca.managesoft.entities.Estudiante;
 import co.edu.unicauca.managesoft.entities.Usuario;
 import co.edu.unicauca.managesoft.entities.enumTipoUsuario;
+import co.edu.unicauca.managesoft.infra.MyException;
 import co.edu.unicauca.managesoft.services.LogInServices;
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +31,7 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 public class UserLoginController implements Initializable {
+
     private Repositorio repositorio;
     private LogInServices loginServices;
 
@@ -39,7 +41,6 @@ public class UserLoginController implements Initializable {
         this.repositorio = repositorio;
         this.loginServices = loginServices;
         this.usuarioRepositorio = repositorio.getRepositorioUsuario();
-//        this.usuarioRepositorio = new UsuarioRepositorioMicroservicio(); // Usar el repositorio de microservicio
     }
 
     @FXML
@@ -98,13 +99,17 @@ public class UserLoginController implements Initializable {
         String contrasena = txtPassword.getText();
 
         // Llamar al repositorio para verificar las credenciales
-        Usuario usuarioInicio = usuarioRepositorio.iniciarSesion(usuario, contrasena);
-
-        System.out.println("Usuario obtenido: " + usuarioInicio);
-        System.out.println("Tipo de usuario: " + usuarioInicio.getClass().getSimpleName());
-
-        //Usuario usuarioInicio = new Estudiante("nombre", "asd", "asdasd@gmail.com", "asdasd", "estudiante1", "contra123");
+        //Usuario usuarioInicio = usuarioRepositorio.iniciarSesion(usuario, contrasena);
         
+        Usuario usuarioInicio = null;
+        try {
+            usuarioInicio = loginServices.iniciarSesion(usuario, contrasena);
+        } catch (MyException e) {
+            System.out.println("Error al iniciar sesión: " + e.getMessage());
+            mostrarAlerta("Error", "No se pudo iniciar sesión: " + e.getMessage());
+            return;
+        }
+
         if (usuarioInicio != null) {
 
             enumTipoUsuario tipoUsuario = usuarioInicio.getTipoUsuario();
@@ -141,7 +146,7 @@ public class UserLoginController implements Initializable {
                 dashboardController.inicializarVista();
             } else {
                 System.out.println("Tipo de usuario no coincide con la clase esperada");
-                return;  // Salir si el tipo no coincide
+                return; 
             }
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -150,13 +155,12 @@ public class UserLoginController implements Initializable {
             stage.setResizable(false);
             stage.setFullScreenExitHint("");
             stage.setFullScreen(true);
-            stage.setFullScreenExitHint(""); // Oculta el mensaje de salida (Escape)
-            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH); // Deshabilita Escape para salir
-
+            stage.setFullScreenExitHint(""); 
+            stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH); 
             // Vuelve a pantalla completa si el usuario intenta salir
             stage.fullScreenProperty().addListener((obs, oldValue, newValue) -> {
                 if (!newValue) {
-                    stage.setFullScreen(true); // Forzar pantalla completa de nuevo
+                    stage.setFullScreen(true); 
                 }
             });
 
@@ -165,4 +169,13 @@ public class UserLoginController implements Initializable {
             System.out.println("Usuario no registrado");
         }
     }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
 }

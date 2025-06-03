@@ -7,7 +7,7 @@ spring:
 
   cloud:
     gateway:
-      default-filters: AddRequestHeader=Authorization, 'Bearer #{T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getCredentials()}'
+
 
       routes:
         - id: user-login
@@ -15,7 +15,7 @@ spring:
           predicates:
             - Path=/api/usuarios/**
 
-        - id: notification-microservice
+        - id: notification-microservice-notificacion
           uri: http://notification-microservices:8085
           predicates:
             - Path=/api/notificaciones/**
@@ -25,7 +25,7 @@ spring:
           predicates:
             - Path=/api/estudiante/**
 
-        - id: empresa-microservice
+        - id: empresa-microservice-empresas
           uri: http://empresa-microservices:8082
           predicates:
             - Path=/api/empresas/**
@@ -35,12 +35,12 @@ spring:
           predicates:
             - Path=/api/coordinador/**
 
-        - id: empresa-microservice
+        - id: empresa-microservice-proyectos
           uri: http://empresa-microservices:8082
           predicates:
             - Path=/api/proyectos/**
 
-        - id: notification-microservice
+        - id: notification-microservice-comentarios
           uri: http://notification-microservices:8085
           predicates:
             - Path=/api/comentarios/**

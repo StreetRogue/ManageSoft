@@ -71,9 +71,7 @@ public class DashboardEmpresaController implements Initializable {
             
             if (empresa == null) {
                 System.out.println("El usuario no ha sido inicializado.");
-            } else {
-                System.out.println(empresa.getNitEmpresa());
-            }
+            } 
 
             // Ajustar la vista al tamaño del contentPane
             contentPane.getChildren().setAll(nuevaVista);

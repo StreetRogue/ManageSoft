@@ -30,7 +30,7 @@ public class ContactarCoordinadorPaneController {
     private INotificacionRepositorio repositorioNotificacion;
     private IProyectoRepositorio repositorioProyecto;
 
-    public ContactarCoordinadorPaneController(INotificacionRepositorio repositorioNotificacion,IProyectoRepositorio repositorioProyecto, Estudiante estudiante, ProyectTable proyecto) {
+    public ContactarCoordinadorPaneController(INotificacionRepositorio repositorioNotificacion, IProyectoRepositorio repositorioProyecto, Estudiante estudiante, ProyectTable proyecto) {
         this.repositorioNotificacion = repositorioNotificacion;
         this.repositorioProyecto = repositorioProyecto;
         this.notificacionServicio = new NotificacionServices(this.repositorioNotificacion);
@@ -67,13 +67,23 @@ public class ContactarCoordinadorPaneController {
         String asunto = txtAsuntoContacto.getText();
         String motivo = txtMotivoContacto.getText();
 
-        System.out.println("Email: " + emailDestinatario);
-        System.out.println("Asunto: " + asunto);
-        System.out.println("Motivo: " + motivo);
+        if (emailDestinatario.isBlank()) {
+            mostrarAlerta("Error", "Ingrese el email", Alert.AlertType.ERROR, event);
+            return;
+        }
+        if (asunto.isBlank()) {
+            mostrarAlerta("Error", "Ingrese el asunto", Alert.AlertType.ERROR, event);
+            return;
+        }
+
+        if (motivo.isBlank()) {
+            mostrarAlerta("Error", "Ingrese el motivo", Alert.AlertType.ERROR, event);
+            return;
+        }
 
         Correo correo = new Correo(emailDestinatario, asunto, motivo);
         Proyecto proyectoAux = proyectoServices.encontrarPorId(String.valueOf(proyecto.getIdProyecto()));
-        
+
         try {
 
             boolean enviarCorreo = notificacionServicio.guardarCorreo(correo, estudiante, proyectoAux);
@@ -88,28 +98,28 @@ public class ContactarCoordinadorPaneController {
 
     }
 
-        private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta, ActionEvent event) {
-            // Obtener la ventana actual (Contactar Coordinador)
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipoAlerta, ActionEvent event) {
+        // Obtener la ventana actual (Contactar Coordinador)
 
-            Alert alert = new Alert(tipoAlerta);
-            alert.setTitle(titulo);
-            alert.setHeaderText(null);
-            alert.setContentText(mensaje);
+        Alert alert = new Alert(tipoAlerta);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
 
-            // Obtener la ventana actual (Contactar Coordinador)
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        // Obtener la ventana actual (Contactar Coordinador)
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
-            // Asegurar que la alerta se muestre sobre esta ventana
-            alert.initOwner(stage);
-            alert.showAndWait().ifPresent(response -> {
-                if (tipoAlerta == Alert.AlertType.CONFIRMATION) {
-                    cerrarVentana(event);
-                }
-            });
-        }
+        // Asegurar que la alerta se muestre sobre esta ventana
+        alert.initOwner(stage);
+        alert.showAndWait().ifPresent(response -> {
+            if (tipoAlerta == Alert.AlertType.CONFIRMATION) {
+                cerrarVentana(event);
+            }
+        });
+    }
 
-        private void cerrarVentana(ActionEvent event) {
-            ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
-        }
+    private void cerrarVentana(ActionEvent event) {
+        ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
+    }
 
 }

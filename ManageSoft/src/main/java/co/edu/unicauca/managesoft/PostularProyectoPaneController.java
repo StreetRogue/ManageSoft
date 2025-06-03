@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
+import javafx.stage.Window;
 
 public class PostularProyectoPaneController implements Initializable {
 
@@ -82,12 +83,11 @@ public class PostularProyectoPaneController implements Initializable {
         String tiempoEstipulado = txtTiempoEstipulado.getText();
 
         try {
-            boolean guardar = empresa.agregarProyecto(empresa.getRepositorioProyectos(), nombreVacante, resumenVacante, objetivo, descripcionVacante, tiempoEstipulado, presupuesto,empresa);
-            System.out.println("pene");
+            boolean guardar = empresa.agregarProyecto(empresa.getRepositorioProyectos(), nombreVacante, resumenVacante, objetivo, descripcionVacante, tiempoEstipulado, presupuesto, empresa);
             if (guardar) {
                 mostrarAlerta("Exito", "El proyecto se postulo correctamente", Alert.AlertType.CONFIRMATION);
-            }else{
-                System.out.println("no se pudo guardar el proyecto");
+            } else {
+                System.out.println("No se pudo guardar el proyecto");
             }
 
         } catch (MyException e) {
@@ -100,7 +100,12 @@ public class PostularProyectoPaneController implements Initializable {
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
-        alert.initModality(Modality.NONE);
-        alert.show();
+
+        Window owner = btnPostularProyecto.getScene().getWindow();
+        alert.initOwner(owner);
+
+        alert.initModality(Modality.WINDOW_MODAL);
+
+        alert.showAndWait(); 
     }
 }
