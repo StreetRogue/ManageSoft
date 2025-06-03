@@ -7,46 +7,46 @@ spring:
 
   cloud:
     gateway:
-      default-filters:
-        - AddRequestHeader=Authorization, 'Bearer #{T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getCredentials()}'
+      default-filters: AddRequestHeader=Authorization, 'Bearer #{T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getCredentials()}'
+
       routes:
-        - id: user-microservice
-          uri: http://localhost:8081
+        - id: user-login
+          uri: http://user-microservices:8081
           predicates:
             - Path=/api/usuarios/**
 
         - id: notification-microservice
-          uri: http://localhost:8085
+          uri: http://notification-microservices:8085
           predicates:
             - Path=/api/notificaciones/**
 
         - id: estudiante-microservice
-          uri: http://localhost:8084
+          uri: http://estudiante-microservices:8084
           predicates:
             - Path=/api/estudiante/**
 
         - id: empresa-microservice
-          uri: http://localhost:8082
+          uri: http://empresa-microservices:8082
           predicates:
             - Path=/api/empresas/**
 
         - id: coordinador-microservice
-          uri: http://localhost:8083
+          uri: http://coordinador-microservices:8083
           predicates:
             - Path=/api/coordinador/**
 
         - id: empresa-microservice
-          uri: http://localhost:8082
+          uri: http://empresa-microservices:8082
           predicates:
             - Path=/api/proyectos/**
 
         - id: notification-microservice
-          uri: http://localhost:8085
+          uri: http://notification-microservices:8085
           predicates:
             - Path=/api/comentarios/**
 
         - id: empresas-microservice
-          uri: http://localhost:8082
+          uri: http://empresa-microservices:8082
           predicates:
             - Path=/api/comentariosEmpresa/**
 
@@ -54,9 +54,9 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/ManageSoft
+          issuer-uri: http://keycloak:8080/realms/ManageSoft
 
-# Opcional: logueo para debug
+# Opcional logueo para debug
 logging:
   level:
     org.springframework.security: DEBUG
