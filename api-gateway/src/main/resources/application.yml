@@ -10,10 +10,15 @@ spring:
 
 
       routes:
+        -  id: user-register
+           uri: http://user-microservices:8081
+           predicates:
+             - Path=/api/usuarios/register
+
         - id: user-login
           uri: http://user-microservices:8081
           predicates:
-            - Path=/api/usuarios/**
+            - Path=/api/usuarios/login
 
         - id: notification-microservice-notificacion
           uri: http://notification-microservices:8085
